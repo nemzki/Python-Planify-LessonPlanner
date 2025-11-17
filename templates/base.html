@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planify | {% block title %}{% endblock %}</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="logo">PLANIFY</a>
+
+            <ul class="nav-links">
+                {% if current_user.is_authenticated %}
+
+                    <li><a href="{{ url_for('logout') }}" class="logout">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- FLASH MESSAGES -->
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2025 Planify — Lesson Planner App</p>
+    </footer>
+
+    <!-- MAIN SCRIPT -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
