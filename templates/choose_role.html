@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="roel-container">
+    <h2>Select your role</h2>
+    <p>Are you a Stuednt or Educator</p>
+
+    <a href="{{ url_for('register_form', role='student') }}" class="student-btn">Student</a>
+    <a href="{{ url_for('register_form', role='educator'}}">Educator</a>
+</div>
+{% endblock %}
