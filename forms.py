@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.fields.choices import SelectField
 from wtforms.validators import DataRequired, Email, Length, Regexp, EqualTo
 
+# PLANIFY | REGISTRATION FORM
 
 class RegisterForm(FlaskForm):
     first_name = StringField("First Name", validators=[DataRequired(), Length(min=3, max=20)])
@@ -11,7 +12,10 @@ class RegisterForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     contact_number = StringField("Contact number", validators=[DataRequired(), Length(min=11, max=11, message="Contact number must be 11 digits"), Regexp(r'^[0-9]*$', message = "Contact number must contain only digits" )])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=6)])
-    confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), Length(min=6), EqualTo('password', message="Passwords must match")])
+    confirm_password = PasswordField("Confirm Password",
+                                     validators=[DataRequired(),
+                                                 Length(min=6),
+                                                 EqualTo('password', message="Passwords must match")])
     role = SelectField("Role",
     choices=[("educator", "Educator"), ("student", "Student")],
     validators=[DataRequired()])

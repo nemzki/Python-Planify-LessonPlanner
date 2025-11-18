@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="form-container">
+
+    <h1>Register</h1>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <!-- FIRST NAME -->
+        <div class="form-group">
+            {{ form.first_name.label }}
+            {{ form.first_name(class="form-input") }}
+            {% if form.first_name.errors %}
+                <small class="error">{{ form.first_name.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <!-- LAST NAME -->
+        <div class="form-group">
+            {{ form.last_name.label }}
+            {{ form.last_name(class="form-input") }}
+            {% if form.last_name.errors %}
+                <small class="error"> {{ form.last_name.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <!-- USERNAME -->
+        <div class="form-group">
+            {{ form.username.label }}
+            {{ form.username(class="form-input") }}
+            {% if form.username.errors %}
+                <small class="error">{{ form.username.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <!-- EMAIL -->
+        <div class="form-group">
+            {{ form.email.label }}
+            {{ form.email(class="form-input")}}
+            {% if form.email.errors %}
+                <small class="error">{{ form.email.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <!-- CONTACT NUMBER -->
+        <div class="form-group">
+            {{ form.contact_number.label }}
+            {{ form.contact_number(class="form-input")}}
+            {% if form.contact_number.errors %}
+                <small class="error">{{ form.contact_number.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class="form-input")}}
+            {% if form.password.errors %}
+                <small class="error">{{ form.password.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <!-- CONFIRM PASSWORD -->
+        <div class="form-group">
+            {{ form.confirm_password.label }}
+            {{ form.confirm_password(class="form-input")}}
+            {% if form.confirm_password.errors %}
+                <small class="error">{{ form.confirm_password.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <!-- ROLE -->
+        <div class="form-group">
+            {{ form.role.label }}
+            {{ form.role(class="form-input")}}
+            {% if form.role.errors %}
+                <small class="error">{{ form.role.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <!-- SUBMIT REGISTRATION -->
+        <div class="form-group">
+            {{ form.submit(class = "submit-btn") }}
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}
