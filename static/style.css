@@ -6,7 +6,7 @@
     padding: 100px 20px;
 }
 
-.register-btn, .login-btn {
+.landing-register-btn, .landing-login-btn {
     padding: 12px 25px;
     margin: 10px;
     background-color: #3B82F6;
@@ -14,7 +14,7 @@
     text-decoration: none;
     border-radius: 5px;
 }
-.register-btn:hover, .login-btn:hover {
+.landing-register-btn:hover, .landing-login-btn:hover {
     background-color: #2563EB;
 }
 

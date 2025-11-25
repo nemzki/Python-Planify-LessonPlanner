@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="roel-container">
+<div class="role-container">
     <h2>Select your role</h2>
-    <p>Are you a Stuednt or Educator</p>
+    <p>Are you a Student or Educator?</p>
 
     <a href="{{ url_for('register_form', role='student') }}" class="student-btn">Student</a>
-    <a href="{{ url_for('register_form', role='educator'}}">Educator</a>
+    <a href="{{ url_for('register_form', role='educator') }}" class="educator-btn">Educator</a>
 </div>
 {% endblock %}

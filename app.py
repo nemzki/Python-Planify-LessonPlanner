@@ -1,28 +1,27 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask
+from database import db
+import os
 
-#initialize the app
 app = Flask(__name__)
 
-#app congiguration
+# APP CONFIGURATION
+app.config['SECRET_KEY'] = 'planify_secret_key'
 
-app.config['SECRET_EKY'] = 'planify_secret_key'
+# DATABASE CONNECTION
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/planify.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#Planify landing page
-@app.route('/')
-def home():
-    return render_template('home.html')
+db.init_app(app)
 
-@app.route('/choose-role')
-def choose_role():
-    return render_template('choose_role.html')
-
-@app.route('/register')
-def register():
-    return redirect(url_for('choose_role'))
-
-@app.route('/register/<role>')
-def role(role):
-    return f"Your role: {role}"
+# IMPORT ROUTES
+from routes import *
 
 if __name__ == '__main__':
+    with app.app_context():
+        if not os.path.exists("instance/planify.db"):
+            os.makedirs(app.instance_path, exist_ok=True)
+            db.create_all()
+            print("Database created!")
+        else:
+            print("Database already exists.")
     app.run(debug=True)
