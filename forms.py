@@ -20,3 +20,10 @@ class RegisterForm(FlaskForm):
     choices=[("educator", "Educator"), ("student", "Student")],
     validators=[DataRequired()])
     submit = SubmitField("Register")
+
+# PLANIFY | LOGIN FORM
+
+class LoginForm(FlaskForm):
+    username_or_email = StringField("Username or Email", validators=[DataRequired(), Length(min=3, max=120)])
+    password = PasswordField("Password", validators=[DataRequired(), Length(min=6)])
+    submit = SubmitField("Login")

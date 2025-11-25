@@ -77,6 +77,7 @@
         <div class="form-group">
             {{ form.role.label }}
             {{ form.role(class="form-input")}}
+            <small class="info">Role is pre-selected based on your choice.</small>
             {% if form.role.errors %}
                 <small class="error">{{ form.role.errors[0] }}</small>
             {% endif %}

@@ -1,8 +1,10 @@
-from flask import render_template, redirect, url_for, flash
-from app import app, db
-from forms import RegisterForm
+from flask import render_template, redirect, url_for, flash, request
+from app import app
+from database import db
+from forms import RegisterForm, LoginForm
 from models import User
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user, logout_user, login_required, current_user
 
 # LANDING PAGE
 @app.route('/')
@@ -24,6 +26,8 @@ def register():
 def register_form(role):
     form = RegisterForm()
     form.role.data = role  # Pre-fill role
+
+    form.role.render_kw = {'readonly': True, 'disabled': True}
 
     if form.validate_on_submit():
 
@@ -57,6 +61,73 @@ def register_form(role):
     return render_template("register.html", form=form, role=role)
 
 # LOGIN PAGE
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template("login.html")
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        username_or_email = form.username_or_email.data
+        password = form.password.data
+
+        # Try to find user by username OR email
+        user = User.query.filter(
+            (User.username == username_or_email) |
+            (User.email == username_or_email)
+        ).first()
+
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            flash(f"Welcome back, {user.username}!", "success")
+
+            # REDIRECT BASED ON ROLE
+            if user.role == "student":
+                return redirect(url_for('student_dashboard'))
+            elif user.role == "educator":
+                return redirect(url_for('educator_dashboard'))
+            elif user.role == "admin":
+                return redirect(url_for('admin_dashboard'))
+
+            return redirect(url_for('home'))
+
+        else:
+            flash("Invalid username/email or password.", "error")
+            return redirect(url_for('login'))
+
+    return render_template("login.html", form=form)
+
+# LOGOUT
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash("You have been logged out.", "success")
+    return redirect(url_for('home'))
+
+#-------  DASHBOARDS ---------
+
+# -- STUDENT DASHBOARD --
+@app.route('/student/dashboard')
+@login_required
+def student_dashboard():
+    if current_user.role != 'student':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+    return render_template('student_dashboard.html')
+
+# -- EDUCATOR DASHBOARD --
+@app.route('/educator/dashboard')
+@login_required
+def educator_dashboard():
+    if current_user.role != 'educator':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+    return render_template('educator_dashboard.html')
+
+# -- ADMIN DASHBOARD --
+@app.route('/admin/dashboard')
+@login_required
+def admin_dashboard():
+    if current_user.role != 'admin':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+    return render_template('admin_dashboard.html')

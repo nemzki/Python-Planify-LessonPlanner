@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="form-container">
+
+    <h1>Login</h1>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.username_or_email.label }}
+            {{ form.username_or_email(class="form-input") }}
+            {% if form.username_or_email.errors %}
+                <small class="error">{{ form.username_or_email.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class="form-input") }}
+            {% if form.password.errors %}
+                <small class="error">{{ form.password.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.submit(class="submit-btn") }}
+        </div>
+
+    </form>
+</div>
+{% endblock %}
