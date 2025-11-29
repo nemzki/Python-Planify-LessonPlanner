@@ -11,6 +11,14 @@ from flask_login import login_user, logout_user, login_required, current_user
 def home():
     return render_template('home.html')
 
+@app.route('/about-us')
+def about_us():
+    return render_template('about_us.html')
+
+@app.route('/contacts')
+def contacts():
+    return render_template('contacts.html')
+
 # CHOOSE ROLE PAGE
 @app.route('/choose-role')
 def choose_role():
