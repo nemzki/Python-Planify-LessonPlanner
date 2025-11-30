@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson Plans - {{ course.course_name }}{% endblock %}
+
+{% block content %}
+<div class="student-lessons-container">
+    <div class="lessons-header">
+        <div class="header-content">
+            <h1>{{ course.course_name }}</h1>
+            <p class="course-code">{{ course.course_code }}</p>
+            <p class="educator-name">
+                👨‍🏫 {{ course.educator.first_name }} {{ course.educator.last_name }}
+            </p>
+        </div>
+        <a href="{{ url_for('student_courses') }}" class="back-link">← Back to Courses</a>
+    </div>
+
+    <div class="lessons-content">
+        <h2>Lesson Plans</h2>
+
+        {% if lesson_plans %}
+            <div class="lessons-list">
+                {% for plan in lesson_plans %}
+                <div class="lesson-card">
+                    <div class="lesson-card-header">
+                        <h3>{{ plan.title }}</h3>
+                        <span class="lesson-date">
+                            📅 {{ plan.created_at.strftime('%b %d, %Y') }}
+                        </span>
+                    </div>
+
+                    <div class="lesson-card-body">
+                        {% if plan.topic %}
+                        <div class="lesson-info">
+                            <span class="info-label">Topic:</span>
+                            <span class="info-text">{{ plan.topic }}</span>
+                        </div>
+                        {% endif %}
+
+                        {% if plan.objectives %}
+                        <div class="lesson-objectives">
+                            <span class="objectives-label">Learning Objectives:</span>
+                            <p>{{ plan.objectives[:150] }}{% if plan.objectives|length > 150 %}...{% endif %}</p>
+                        </div>
+                        {% endif %}
+
+                        <div class="lesson-materials-count">
+                            📎 {{ plan.materials|length }} Material(s)
+                        </div>
+                    </div>
+
+                    <div class="lesson-card-footer">
+                        <a href="{{ url_for('student_view_lesson', plan_id=plan.id) }}"
+                           class="view-lesson-btn">
+                            View Full Lesson
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-lessons">
+                <p>📖 No lesson plans available yet.</p>
+                <p class="hint">Your educator hasn't created any lesson plans for this course.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

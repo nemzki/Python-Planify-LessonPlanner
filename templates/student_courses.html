@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}My Courses{% endblock %}
+
+{% block content %}
+<div class="student-courses-container">
+    <div class="courses-header">
+        <h1>My Courses</h1>
+        <a href="{{ url_for('student_home') }}" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    {% if courses %}
+        <div class="courses-grid">
+            {% for course in courses %}
+            <div class="student-course-card">
+                <div class="card-header">
+                    <h2>{{ course.course_name }}</h2>
+                    <span class="code-badge">{{ course.course_code }}</span>
+                </div>
+
+                <div class="card-body">
+                    <div class="educator-info">
+                        <span class="educator-label">Instructor:</span>
+                        <span class="educator-name">
+                            {{ course.educator.first_name }} {{ course.educator.last_name }}
+                        </span>
+                    </div>
+
+                    <p class="course-description">
+                        {{ course.description or 'No description available.' }}
+                    </p>
+
+                    <div class="course-metrics">
+                        <div class="metric">
+                            <span class="metric-icon">📖</span>
+                            <div class="metric-info">
+                                <span class="metric-value">{{ course.lesson_plans|length }}</span>
+                                <span class="metric-label">Lesson Plans</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-icon">📎</span>
+                            <div class="metric-info">
+                                <span class="metric-value">
+                                    {% set total_materials = namespace(count=0) %}
+                                    {% for plan in course.lesson_plans %}
+                                        {% set total_materials.count = total_materials.count + plan.materials|length %}
+                                    {% endfor %}
+                                    {{ total_materials.count }}
+                                </span>
+                                <span class="metric-label">Materials</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <a href="{{ url_for('student_course_lessons', course_id=course.id) }}"
+                       class="card-btn lessons-btn">
+                        📚 View Lessons
+                    </a>
+                    <a href="{{ url_for('student_course_materials', course_id=course.id) }}"
+                       class="card-btn materials-btn">
+                        📥 View Materials
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-courses">
+            <div class="empty-icon">📚</div>
+            <h3>No Courses Yet</h3>
+            <p>You haven't been enrolled in any courses.</p>
+            <p class="hint">Contact your educator to join a course.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
