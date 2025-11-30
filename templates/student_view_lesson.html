@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}{{ plan.title }}{% endblock %}
+
+{% block content %}
+<div class="student-lesson-view">
+    <div class="lesson-view-header">
+        <h1>{{ plan.title }}</h1>
+        <a href="{{ url_for('student_course_lessons', course_id=plan.course_id) }}"
+           class="back-link">
+            ← Back to Lessons
+        </a>
+    </div>
+
+    <div class="lesson-metadata">
+        <div class="metadata-item">
+            <span class="meta-label">Course:</span>
+            <span class="meta-value">{{ plan.course.course_name }}</span>
+        </div>
+        <div class="metadata-item">
+            <span class="meta-label">Created:</span>
+            <span class="meta-value">{{ plan.created_at.strftime('%B %d, %Y') }}</span>
+        </div>
+        <div class="metadata-item">
+            <span class="meta-label">Last Updated:</span>
+            <span class="meta-value">{{ plan.updated_at.strftime('%B %d, %Y') }}</span>
+        </div>
+    </div>
+
+    <div class="lesson-content">
+        {% if plan.topic %}
+        <section class="lesson-section">
+            <h2>📌 Topic</h2>
+            <p>{{ plan.topic }}</p>
+        </section>
+        {% endif %}
+
+        {% if plan.objectives %}
+        <section class="lesson-section">
+            <h2>🎯 Learning Objectives</h2>
+            <div class="objectives-content">
+                {{ plan.objectives }}
+            </div>
+        </section>
+        {% endif %}
+
+        {% if plan.description %}
+        <section class="lesson-section">
+            <h2>📝 Description</h2>
+            <div class="description-content">
+                {{ plan.description }}
+            </div>
+        </section>
+        {% endif %}
+
+        <section class="lesson-section materials-section">
+            <h2>📚 Learning Materials</h2>
+
+            {% if plan.materials %}
+                <div class="materials-grid">
+                    {% for material in plan.materials %}
+                    <div class="material-card">
+                        <div class="material-icon">
+                            {% if material.filename.endswith(('.pdf')) %}
+                                📄
+                            {% elif material.filename.endswith(('.doc', '.docx')) %}
+                                📝
+                            {% elif material.filename.endswith(('.ppt', '.pptx')) %}
+                                📊
+                            {% elif material.filename.endswith(('.jpg', '.jpeg', '.png')) %}
+                                🖼️
+                            {% elif material.filename.endswith(('.mp4', '.avi', '.mov')) %}
+                                🎥
+                            {% else %}
+                                📎
+                            {% endif %}
+                        </div>
+                        <div class="material-info">
+                            <p class="material-name">{{ material.filename }}</p>
+                            <p class="material-date">
+                                Uploaded: {{ material.uploaded_at.strftime('%b %d, %Y') }}
+                            </p>
+                        </div>
+                        <a href="{{ url_for('student_download_material', material_id=material.id) }}"
+                           class="download-btn">
+                            ⬇️ Download
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-materials">
+                    <p>📎 No materials available for this lesson.</p>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock %}
