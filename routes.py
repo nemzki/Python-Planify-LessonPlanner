@@ -676,3 +676,103 @@ def admin_courses():
 
     courses = Course.query.all()
     return render_template('admin_courses.html', courses=courses)
+
+
+# ==========================================
+# ATTENDANCE HISTORY (EDUCATOR)
+# ==========================================
+
+# VIEW ATTENDANCE HISTORY FOR A COURSE
+@app.route('/educator/course/<int:course_id>/attendance/history')
+@login_required
+def attendance_history(course_id):
+    if current_user.role != 'educator':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    course = Course.query.get_or_404(course_id)
+
+    if course.educator_id != current_user.id:
+        flash("Access denied.", "error")
+        return redirect(url_for('educator_courses'))
+
+    # Get all attendance records for this course, ordered by date (newest first)
+    # Group by date to show all records created on each date
+    from sqlalchemy import func, distinct
+
+    # Get all unique dates that have attendance records
+    attendance_dates = db.session.query(
+        AttendanceRecord.date
+    ).filter_by(
+        course_id=course_id
+    ).distinct().order_by(
+        AttendanceRecord.date.desc()
+    ).all()
+
+    # For each date, get all the records
+    attendance_by_date = {}
+    for (date_obj,) in attendance_dates:
+        records = AttendanceRecord.query.filter_by(
+            course_id=course_id,
+            date=date_obj
+        ).order_by(AttendanceRecord.recorded_at.desc()).all()
+
+        # Get the time when this attendance was recorded (from first record)
+        recorded_time = records[0].recorded_at if records else None
+
+        # Count statistics for this date
+        stats = {
+            'total': len(records),
+            'present': len([r for r in records if r.status == 'present']),
+            'absent': len([r for r in records if r.status == 'absent']),
+            'excused': len([r for r in records if r.status == 'excused']),
+            'late': len([r for r in records if r.status == 'late'])
+        }
+
+        attendance_by_date[date_obj] = {
+            'records': records,
+            'recorded_time': recorded_time,
+            'stats': stats
+        }
+
+    return render_template('attendance_history.html',
+                           course=course,
+                           attendance_by_date=attendance_by_date)
+
+
+# VIEW DETAILED ATTENDANCE FOR A SPECIFIC DATE
+@app.route('/educator/course/<int:course_id>/attendance/view/<date_str>')
+@login_required
+def view_attendance_date(course_id, date_str):
+    if current_user.role != 'educator':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    course = Course.query.get_or_404(course_id)
+
+    if course.educator_id != current_user.id:
+        flash("Access denied.", "error")
+        return redirect(url_for('educator_courses'))
+
+    # Convert date string to date object
+    from datetime import datetime
+    attendance_date = datetime.strptime(date_str, '%Y-%m-%d').date()
+
+    # Get all attendance records for this date
+    records = AttendanceRecord.query.filter_by(
+        course_id=course_id,
+        date=attendance_date
+    ).order_by(AttendanceRecord.recorded_at.desc()).all()
+
+    # Get enrollment info to show all students
+    enrollments = Enrollment.query.filter_by(course_id=course_id).all()
+
+    # Create a dictionary for easy lookup
+    attendance_dict = {record.student_id: record for record in records}
+
+    return render_template('view_attendance_detail.html',
+                           course=course,
+                           attendance_date=attendance_date,
+                           records=records,
+                           enrollments=enrollments,
+                           attendance_dict=attendance_dict)
