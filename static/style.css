@@ -1151,3 +1151,401 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================
+   ATTENDANCE HISTORY
+   ========================================== */
+
+.attendance-history-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+}
+
+.history-header h2 {
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.record-new-btn {
+    padding: 0.75rem 1.5rem;
+    background: #2ecc71;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.record-new-btn:hover {
+    background: #27ae60;
+    transform: translateY(-2px);
+}
+
+.history-info {
+    background: #f0f7ff;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+.attendance-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.date-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    border-left: 4px solid #667eea;
+}
+
+.date-card:hover {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transform: translateX(5px);
+}
+
+.date-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.date-info h3 {
+    color: #333;
+    font-size: 1.3rem;
+    margin-bottom: 0.25rem;
+}
+
+.recorded-time {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.view-details-btn {
+    padding: 0.5rem 1.5rem;
+    background: #667eea;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.view-details-btn:hover {
+    background: #5568d3;
+}
+
+.date-card-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    flex: 1;
+    min-width: 100px;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-box.total {
+    background: #667eea;
+    color: white;
+}
+
+.stat-box.present {
+    background: #2ecc71;
+    color: white;
+}
+
+.stat-box.absent {
+    background: #e74c3c;
+    color: white;
+}
+
+.stat-box.excused {
+    background: #f39c12;
+    color: white;
+}
+
+.stat-box.late {
+    background: #e67e22;
+    color: white;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+    opacity: 0.9;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.attendance-summary {
+    margin-top: 1rem;
+}
+
+.summary-bar {
+    height: 30px;
+    display: flex;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.bar-segment {
+    height: 100%;
+    transition: all 0.3s;
+    cursor: help;
+}
+
+.bar-segment:hover {
+    opacity: 0.8;
+}
+
+.bar-segment.present {
+    background: #2ecc71;
+}
+
+.bar-segment.absent {
+    background: #e74c3c;
+}
+
+.bar-segment.excused {
+    background: #f39c12;
+}
+
+.bar-segment.late {
+    background: #e67e22;
+}
+
+.start-recording-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 1rem 2rem;
+    background: #2ecc71;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.start-recording-btn:hover {
+    background: #27ae60;
+    transform: translateY(-2px);
+}
+
+/* History button in course cards */
+.history-btn {
+    background: #9b59b6;
+    color: white;
+}
+
+.history-btn:hover {
+    background: #8e44ad;
+}
+
+/* ==========================================
+   ATTENDANCE DETAIL VIEW
+   ========================================== */
+
+.attendance-detail-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+}
+
+.detail-header h2 {
+    color: #333;
+}
+
+.edit-attendance-btn {
+    padding: 0.75rem 1.5rem;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.edit-attendance-btn:hover {
+    background: #2980b9;
+}
+
+.detail-info-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.info-value {
+    font-weight: 500;
+}
+
+.attendance-detail-table {
+    margin-bottom: 2rem;
+}
+
+.attendance-detail-table h3 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detail-table th,
+.detail-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+.detail-table tr:hover {
+    background: #f8f9fa;
+}
+
+.student-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.student-icon {
+    font-size: 1.2rem;
+}
+
+.status-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-badge.present {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-badge.absent {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-badge.late {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-badge.excused {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.status-badge.not-recorded {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+.detail-actions {
+    margin-top: 2rem;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN FOR HISTORY
+   ========================================== */
+
+@media (max-width: 768px) {
+    .history-header,
+    .detail-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .date-card-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .date-card-stats {
+        flex-direction: column;
+    }
+
+    .stat-box {
+        min-width: 100%;
+    }
+
+    .info-item {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
