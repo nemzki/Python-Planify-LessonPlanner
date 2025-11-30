@@ -1,20 +1,23 @@
 {% extends "base.html" %}
 
+
 {% block title %}Landing Page{% endblock %}
+
 
 {% block content %}
 <div class="home-landing">
-    <div class="landing-left">
-        <h1>Organize lessons.<br />Track students.<br />Teach better</h1>
-        <p>
-            Planify helps educators create, organize, and manage lesson plans with ease.<br />
-            From tracking student submissions to uploading materials — everything is in one platform. Try now!
-        </p>
-        <a href="{{ url_for('register') }}" class="sign-up-btn">Sign Up</a>
-    </div>
-    <div class="landing-right">
-        <!-- Replace with your actual image or svg as in the screenshot -->
-        <img src="{{ url_for('static', filename='pictures/home-illustration.png') }}" alt="Teacher working at laptop" />
-    </div>
+   <div class="landing-left">
+       <h1>Organize lessons.<br />Track students.<br />Teach better</h1>
+       <p>
+           Planify helps educators create, organize, and manage lesson plans with ease.<br />
+           From tracking student submissions to uploading materials — everything is in one platform. Try now!
+       </p>
+       <a href="{{ url_for('register') }}" class="sign-up-btn">Sign Up</a>
+   </div>
+   <div class="landing-right">
+       <!-- Replace with your actual image or svg as in the screenshot -->
+       <img src="{{ url_for('static', filename='pictures/home-illustration.png') }}" alt="Teacher working at laptop" />
+   </div>
 </div>
 {% endblock %}
+

@@ -1,53 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Planify | {% block title %}{% endblock %}</title>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <title>Planify | {% block title %}{% endblock %}</title>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    {% block head %}{% endblock %}
+
+   <!-- Custom CSS -->
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+   {% block head %}{% endblock %}
 </head>
+
 
 <body>
 
-    <!-- NAVIGATION BAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="{{ url_for('home') }}" class="logo">
-            <img src="{{ url_for('static', filename='pictures/logo.png') }}" alt="Planify logo" class="logo-img" />
-        </a>
-            </a>
+
+   <!-- NAVIGATION BAR -->
+   <nav class="navbar">
+       <div class="nav-container">
+           <a href="{{ url_for('home') }}" class="logo">
+           <img src="{{ url_for('static', filename='pictures/logo.png') }}" alt="Planify logo" class="logo-img" />
+       </a>
+           </a>
 
 
-            <ul class="nav-links">
-                {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('logout') }}" class="logout">Logout</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('home') }}">Home</a></li>
-                    <li><a href="{{ url_for('about_us') }}">About Us</a></li>
-                    <li><a href="{{ url_for('contacts') }}">Contact</a></li>
-                    <li><a href="{{ url_for('login') }}" class="login-btn">Login</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
 
-    <!-- MAIN CONTENT -->
-    <main class="content">
-        {% block content %}
-        {% endblock %}
-    </main>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <p>© 2025 Planify. All Rights Reserved.</p>
-    </footer>
+           <ul class="nav-links">
+               {% if current_user.is_authenticated %}
+                   <li><a href="{{ url_for('logout') }}" class="logout">Logout</a></li>
+               {% else %}
+                   <li><a href="{{ url_for('home') }}">Home</a></li>
+                   <li><a href="{{ url_for('about_us') }}">About Us</a></li>
+                   <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+                   <li><a href="{{ url_for('login') }}" class="login-btn">Login</a></li>
+               {% endif %}
+           </ul>
+       </div>
+   </nav>
 
-    <!-- MAIN SCRIPT -->
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
-    {% block scripts %}{% endblock %}
+   <!-- MAIN CONTENT -->
+   <main class="content">
+       {% block content %}
+       {% endblock %}
+   </main>
+
+
+   <!-- FOOTER -->
+   <footer class="footer">
+       <p>© 2025 Planify. All Rights Reserved.</p>
+   </footer>
+
+
+   <!-- MAIN SCRIPT -->
+   <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+   {% block scripts %}{% endblock %}
 </body>
 </html>
+
