@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Materials - {{ course.course_name }}{% endblock %}
+
+{% block content %}
+<div class="student-materials-container">
+    <div class="materials-header">
+        <div class="header-info">
+            <h1>Course Materials</h1>
+            <h2>{{ course.course_name }}</h2>
+            <p>All downloadable materials organized by lesson</p>
+        </div>
+        <div class="header-stats">
+            <div class="stat">
+                <span class="stat-number">{{ total_materials }}</span>
+                <span class="stat-label">Total Materials</span>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ url_for('student_courses') }}" class="back-link">← Back to Courses</a>
+
+    {% if lesson_plans %}
+        <div class="materials-by-lesson">
+            {% for plan in lesson_plans %}
+                {% if plan.materials %}
+                <div class="lesson-materials-group">
+                    <div class="group-header">
+                        <h3>{{ plan.title }}</h3>
+                        <span class="materials-count">{{ plan.materials|length }} file(s)</span>
+                    </div>
+
+                    <div class="materials-list">
+                        {% for material in plan.materials %}
+                        <div class="material-item">
+                            <div class="material-left">
+                                <span class="file-icon">
+                                    {% if material.filename.endswith(('.pdf')) %}
+                                        📄 PDF
+                                    {% elif material.filename.endswith(('.doc', '.docx')) %}
+                                        📝 DOC
+                                    {% elif material.filename.endswith(('.ppt', '.pptx')) %}
+                                        📊 PPT
+                                    {% elif material.filename.endswith(('.jpg', '.jpeg', '.png')) %}
+                                        🖼️ IMG
+                                    {% elif material.filename.endswith(('.mp4', '.avi', '.mov')) %}
+                                        🎥 VID
+                                    {% else %}
+                                        📎 FILE
+                                    {% endif %}
+                                </span>
+                                <div class="material-details">
+                                    <p class="file-name">{{ material.filename }}</p>
+                                    <p class="file-meta">
+                                        Uploaded {{ material.uploaded_at.strftime('%B %d, %Y') }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="material-actions">
+                                <a href="{{ url_for('student_download_material', material_id=material.id) }}"
+                                   class="download-link">
+                                    ⬇️ Download
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-materials-state">
+            <div class="empty-icon">📚</div>
+            <h3>No Materials Yet</h3>
+            <p>Your educator hasn't uploaded any materials for this course.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
