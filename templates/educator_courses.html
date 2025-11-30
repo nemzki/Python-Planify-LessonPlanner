@@ -36,6 +36,9 @@
                         <a href="{{ url_for('course_attendance', course_id=course.id) }}" class="action-btn attendance-btn">
                             Attendance
                         </a>
+                        <a href="{{ url_for('attendance_history', course_id=course.id) }}" class="action-btn history-btn">
+                            History
+                        </a>
                         <a href="{{ url_for('manage_enrollments', course_id=course.id) }}" class="action-btn enroll-btn">
                             Enrollments
                         </a>
