@@ -4,8 +4,19 @@
 
 {% block content %}
 <div class="student-dashboard">
-    <h1>Student Dashboard</h1>
-    <p>Welcome, {{ current_user.first_name }} {{ current_user.last_name }}!</p>
+    <div class="welcome-section">
+        <h1>Welcome, {{ current_user.first_name }}! 👋</h1>
+        <p>Access your courses, lesson plans, and learning materials</p>
+    </div>
+
+    <div class="quick-access">
+        <a href="{{ url_for('student_courses') }}" class="quick-link courses-link">
+            📚 <span>My Courses</span>
+        </a>
+        <a href="{{ url_for('student_home') }}" class="quick-link materials-link">
+            📄 <span>All Materials</span>
+        </a>
+    </div>
 
     <div class="enrolled-courses">
         <h2>My Enrolled Courses</h2>
@@ -14,15 +25,38 @@
             <div class="courses-list">
                 {% for course in courses %}
                 <div class="course-item">
-                    <h3>{{ course.course_name }}</h3>
-                    <p><strong>Code:</strong> {{ course.course_code }}</p>
-                    <p><strong>Educator:</strong> {{ course.educator.first_name }} {{ course.educator.last_name }}</p>
-                    <p>{{ course.description }}</p>
+                    <div class="course-item-header">
+                        <h3>{{ course.course_name }}</h3>
+                        <span class="course-badge">{{ course.course_code }}</span>
+                    </div>
+
+                    <p class="course-educator">
+                        👨‍🏫 {{ course.educator.first_name }} {{ course.educator.last_name }}
+                    </p>
+
+                    <p class="course-desc">{{ course.description or 'No description available' }}</p>
+
+                    <div class="course-stats">
+                        <span>📖 {{ course.lesson_plans|length }} Lessons</span>
+                        <span>📎 {{ course.lesson_plans|sum(attribute='materials|length', start=0) }} Materials</span>
+                    </div>
+
+                    <div class="course-actions">
+                        <a href="{{ url_for('student_course_lessons', course_id=course.id) }}" class="action-link">
+                            View Lessons
+                        </a>
+                        <a href="{{ url_for('student_course_materials', course_id=course.id) }}" class="action-link materials">
+                            View Materials
+                        </a>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p class="empty-state">You are not enrolled in any courses yet.</p>
+            <div class="empty-state">
+                <p>📚 You are not enrolled in any courses yet.</p>
+                <p class="hint">Contact your educator to get enrolled in a course.</p>
+            </div>
         {% endif %}
     </div>
 </div>
