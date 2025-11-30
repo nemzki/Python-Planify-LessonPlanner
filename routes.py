@@ -89,11 +89,11 @@ def login():
 
             # REDIRECT BASED ON ROLE
             if user.role == "student":
-                return redirect(url_for('student_dashboard'))
+                return redirect(url_for('student_home'))
             elif user.role == "educator":
-                return redirect(url_for('educator_dashboard'))
+                return redirect(url_for('educator_home'))
             elif user.role == "admin":
-                return redirect(url_for('admin_dashboard'))
+                return redirect(url_for('admin_home'))
 
             return redirect(url_for('home'))
 
@@ -114,28 +114,31 @@ def logout():
 #-------  DASHBOARDS ---------
 
 # -- STUDENT DASHBOARD --
-@app.route('/student/dashboard')
+@app.route('/student/home')
 @login_required
-def student_dashboard():
+def student_home():
     if current_user.role != 'student':
         flash("Access denied.", "error")
         return redirect(url_for('home'))
-    return render_template('student_dashboard.html')
+    return render_template('student_home.html')
 
 # -- EDUCATOR DASHBOARD --
-@app.route('/educator/dashboard')
+@app.route('/educator/home')
 @login_required
-def educator_dashboard():
+def educator_home():
     if current_user.role != 'educator':
         flash("Access denied.", "error")
         return redirect(url_for('home'))
-    return render_template('educator_dashboard.html')
+    return render_template('educator_home.html')
+
+
+
 
 # -- ADMIN DASHBOARD --
-@app.route('/admin/dashboard')
+@app.route('/admin/home')
 @login_required
-def admin_dashboard():
+def admin_home():
     if current_user.role != 'admin':
         flash("Access denied.", "error")
         return redirect(url_for('home'))
-    return render_template('admin_dashboard.html')
+    return render_template('admin_home.html')

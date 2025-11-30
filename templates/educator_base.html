@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Educator | Dashboard</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <!-- EDUCATOR SIDEBAR -->
+    <aside class="right-sidebar">
+        <a href="{{ url_for('educator_home') }}">Planify logo dito</a>
+        <a href="{{ url_for('educator_home') }}">Home</a>
+        <a href="{{ url_for('educator_courses') }}">Courses</a>
+    </aside>
+
+    <!-- FLASH MESSAGES -->
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2025 Planify — Lesson Planner App</p>
+    </footer>
+</body>
+</html>
