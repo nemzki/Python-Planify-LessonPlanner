@@ -1,11 +1,26 @@
 {% extends "base.html" %}
-
+{% block title %}Role{% endblock %}
 {% block content %}
-<div class="role-container">
-    <h2>Select your role</h2>
-    <p>Are you a Student or Educator?</p>
+<div class="role-selection-container">
+  <h2>Select your role</h2>
+  <p>Are you a Student or Educator? Choose on to continue to the appropriate onboarding flow</p>
 
-    <a href="{{ url_for('register_form', role='student') }}" class="student-btn">Student</a>
-    <a href="{{ url_for('register_form', role='educator') }}" class="educator-btn">Educator</a>
+  <div class="role-cards">
+    <a href="{{ url_for('register_form', role='student') }}" class="role-card student-card">
+      <div class="role-icon">
+        <img src="{{ url_for('static', filename='pictures/student-role-icon.png') }}" alt="Student Icon" />
+      </div>
+      <h3>Student</h3>
+      <p>Access courses and view learning materials.</p>
+    </a>
+
+    <a href="{{ url_for('register_form', role='educator') }}" class="role-card educator-card">
+      <div class="role-icon">
+        <img src="{{ url_for('static', filename='pictures/teacher-role-icon.png') }}" alt="Educator Icon" />
+      </div>
+      <h3>Educator</h3>
+      <p>Create lessons and manage attendance records.</p>
+    </a>
+  </div>
 </div>
 {% endblock %}
