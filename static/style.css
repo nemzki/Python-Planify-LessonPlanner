@@ -13,6 +13,7 @@
    --color-green-dark: #568203;
    --color-black: #000000;
    --color-gray-light: #F3F3F3;
+   --color-white: #FFFFFF
 }
 
 
@@ -28,11 +29,24 @@
 
 html, body {
    font-family: 'Space Grotesk', sans-serif;
-   background-color: var(--color-gray-light);
+   background-color: var(--color-white);
    color: var(--color-black);
    min-height: 100vh;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
+   margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #ffffff;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.main-content { /* main content wrapper */
+  flex: 1;
 }
 
 
@@ -78,14 +92,30 @@ ul {
    font-weight: 700;
    font-size: 1.5rem;
    gap: 0.5rem;
+   border: none !important;
+   background: none !important;
+   padding: 0 !important;
+   box-shadow: none !important;
 }
 
-
 .logo-img {
-   height: 86px; /* Adjust height as needed */
+   height: 86px;
    width: 204px;
    display: block;
    object-fit: contain;
+   border: none !important;
+   background: transparent !important;
+   box-shadow: none !important;
+   outline: none !important;
+}
+
+/* Also check if there's styling on the link wrapper */
+.logo a,
+a.logo {
+   border: none !important;
+   background: none !important;
+   box-shadow: none !important;
+   outline: none !important;
 }
 
 
@@ -131,159 +161,334 @@ ul {
 }
 
 
+/* Match Team label style to Contact Us header */
 .section-label {
-   background-color: var(--color-green-light);
-   color: var(--color-black);
-   font-weight: 700;
-   padding: 0.2rem 0.8rem;
-   border-radius: 8px;
-   font-size: 1.2rem;
-   margin-bottom: 1rem;
-   display: inline-block;
+  background-color: var(--color-green-light); /* #B9FF66 */
+  color: var(--color-black);
+  font-weight: 700; /* bold */
+  font-size: 1.8rem; /* matches Contact Us heading */
+  padding: 0.2rem 0.8rem;
+  border-radius: 0.3rem;
+  margin-bottom: 0;
+  display: inline-block;
+}
+
+/* Paragraph style next to Contact Us text */
+.section-description {
+  font-weight: 400;
+  font-size: 1rem; /* match Contact Us subtitle */
+  margin-left: 1rem;
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 700px;
+  line-height: 1.6;
+  color: var(--color-black);
+}
+
+/* Container to keep label and paragraph horizontally aligned */
+.intro {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 
-.intro p {
-   font-size: 1rem;
-   max-width: 700px;
-   line-height: 1.6;
-}
 
-
-/* Each team member occupies one full horizontal section */
 .team-member {
-   display: flex;
-   align-items: center;
-   gap: 2.5rem;
-   margin-bottom: 4rem;
-   flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 2.5rem auto;          /* Center horizontally with vertical margin */
+  max-width: 760px;             /* Narrower max width for better readability */
+  background-color: #ffffff;
+  padding: 1.8rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+  flex-wrap: wrap;
+}
+.team-member:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 
 .member-photo {
-   width: 160px;
-   height: 210px;
-   border: 3px solid var(--color-green-light);
-   border-radius: 50% / 60%;
-   object-fit: cover;
-   flex-shrink: 0;
-   background-color: var(--color-green-light);
+  width: 160px;
+  height: 210px;
+  border: 4px solid var(--color-green-light);
+  border-radius: 50% / 60%;
+  object-fit: cover;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
 }
 
+.team-member:hover .member-photo {
+  transform: scale(1.05);
+}
 
 .member-info {
-   flex: 1 1 400px;
-   font-size: 1rem;
+  flex: 1;
+  font-size: 1rem;
+  color: var(--color-black);
 }
-
 
 .member-name {
-   font-weight: 700;
-   font-size: 1.3rem;
-   margin-bottom: 0.1rem;
-   color: var(--color-black);
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 0.15rem;
 }
-
 
 .member-role {
-   font-weight: 400;
-   font-size: 1rem;
-   margin-bottom: 0.5rem;
-   color: #444;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #555;
 }
-
 
 .member-info hr {
-   border: none;
-   border-top: 1px solid #999;
-   margin: 0.5rem 0 1rem 0;
-   width: 100%;
-   max-width: 400px;
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 0.5rem 0 1rem 0;
+  max-width: 420px;
+  width: 100%;
 }
-
 
 .member-quote {
-   font-weight: 600;
-   font-style: normal;
-   font-size: 1rem;
-   margin-bottom: 1.2rem;
-   color: var(--color-black);
+  font-weight: 600;
+  font-style: normal;
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+  color: var(--color-black);
 }
-
 
 .social-icons {
-   display: flex;
-   gap: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
 }
-
 
 .social-icons a {
-   display: inline-block;
-   transition: transform 0.3s ease;
+  display: inline-block;
+  transition: transform 0.3s ease;
 }
-
 
 .social-icons a:hover,
 .social-icons a:focus {
-   transform: scale(1.15);
-   outline: none;
+  transform: scale(1.2);
+  outline: none;
 }
-
 
 .social-icons img {
-   width: 28px;
-   height: 28px;
-   object-fit: contain;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
-
-/* Responsive layout adjustments */
+/* Responsive adjustments */
 @media (max-width: 900px) {
-   .team-member {
-       flex-direction: column;
-       align-items: center;
-       text-align: center;
-   }
+  .team-member {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 
+  .member-photo {
+    width: 140px;
+    height: 180px;
+    margin-bottom: 1rem;
+  }
 
-   .member-photo {
-       width: 140px;
-       height: 180px;
-       margin-bottom: 1.25rem;
-   }
+  .member-info {
+    flex: none;
+  }
 
-
-   .member-info {
-       flex: none;
-   }
-
-
-   .member-info hr {
-       margin-left: auto;
-       margin-right: auto;
-   }
+  .member-info hr {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 300px;
+  }
 }
-
 
 @media (max-width: 480px) {
-   .about-us-container {
-       margin: 2rem 1rem 4rem;
-       padding: 0 1rem;
-   }
+  .member-photo {
+    width: 120px;
+    height: 150px;
+    margin-bottom: 1rem;
+  }
 
-
-   .member-photo {
-       width: 120px;
-       height: 150px;
-       margin-bottom: 1rem;
-   }
-
-
-   .member-name {
-       font-size: 1.15rem;
-   }
+  .member-name {
+    font-size: 1.15rem;
+  }
 }
+
+
+/* Contact Page Container */
+.contact-container {
+  max-width: 900px;
+  margin: 3rem auto 6rem;
+  padding: 0 2rem;
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--color-black);
+}
+
+/* Contact header layout and styles */
+.contact-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.contact-header h2 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  background-color: var(--color-green-light);
+  padding: 0.2rem 0.8rem;
+  border-radius: 0.3rem;
+  margin: 0;
+}
+
+.contact-header p {
+  font-weight: 400;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Form and decorative stars container */
+.contact-form-wrapper {
+  display: flex;
+  background-color: var(--color-gray-light);
+  border-radius: 1.5rem;
+  padding: 2rem 3rem;
+  gap: 3rem;
+  position: relative;
+}
+
+/* Form styling */
+.contact-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-form h3 {
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--color-black);
+}
+
+/* Group each label with its input */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Label styles */
+.contact-form label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-black);
+}
+
+/* Optional asterisk indication */
+.required {
+  color: var(--color-black);
+  font-weight: 700;
+  margin-left: 0.15rem;
+}
+
+/* Inputs and textareas */
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #999;
+  border-radius: 0.75rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  color: var(--color-black);
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--color-green-dark);
+}
+
+/* Textarea minimum height */
+.contact-form textarea {
+  min-height: 120px;
+}
+
+/* Submit button */
+.contact-form button {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  background-color: var(--color-black);
+  color: var(--color-gray-light);
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+  width: 180px;
+}
+
+.contact-form button:hover,
+.contact-form button:focus {
+  background-color: var(--color-green-dark);
+  outline: none;
+}
+
+
+
+/* Responsive - stack form and stars vertically */
+@media (max-width: 900px) {
+  .contact-form-wrapper {
+    flex-direction: column;
+    padding: 2rem;
+  }
+
+  /* Center button on small screens */
+  .contact-form button {
+    width: 100%;
+    max-width: 300px;
+    align-self: center;
+  }
+}
+
+
 /* Login button styled as outlined */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  max-width: 900px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+}
+.login-form-container {
+  flex: 1;
+  max-width: 400px;
+}
+.login-illustration {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.login-illustration img {
+  max-width: 100%;
+  height: auto;
+}
 .login-btn {
    padding: 0.5rem 1.25rem;
    border: 1.5px solid var(--color-black);
@@ -297,13 +502,13 @@ ul {
    white-space: nowrap;
 }
 
-
 .login-btn:hover,
 .login-btn:focus {
-   background-color: var(--color-black);
-   color: var(--color-green-light);
-   border-color: var(--color-black);
+   background-color: var(--color-green-light); /* CHANGED: was var(--color-black) */
+   color: var(--color-black); /* CHANGED: was var(--color-green-light) */
+   border-color: var(--color-black); /* CHANGED: was var(--color-black) */
    outline: none;
+
 }
 
 
@@ -355,12 +560,12 @@ ul {
 /* Sign Up Button */
 .sign-up-btn {
    background-color: var(--color-black);
-   color: var(--color-green-light);
+   color: var(--color-white);
    padding: 0.85rem 2.5rem;
    font-weight: 700;
    font-size: 1rem;
    border-radius: 10px;
-   border: none;
+   border: 3px;
    cursor: pointer;
    box-shadow: none;
    transition: background-color 0.3s ease, transform 0.3s ease;
@@ -370,9 +575,10 @@ ul {
 
 .sign-up-btn:hover,
 .sign-up-btn:focus {
-   background-color: var(--color-green-dark);
-   color: var(--color-gray-light);
+   background-color: var(--color-green-light);
+   color: var(--color-black);
    transform: translateY(-3px);
+   border: 1.5px solid var(--color-black);
    outline: none;
 }
 
@@ -399,14 +605,21 @@ ul {
   FOOTER
   ========================================== */
 .footer {
-   width: 100%;
-   text-align: center;
-   font-weight: 500;
-   font-size: 0.9rem;
-   color: var(--color-black);
-   padding: 3rem 1rem;
-   background-color: transparent;
-   user-select: none;
+  width: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 1.5rem 0;
+  border-top-left-radius: 45px;
+  border-top-right-radius: 45px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  user-select: none;
+  box-sizing: border-box;
+  /* To "stick" footer at bottom if content is short */
+  margin-top: auto;
 }
 
 
@@ -578,80 +791,181 @@ button {
 
 /* ==========================================
   ROLE SELECTION
-  ========================================== */
-.role-container {
-   text-align: center;
-   padding: 3rem 2rem;
-   background: white;
-   border-radius: 20px;
-   box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-   max-width: 500px;
-   margin: 4rem auto;
+  ========================================== */* Container */
+.role-selection-container {
+  max-width: 700px;
+  margin: 5rem auto 6rem;
+  padding: 0 1.5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #000;
+  text-align: center;
+}
+
+/* Heading */
+.role-selection-container h2 {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #000;
+  margin-bottom: 0.5rem; /* ADDED: Small gap between heading and description */
+}
+
+/* Description */
+.role-selection-container p {
+  font-weight: 400;
+  font-size: 1rem;
+  color: #555;
+  margin-top: 0.5rem; /* ADDED: Control top margin */
+  margin-bottom: 3rem; /* Gap before cards */
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Cards container */
+.role-cards {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+/* Base card */
+.role-card {
+  background-color: #fff;
+  border: 1.8px solid #ccc;    /* slightly heavier border */
+  border-radius: 8px;
+  width: 260px;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  color: #000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* subtle shadow */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* Hover effect same for both cards */
+.role-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  border-color: #8fb951; /* subtle green on hover */
+}
+
+/* Student card */
+.student-card {
+  border: 1.5px solid #8fb951;
+  box-shadow: 0 4px 15px rgba(143, 185, 81, 0.15);
+}
+/* Student card hover */
+.student-card:hover {
+  background-color: rgba(185, 255, 102, 0.21);
+  border-color: #8fb951;
+  box-shadow: 0 10px 24px rgba(143, 185, 81, 0.45);
+}
+/* Educator card */
+.educator-card {
+  border: 1.5px solid #a7c657;
+  box-shadow: 0 4px 18px rgba(167, 198, 87, 0.25);
+}
+/* Educator card hover */
+.educator-card:hover {
+  background-color: rgba(185, 255, 102, 0.21);
+  border-color: #8fb951;
+  box-shadow: 0 10px 24px rgba(143, 185, 81, 0.45);
+}
+
+/* Icon container - green circle slightly transparent */
+.role-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(167, 198, 87, 0.25); /* lighter green circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Icon fills entire circle */
+.role-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+/* Card titles */
+.role-card h3 {
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+/* Card descriptions */
+.role-card p {
+  font-weight: 400;
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0;
 }
 
 
-.role-container h2 {
-   margin-bottom: 1rem;
-   color: #333;
+
+/* Responsive adjustments */
+@media (max-width: 650px) {
+  .role-cards {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .role-card {
+    width: 100%;
+    max-width: 320px;
+  }
 }
 
 
-.role-container p {
-   color: #666;
-   margin-bottom: 2rem;
-}
-
-
-.student-btn,
-.educator-btn {
-   display: block;
-   padding: 1.5rem;
-   margin: 1rem auto;
-   width: 80%;
-   border-radius: 10px;
-   text-decoration: none;
-   font-weight: 600;
-   font-size: 1.1rem;
-   transition: all 0.3s;
-}
-
-
-.student-btn {
-   background: #3498db;
-   color: white;
-}
-
-
-.student-btn:hover {
-   background: #2980b9;
-   transform: scale(1.05);
-}
-
-
-.educator-btn {
-   background: #2ecc71;
-   color: white;
-}
-
-
-.educator-btn:hover {
-   background: #27ae60;
-   transform: scale(1.05);
-}
 
 
 /* ==========================================
-  FORMS
+  FORMS WITH LOGIN
   ========================================== */
-.form-container {
-   background: white;
-   padding: 2rem;
-   border-radius: 15px;
-   box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-   max-width: 500px;
-   margin: 2rem auto;
+
+ /* Spacing for text */
+.login-form-container h1 {
+  margin-bottom: 0.10rem;
+}
+.login-form-container p {
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+  font-size: 1rem;
+  color: #333333;
 }
 
+.form-container {
+   background: white;
+   padding: 2.5rem;
+   border-radius: 15px;
+   box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+   max-width: 850px;  /* INCREASED from 500px to 850px */
+   margin: 2rem auto;
+   width: 90%;  /* ADDED for better responsiveness */
+}
 
 .form-container h1,
 .form-container h2 {
@@ -660,19 +974,47 @@ button {
    color: #333;
 }
 
+/* ADD THESE NEW STYLES FOR THE REGISTER FORM LAYOUT */
+.form-row {
+   display: flex;
+   gap: 1.5rem;
+   margin-bottom: 1.5rem;
+}
+
+.form-group.half-width {
+   flex: 1;
+   margin-bottom: 0;
+}
+
+.form-group.full-width {
+   width: 100%;
+   margin-bottom: 1.5rem;
+}
+
+.form-info {
+   flex: 1;
+   display: flex;
+   align-items: center;
+   padding-left: 1rem;
+}
+
+.form-info small {
+   color: #666;
+   font-size: 0.875rem;
+   line-height: 1.4;
+}
 
 .form-group {
    margin-bottom: 1.5rem;
 }
 
-
 .form-group label {
-   display: block;
-   margin-bottom: 0.5rem;
-   font-weight: 600;
-   color: #333;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #000;
 }
-
 
 .form-input {
    width: 100%;
@@ -681,49 +1023,73 @@ button {
    border-radius: 8px;
    font-size: 1rem;
    transition: border-color 0.3s;
+   box-sizing: border-box;  /* ADDED to ensure padding doesn't break layout */
 }
-
 
 .form-input:focus {
    outline: none;
    border-color: #667eea;
 }
 
+/* RESPONSIVE DESIGN FOR REGISTER FORM */
+@media (max-width: 768px) {
+   .form-container {
+      max-width: 100%;
+      padding: 1.5rem;
+   }
 
-.error {
-   color: #e74c3c;
-   font-size: 0.875rem;
-   display: block;
-   margin-top: 0.25rem;
+   .form-row {
+      flex-direction: column;
+      gap: 0;
+   }
+
+   .form-group.half-width {
+      margin-bottom: 1.5rem;
+   }
+
+   .form-info {
+      padding-left: 0;
+      margin-bottom: 1.5rem;
+   }
 }
 
 
-.info {
-   color: #666;
-   font-size: 0.875rem;
-   display: block;
-   margin-top: 0.25rem;
+.submit-btn.sign-in-btn {
+  background-color: #B9FF66;
+  color: #000;
+  font-weight: 600;
+  border: 2px solid #568203;
+  border-radius: 8px;
+  padding: 1rem 0;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+.submit-btn.sign-in-btn:hover {
+  background-color: #a1d94f;
+  border-color: #456a02;
+}
+/* Sign Up Now link color */
+.signup-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 400;
+  color: #333;
+  font-size: 0.875rem;
+}
+.signup-link a {
+  color: #568203;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.signup-link a:hover {
+  color: #3d5b02;
+  text-decoration: underline;
 }
 
-
-.submit-btn {
-   width: 100%;
-   padding: 1rem;
-   background: #667eea;
-   color: white;
-   border: none;
-   border-radius: 8px;
-   font-size: 1rem;
-   font-weight: 600;
-   cursor: pointer;
-   transition: all 0.3s;
-}
-
-
-.submit-btn:hover {
-   background: #5568d3;
-   transform: translateY(-2px);
-}
 
 
 .cancel-btn {
