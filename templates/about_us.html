@@ -3,10 +3,97 @@
 {% block title %}About Us{% endblock %}
 
 {% block content %}
-<div class="landing-container">
+<section class="about-us-container">
+    <div class="intro">
+        <span class="section-label">Team</span>
+        <p>
+            Meet the passionate students and aspiring developers who believe that lesson planning should be easier,
+            faster, and more organized. We built Planify to support teachers in creating meaningful learning experiences for students.
+        </p>
+    </div>
 
-    <h1><span>Planify</span> - Lesson Planner</h1>
-    <p class="tagline">Plan smarter, teach better — with Planify Lesson Planner.</p>
-</div>
+    <section class="team-member">
+        <img src="{{ url_for('static', filename='pictures/mark.png') }}" alt="Mark Maglaway" class="member-photo" />
+        <div class="member-info">
+            <h3 class="member-name">Mark Maglaway</h3>
+            <p class="member-role">Back-end Developer</p>
+            <hr />
+            <blockquote class="member-quote">“Execution beats Excellence when Excellence never Executes.”</blockquote>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/markprofile" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/facebook.png') }}" alt="Facebook" />
+                </a>
+                <a href="https://github.com/markprofile" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/github.png') }}" alt="GitHub" />
+                </a>
+                <a href="mailto:mark@example.com" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/gmail.png') }}" alt="Email" />
+                </a>
+            </div>
+        </div>
+    </section>
 
+    <section class="team-member">
+        <img src="{{ url_for('static', filename='pictures/shenna.png') }}" alt="Shenna Mae Bellen" class="member-photo" />
+        <div class="member-info">
+            <h3 class="member-name">Shenna Mae Bellen</h3>
+            <p class="member-role">Front-end Developer</p>
+            <hr />
+            <blockquote class="member-quote">“Mind over Matter”</blockquote>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/shennaprofile" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/facebook.png') }}" alt="Facebook" />
+                </a>
+                <a href="https://github.com/shennaprofile" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/github.png') }}" alt="GitHub" />
+                </a>
+                <a href="mailto:shenna@example.com" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/gmail.png') }}" alt="Email" />
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-member">
+        <img src="{{ url_for('static', filename='pictures/gee-anne.png') }}" alt="Gee-Anne Francine Lescano" class="member-photo" />
+        <div class="member-info">
+            <h3 class="member-name">Gee-Anne Francine Lescano</h3>
+            <p class="member-role">Front-end Developer</p>
+            <hr />
+            <blockquote class="member-quote">“Winners never quit and quitters never win”</blockquote>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/geeanneprofile" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/facebook.png') }}" alt="Facebook" />
+                </a>
+                <a href="https://github.com/geeanneprofile" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/github.png') }}" alt="GitHub" />
+                </a>
+                <a href="mailto:geeanne@example.com" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/gmail.png') }}" alt="Email" />
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-member">
+        <img src="{{ url_for('static', filename='pictures/rona.png') }}" alt="Ronalyn Silva" class="member-photo" />
+        <div class="member-info">
+            <h3 class="member-name">Ronalyn Silva</h3>
+            <p class="member-role">Front-end Developer</p>
+            <hr />
+            <blockquote class="member-quote">“Vivamus, Oriendum est.”</blockquote>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/ronaprofile" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/facebook.png') }}" alt="Facebook" />
+                </a>
+                <a href="https://github.com/ronaprofile" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/github.png') }}" alt="GitHub" />
+                </a>
+                <a href="mailto:rona@example.com" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='pictures/gmail.png') }}" alt="Email" />
+                </a>
+            </div>
+        </div>
+    </section>
+</section>
 {% endblock %}
