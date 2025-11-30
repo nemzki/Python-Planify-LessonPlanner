@@ -1,4 +1,19 @@
 /* ==========================================
+   IMPORT FONT
+   ========================================== */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+/* ==========================================
+   COLOR PALETTE VARIABLES
+   ========================================== */
+:root {
+    --color-green-light: #B9FF66;
+    --color-green-dark: #568203;
+    --color-black: #000000;
+    --color-gray-light: #F3F3F3;
+}
+
+/* ==========================================
    GLOBAL STYLES
    ========================================== */
 * {
@@ -7,185 +22,483 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+html, body {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: var(--color-gray-light);
+    color: var(--color-black);
     min-height: 100vh;
-    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
 }
 
 /* ==========================================
-   NAVIGATION BAR
+   NAVBAR
    ========================================== */
 .navbar {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    background-color: #fff;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: center;
+    box-shadow: none;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .nav-container {
     max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
 
 .logo {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
     font-size: 1.5rem;
-    font-weight: bold;
-    color: #667eea;
-    text-decoration: none;
+    gap: 0.5rem;
+}
+
+.logo-img {
+    height: 86px; /* Adjust height as needed */
+    width: 204px;
+    display: block;
+    object-fit: contain;
 }
 
 .nav-links {
-    list-style: none;
     display: flex;
-    gap: 2rem;
+    align-items: center;
+    gap: 2.5rem;
+    font-weight: 500;
+    font-size: 1rem;
 }
 
 .nav-links a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s;
+    color: var(--color-black);
+    transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
-    color: #667eea;
-}
-
-.logout {
-    color: #e74c3c !important;
+.nav-links a:hover,
+.nav-links a:focus {
+    color: var(--color-green-dark);
+    outline: none;
 }
 
 /* ==========================================
-   FLASH MESSAGES
+   ABOUT US PAGE STYLES
    ========================================== */
-.flash-container {
-    max-width: 1200px;
-    margin: 1rem auto;
-    padding: 0 1rem;
+
+/* Use the same color palette and font */
+.about-us-container {
+    max-width: 1000px;
+    margin: 4rem auto 6rem;
+    padding: 0 1.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--color-black);
 }
 
-.flash-message {
-    padding: 1rem;
-    margin-bottom: 1rem;
+.intro {
+    margin-bottom: 3rem;
+}
+
+.section-label {
+    background-color: var(--color-green-light);
+    color: var(--color-black);
+    font-weight: 700;
+    padding: 0.2rem 0.8rem;
     border-radius: 8px;
-    position: relative;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    display: inline-block;
 }
 
-.flash-message.success {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+.intro p {
+    font-size: 1rem;
+    max-width: 700px;
+    line-height: 1.6;
 }
 
-.flash-message.error {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+/* Each team member occupies one full horizontal section */
+.team-member {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
 }
 
-.close-flash {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
+.member-photo {
+    width: 160px;
+    height: 210px;
+    border: 3px solid var(--color-green-light);
+    border-radius: 50% / 60%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background-color: var(--color-green-light);
+}
+
+.member-info {
+    flex: 1 1 400px;
+    font-size: 1rem;
+}
+
+.member-name {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 0.1rem;
+    color: var(--color-black);
+}
+
+.member-role {
+    font-weight: 400;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.member-info hr {
     border: none;
-    font-size: 1.5rem;
+    border-top: 1px solid #999;
+    margin: 0.5rem 0 1rem 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+.member-quote {
+    font-weight: 600;
+    font-style: normal;
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+    color: var(--color-black);
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-icons a {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.social-icons a:hover,
+.social-icons a:focus {
+    transform: scale(1.15);
+    outline: none;
+}
+
+.social-icons img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 900px) {
+    .team-member {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .member-photo {
+        width: 140px;
+        height: 180px;
+        margin-bottom: 1.25rem;
+    }
+
+    .member-info {
+        flex: none;
+    }
+
+    .member-info hr {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-us-container {
+        margin: 2rem 1rem 4rem;
+        padding: 0 1rem;
+    }
+
+    .member-photo {
+        width: 120px;
+        height: 150px;
+        margin-bottom: 1rem;
+    }
+
+    .member-name {
+        font-size: 1.15rem;
+    }
+}
+/* Login button styled as outlined */
+.login-btn {
+    padding: 0.5rem 1.25rem;
+    border: 1.5px solid var(--color-black);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
-    color: inherit;
+    background-color: transparent;
+    transition: all 0.25s ease;
+    color: var(--color-black);
+    white-space: nowrap;
+}
+
+.login-btn:hover,
+.login-btn:focus {
+    background-color: var(--color-black);
+    color: var(--color-green-light);
+    border-color: var(--color-black);
+    outline: none;
 }
 
 /* ==========================================
-   MAIN CONTENT
+   MAIN CONTENT - LANDING PAGE
    ========================================== */
+
 .content {
     max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-    min-height: calc(100vh - 200px);
+    margin: 5rem auto 8rem;
+    padding: 0 2rem;
+}
+
+.home-landing {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6rem;
+    flex-wrap: wrap;
+}
+
+.landing-left {
+    flex: 1 1 400px;
+    max-width: 600px;
+}
+
+.landing-left h1 {
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: var(--color-black);
+}
+
+.landing-left p {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-black);
+    margin-bottom: 2.5rem;
+}
+
+/* Sign Up Button */
+.sign-up-btn {
+    background-color: var(--color-black);
+    color: var(--color-green-light);
+    padding: 0.85rem 2.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+}
+
+.sign-up-btn:hover,
+.sign-up-btn:focus {
+    background-color: var(--color-green-dark);
+    color: var(--color-gray-light);
+    transform: translateY(-3px);
+    outline: none;
+}
+
+/* Image container with elliptical clipping */
+.landing-right {
+    flex: 1 1 400px;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
+}
+
+.landing-right img {
+    width: 100%;
+    height: auto;
+    /* Ellipse shape: */
+    border-radius: 50% / 60%;
+    object-fit: cover;
 }
 
 /* ==========================================
    FOOTER
    ========================================== */
 .footer {
-    background: rgba(255, 255, 255, 0.95);
+    width: 100%;
     text-align: center;
-    padding: 1.5rem;
-    margin-top: 2rem;
-    color: #666;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--color-black);
+    padding: 3rem 1rem;
+    background-color: transparent;
+    user-select: none;
 }
 
 /* ==========================================
-   LANDING PAGE
+   RESPONSIVE DESIGN
    ========================================== */
-.landing-container {
+
+/* Small devices - phones */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 1rem 1.5rem;
+    }
+
+    .nav-links {
+        gap: 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    .login-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .home-landing {
+        margin: 3rem 1rem 5rem;
+        gap: 3rem;
+    }
+
+    .landing-left {
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .landing-left h1 {
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .landing-left p {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+    }
+
+    .sign-up-btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+    }
+
+    .landing-right {
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .landing-right img {
+        border-radius: 40% / 60%;
+    }
+}
+
+/* Medium devices - tablets and small laptops */
+@media (max-width: 900px) {
+    .home-landing {
+        flex-direction: column;
+        gap: 4rem;
+        margin: 4rem 2rem 6rem;
+    }
+
+    .landing-left, .landing-right {
+        max-width: 100%;
+        flex: 1 1 auto;
+        text-align: center;
+    }
+
+    .landing-left h1 {
+        font-size: 2.6rem;
+    }
+
+    .landing-left p {
+        font-size: 1rem;
+    }
+
+    .sign-up-btn {
+        padding: 0.85rem 3rem;
+    }
+
+    .landing-right img {
+        max-width: 350px;
+        margin: 0 auto;
+        border-radius: 50% / 60%;
+    }
+}
+
+/* Large screens - desktops */
+@media (min-width: 1200px) {
+    .content {
+        padding: 0;
+    }
+}
+
+/* ==========================================
+   ACCESSIBILITY & INTERACTION ENHANCEMENTS
+   ========================================== */
+
+/* Focus styles */
+a:focus,
+button:focus {
+    outline: 2px solid var(--color-green-dark);
+    outline-offset: 3px;
+    outline-radius: 4px;
+}
+
+button {
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+/* ==========================================
+   HELPER CLASSES (Optional)
+   ========================================== */
+
+.hidden {
+    display: none !important;
+}
+
+.text-center {
     text-align: center;
-    padding: 4rem 2rem;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-    max-width: 600px;
-    margin: 4rem auto;
 }
 
-.landing-container h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: #333;
+.visually-hidden {
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
-.landing-container h1 span {
-    color: #667eea;
-}
+/* ==========================================
+   END OF STYLESHEET
+   ========================================== */
 
-.tagline {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 2rem;
-}
-
-.buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-}
-
-.landing-register-btn,
-.landing-login-btn {
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s;
-}
-
-.landing-register-btn {
-    background: #667eea;
-    color: white;
-}
-
-.landing-register-btn:hover {
-    background: #5568d3;
-    transform: translateY(-2px);
-}
-
-.landing-login-btn {
-    background: white;
-    color: #667eea;
-    border: 2px solid #667eea;
-}
-
-.landing-login-btn:hover {
-    background: #667eea;
-    color: white;
-    transform: translateY(-2px);
-}
 
 /* ==========================================
    ROLE SELECTION
