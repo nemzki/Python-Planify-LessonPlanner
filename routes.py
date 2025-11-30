@@ -776,3 +776,133 @@ def view_attendance_date(course_id, date_str):
                            records=records,
                            enrollments=enrollments,
                            attendance_dict=attendance_dict)
+
+
+# ==========================================
+# STUDENT MATERIALS & LESSON PLANS
+# ==========================================
+
+# VIEW STUDENT'S ENROLLED COURSES WITH MATERIALS
+@app.route('/student/courses')
+@login_required
+def student_courses():
+    if current_user.role != 'student':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    # Get enrolled courses
+    enrollments = Enrollment.query.filter_by(student_id=current_user.id).all()
+    courses = [enrollment.course for enrollment in enrollments]
+
+    return render_template('student_courses.html', courses=courses)
+
+
+# VIEW LESSON PLANS FOR A SPECIFIC COURSE (STUDENT)
+@app.route('/student/course/<int:course_id>/lessons')
+@login_required
+def student_course_lessons(course_id):
+    if current_user.role != 'student':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    # Check if student is enrolled in this course
+    enrollment = Enrollment.query.filter_by(
+        student_id=current_user.id,
+        course_id=course_id
+    ).first()
+
+    if not enrollment:
+        flash("You are not enrolled in this course.", "error")
+        return redirect(url_for('student_home'))
+
+    course = Course.query.get_or_404(course_id)
+    lesson_plans = LessonPlan.query.filter_by(course_id=course_id).order_by(
+        LessonPlan.created_at.desc()
+    ).all()
+
+    return render_template('student_course_lessons.html',
+                           course=course,
+                           lesson_plans=lesson_plans)
+
+
+# VIEW SPECIFIC LESSON PLAN (STUDENT)
+@app.route('/student/lesson/<int:plan_id>')
+@login_required
+def student_view_lesson(plan_id):
+    if current_user.role != 'student':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    plan = LessonPlan.query.get_or_404(plan_id)
+
+    # Check if student is enrolled in the course
+    enrollment = Enrollment.query.filter_by(
+        student_id=current_user.id,
+        course_id=plan.course_id
+    ).first()
+
+    if not enrollment:
+        flash("You are not enrolled in this course.", "error")
+        return redirect(url_for('student_home'))
+
+    return render_template('student_view_lesson.html', plan=plan)
+
+
+# DOWNLOAD MATERIAL (STUDENT)
+@app.route('/student/material/<int:material_id>/download')
+@login_required
+def student_download_material(material_id):
+    if current_user.role != 'student':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    material = LearningMaterial.query.get_or_404(material_id)
+    plan = material.lesson_plan
+
+    # Check if student is enrolled in the course
+    enrollment = Enrollment.query.filter_by(
+        student_id=current_user.id,
+        course_id=plan.course_id
+    ).first()
+
+    if not enrollment:
+        flash("You are not enrolled in this course.", "error")
+        return redirect(url_for('student_home'))
+
+    # Send file for download
+    from flask import send_file
+    return send_file(material.filepath, as_attachment=True, download_name=material.filename)
+
+
+# VIEW ALL MATERIALS FOR A COURSE (STUDENT)
+@app.route('/student/course/<int:course_id>/materials')
+@login_required
+def student_course_materials(course_id):
+    if current_user.role != 'student':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    # Check if student is enrolled
+    enrollment = Enrollment.query.filter_by(
+        student_id=current_user.id,
+        course_id=course_id
+    ).first()
+
+    if not enrollment:
+        flash("You are not enrolled in this course.", "error")
+        return redirect(url_for('student_home'))
+
+    course = Course.query.get_or_404(course_id)
+
+    # Get all lesson plans with materials
+    lesson_plans = LessonPlan.query.filter_by(course_id=course_id).order_by(
+        LessonPlan.created_at.desc()
+    ).all()
+
+    # Count total materials
+    total_materials = sum(len(plan.materials) for plan in lesson_plans)
+
+    return render_template('student_course_materials.html',
+                           course=course,
+                           lesson_plans=lesson_plans,
+                           total_materials=total_materials)
