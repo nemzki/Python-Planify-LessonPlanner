@@ -31,12 +31,13 @@
     </form>
 
     <p class="signup-link">
-      Don’t have an account? <a href="{{ url_for('auth.register') }}">Sign Up Now</a>
+      Don’t have an account? <a href="{{ url_for('register') }}">Sign Up Now</a>
     </p>
   </div>
 
   <div class="login-illustration">
     <img src="{{ url_for('static', filename='images/home-illustrations.png') }}" alt="Login Illustration" />
   </div>
+
 </div>
 {% endblock %}
