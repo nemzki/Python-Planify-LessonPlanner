@@ -116,21 +116,22 @@ def login():
             login_user(user)
             flash(f"Welcome back, {user.username}!", "success")
 
-            # REDIRECT BASED ON ROLE
-            if user.role == "student":
-                return redirect(url_for('student_home'))
+            # REDIRECT BASED ON ROLE - FIXED ORDER
+            if user.role == "admin":
+                return redirect(url_for('admin_home'))
             elif user.role == "educator":
                 return redirect(url_for('educator_home'))
-            elif user.role == "admin":
-                return redirect(url_for('admin_home'))
+            elif user.role == "student":
+                return redirect(url_for('student_home'))
+            else:
+                # Fallback for unknown roles
+                return redirect(url_for('home'))
 
-            return redirect(url_for('home'))
         else:
             flash("Invalid username/email or password.", "error")
             return redirect(url_for('login'))
 
     return render_template("login.html", form=form)
-
 
 # LOGOUT
 @app.route('/logout')

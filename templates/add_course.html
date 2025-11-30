@@ -1,0 +1,40 @@
+{% extends "educator_base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Add New Course</h2>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.course_name.label }}
+            {{ form.course_name(class="form-input") }}
+            {% if form.course_name.errors %}
+                <small class="error">{{ form.course_name.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.course_code.label }}
+            {{ form.course_code(class="form-input") }}
+            {% if form.course_code.errors %}
+                <small class="error">{{ form.course_code.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.description.label }}
+            {{ form.description(class="form-input", rows="4") }}
+            {% if form.description.errors %}
+                <small class="error">{{ form.description.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.submit(class="submit-btn") }}
+            <a href="{{ url_for('educator_courses') }}" class="cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

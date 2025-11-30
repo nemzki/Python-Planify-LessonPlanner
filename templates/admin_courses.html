@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}All Courses{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <h2>All Courses</h2>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Course Name</th>
+                <th>Course Code</th>
+                <th>Educator</th>
+                <th>Created</th>
+                <th>Enrollments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.id }}</td>
+                <td>{{ course.course_name }}</td>
+                <td>{{ course.course_code }}</td>
+                <td>{{ course.educator.first_name }} {{ course.educator.last_name }}</td>
+                <td>{{ course.created_at.strftime('%b %d, %Y') }}</td>
+                <td>{{ course.enrollments|length }} students</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('admin_home') }}" class="back-btn">Back to Dashboard</a>
+</div>
+{% endblock %}

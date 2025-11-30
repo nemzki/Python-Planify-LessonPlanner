@@ -5,39 +5,71 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Educator | Dashboard</title>
-    <link rel="stylesheet" href="static/style.css">
+    <title>Planify | Educator Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="educator-layout">
+
     <!-- EDUCATOR SIDEBAR -->
-    <aside class="right-sidebar">
-        <a href="{{ url_for('educator_home') }}">Planify logo dito</a>
-        <a href="{{ url_for('educator_home') }}">Home</a>
-        <a href="{{ url_for('educator_courses') }}">Courses</a>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="{{ url_for('educator_home') }}" class="logo">
+                📚 <strong>Planify</strong>
+            </a>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('educator_home') }}" class="nav-item">
+                <span class="icon">🏠</span>
+                <span>Home</span>
+            </a>
+
+            <a href="{{ url_for('educator_courses') }}" class="nav-item">
+                <span class="icon">📖</span>
+                <span>Courses</span>
+            </a>
+
+            <a href="{{ url_for('logout') }}" class="nav-item logout-item">
+                <span class="icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <p class="user-name">{{ current_user.first_name }} {{ current_user.last_name }}</p>
+                <p class="user-role">Educator</p>
+            </div>
+        </div>
     </aside>
 
-    <!-- FLASH MESSAGES -->
-    <div class="flash-container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div class="flash-message {{ category }}">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-content">
+        <!-- FLASH MESSAGES -->
+        <div class="flash-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                        <button class="close-flash" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- PAGE CONTENT -->
+        <main class="content">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>&copy; 2025 Planify — Lesson Planner App</p>
+        </footer>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <main class="content">
-        {% block content %}
-        {% endblock %}
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <p>&copy; 2025 Planify — Lesson Planner App</p>
-    </footer>
 </body>
 </html>
