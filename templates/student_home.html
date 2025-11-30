@@ -38,7 +38,7 @@
 
                     <div class="course-stats">
                         <span>📖 {{ course.lesson_plans|length }} Lessons</span>
-                        <span>📎 {{ course.lesson_plans|sum(attribute='materials|length', start=0) }} Materials</span>
+                        <span>📎 {{ course.lesson_plans | map(attribute='materials') | map('length') | sum }} Materials</span>
                     </div>
 
                     <div class="course-actions">
