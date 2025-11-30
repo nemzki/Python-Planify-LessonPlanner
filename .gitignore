@@ -1,0 +1,42 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.log
+
+# --- Virtual Environment ---
+venv/
+env/
+ENV/
+.venv/
+
+# --- Flask & Instance Folder ---
+*.db
+*.sqlite3
+
+# --- IDE / Editor Files ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# --- OS Files ---
+.DS_Store
+Thumbs.db
+
+# --- Compiled / Build Files ---
+dist/
+build/
+*.spec
+
+# --- Environment / Secrets ---
+.env
+.env.*
+*.pem
+
+# --- Cache ---
+.cache/
+pytest_cache/

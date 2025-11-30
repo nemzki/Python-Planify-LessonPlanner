@@ -1,0 +1,57 @@
+{% extends "educator_base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Create Lesson Plan for {{ course.course_name }}</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title(class="form-input") }}
+            {% if form.title.errors %}
+                <small class="error">{{ form.title.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.topic.label }}
+            {{ form.topic(class="form-input") }}
+            {% if form.topic.errors %}
+                <small class="error">{{ form.topic.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.objectives.label }}
+            {{ form.objectives(class="form-input", rows="5") }}
+            {% if form.objectives.errors %}
+                <small class="error">{{ form.objectives.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.description.label }}
+            {{ form.description(class="form-input", rows="6") }}
+            {% if form.description.errors %}
+                <small class="error">{{ form.description.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.materials.label }}
+            {{ form.materials(class="form-input") }}
+            <small class="info">Allowed: PDF, DOC, DOCX, PPT, PPTX, TXT, JPG, PNG</small>
+            {% if form.materials.errors %}
+                <small class="error">{{ form.materials.errors[0] }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.submit(class="submit-btn") }}
+            <a href="{{ url_for('course_lesson_plans', course_id=course.id) }}" class="cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

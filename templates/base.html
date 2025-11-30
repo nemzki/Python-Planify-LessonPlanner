@@ -23,8 +23,10 @@
 
                     <li><a href="{{ url_for('logout') }}" class="logout">Logout</a></li>
                 {% else %}
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('about_us') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contacts') }}">Contacts</a></li>
                     <li><a href="{{ url_for('login') }}">Login</a></li>
-                    <li><a href="{{ url_for('register') }}">Register</a></li>
                 {% endif %}
             </ul>
         </div>

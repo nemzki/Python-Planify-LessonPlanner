@@ -1,0 +1,63 @@
+{% extends "educator_base.html" %}
+
+{% block content %}
+<div class="enrollment-container">
+    <h2>Manage Enrollments - {{ course.course_name }}</h2>
+
+    <div class="enroll-form">
+        <h3>Enroll New Student</h3>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.student_id.label }}
+                {{ form.student_id(class="form-input") }}
+                {% if form.student_id.errors %}
+                    <small class="error">{{ form.student_id.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.submit(class="submit-btn") }}
+            </div>
+        </form>
+    </div>
+
+    <div class="enrolled-students">
+        <h3>Currently Enrolled Students</h3>
+        {% if enrollments %}
+            <table class="enrollment-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Enrolled Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for enrollment in enrollments %}
+                    <tr>
+                        <td>{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</td>
+                        <td>{{ enrollment.student.username }}</td>
+                        <td>{{ enrollment.student.email }}</td>
+                        <td>{{ enrollment.enrolled_at.strftime('%B %d, %Y') }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('remove_enrollment', enrollment_id=enrollment.id) }}"
+                                  onsubmit="return confirm('Remove this student from the course?');">
+                                <button type="submit" class="remove-btn">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="empty-state">No students enrolled yet.</p>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('educator_courses') }}" class="back-btn">Back to Courses</a>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div class="student-dashboard">
+    <h1>Student Dashboard</h1>
+    <p>Welcome, {{ current_user.first_name }} {{ current_user.last_name }}!</p>
+
+    <div class="enrolled-courses">
+        <h2>My Enrolled Courses</h2>
+
+        {% if courses %}
+            <div class="courses-list">
+                {% for course in courses %}
+                <div class="course-item">
+                    <h3>{{ course.course_name }}</h3>
+                    <p><strong>Code:</strong> {{ course.course_code }}</p>
+                    <p><strong>Educator:</strong> {{ course.educator.first_name }} {{ course.educator.last_name }}</p>
+                    <p>{{ course.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-state">You are not enrolled in any courses yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

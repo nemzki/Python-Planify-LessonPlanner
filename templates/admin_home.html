@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, {{ current_user.username }}!</p>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Users</h3>
+            <p class="stat-number">{{ total_users }}</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>Students</h3>
+            <p class="stat-number">{{ total_students }}</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>Educators</h3>
+            <p class="stat-number">{{ total_educators }}</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>Courses</h3>
+            <p class="stat-number">{{ total_courses }}</p>
+        </div>
+    </div>
+
+    <div class="admin-actions">
+        <a href="{{ url_for('admin_users') }}" class="admin-btn">View All Users</a>
+        <a href="{{ url_for('admin_courses') }}" class="admin-btn">View All Courses</a>
+    </div>
+</div>
+{% endblock %}

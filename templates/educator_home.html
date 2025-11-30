@@ -1,0 +1,28 @@
+{% extends "educator_base.html" %}
+
+{% block content %}
+<div class="educator-home-container">
+    <h2>Welcome, {{ current_user.first_name }}!</h2>
+    <p>What do you want to create today?</p>
+
+    <div class="educator-home-button-group">
+        <a href="{{ url_for('educator_courses') }}" class="create-lesson-plan-btn">
+            📝 Manage Lesson Plans
+        </a>
+        <a href="{{ url_for('educator_courses') }}" class="record-attendance-btn">
+            ✅ Record Attendance
+        </a>
+    </div>
+
+    <div class="quick-stats">
+        <div class="stat-item">
+            <h3>My Courses</h3>
+            <p>{{ current_user.courses|length }}</p>
+        </div>
+        <div class="stat-item">
+            <h3>Lesson Plans</h3>
+            <p>{{ current_user.lesson_plans|length }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
