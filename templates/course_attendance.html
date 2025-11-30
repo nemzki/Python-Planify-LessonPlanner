@@ -2,7 +2,12 @@
 
 {% block content %}
 <div class="attendance-container">
-    <h2>Record Attendance - {{ course.course_name }}</h2>
+    <div class="attendance-header-with-history">
+        <h2>Record Attendance - {{ course.course_name }}</h2>
+        <a href="{{ url_for('attendance_history', course_id=course.id) }}" class="view-history-btn">
+            📋 View History
+        </a>
+    </div>
 
     <form method="POST" class="date-form">
         {{ form.hidden_tag() }}
@@ -35,19 +40,19 @@
                     <td>{{ student.first_name }} {{ student.last_name }}</td>
                     <td>
                         <input type="radio" name="student_{{ student.id }}" value="present"
-                               {% if attendance_records.get(student.id) == 'present' %}checked{% endif %}>
+                               {% if attendance_records.get(student.id)=='present' %}checked{% endif %}>
                     </td>
                     <td>
                         <input type="radio" name="student_{{ student.id }}" value="absent"
-                               {% if attendance_records.get(student.id) == 'absent' %}checked{% endif %}>
+                               {% if attendance_records.get(student.id)=='absent' %}checked{% endif %}>
                     </td>
                     <td>
                         <input type="radio" name="student_{{ student.id }}" value="excused"
-                               {% if attendance_records.get(student.id) == 'excused' %}checked{% endif %}>
+                               {% if attendance_records.get(student.id)=='excused' %}checked{% endif %}>
                     </td>
                     <td>
                         <input type="radio" name="student_{{ student.id }}" value="late"
-                               {% if attendance_records.get(student.id) == 'late' %}checked{% endif %}>
+                               {% if attendance_records.get(student.id)=='late' %}checked{% endif %}>
                     </td>
                 </tr>
                 {% endfor %}
@@ -63,4 +68,36 @@
 
     <a href="{{ url_for('educator_courses') }}" class="back-btn">Back to Courses</a>
 </div>
+
+<style>
+.attendance-header-with-history {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.view-history-btn {
+    padding: 0.75rem 1.5rem;
+    background: #9b59b6;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.view-history-btn:hover {
+    background: #8e44ad;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .attendance-header-with-history {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
+</style>
 {% endblock %}
