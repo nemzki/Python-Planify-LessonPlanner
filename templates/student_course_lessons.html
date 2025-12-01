@@ -7,52 +7,61 @@
     <div class="lessons-header">
         <div class="header-content">
             <h1>{{ course.course_name }}</h1>
-            <p class="course-code">{{ course.course_code }}</p>
-            <p class="educator-name">
-                👨‍🏫 {{ course.educator.first_name }} {{ course.educator.last_name }}
-            </p>
+            <div class="course-meta">
+                <span class="course-code-badge">{{ course.course_code }}</span>
+                <span class="educator-info">
+                    👨‍🏫 {{ course.educator.first_name }} {{ course.educator.last_name }}
+                </span>
+            </div>
         </div>
         <a href="{{ url_for('student_courses') }}" class="back-link">← Back to Courses</a>
     </div>
 
     <div class="lessons-content">
-        <h2>Lesson Plans</h2>
+        <div class="content-header">
+            <h2>Lesson Plans</h2>
+            <span class="lessons-count">{{ lesson_plans|length }} Lesson(s)</span>
+        </div>
 
         {% if lesson_plans %}
-            <div class="lessons-list">
+            <div class="lessons-grid">
                 {% for plan in lesson_plans %}
                 <div class="lesson-card">
                     <div class="lesson-card-header">
-                        <h3>{{ plan.title }}</h3>
-                        <span class="lesson-date">
-                            📅 {{ plan.created_at.strftime('%b %d, %Y') }}
-                        </span>
+                        <div class="lesson-title-section">
+                            <h3>{{ plan.title }}</h3>
+                            <span class="lesson-date">
+                                📅 {{ plan.created_at.strftime('%b %d, %Y') }}
+                            </span>
+                        </div>
                     </div>
 
                     <div class="lesson-card-body">
                         {% if plan.topic %}
-                        <div class="lesson-info">
-                            <span class="info-label">Topic:</span>
+                        <div class="lesson-info-box">
+                            <span class="info-label">📌 Topic:</span>
                             <span class="info-text">{{ plan.topic }}</span>
                         </div>
                         {% endif %}
 
                         {% if plan.objectives %}
                         <div class="lesson-objectives">
-                            <span class="objectives-label">Learning Objectives:</span>
+                            <span class="objectives-label">🎯 Learning Objectives:</span>
                             <p>{{ plan.objectives[:150] }}{% if plan.objectives|length > 150 %}...{% endif %}</p>
                         </div>
                         {% endif %}
 
-                        <div class="lesson-materials-count">
-                            📎 {{ plan.materials|length }} Material(s)
+                        <div class="lesson-footer-info">
+                            <div class="materials-badge">
+                                📎 {{ plan.materials|length }} Material(s)
+                            </div>
                         </div>
                     </div>
 
                     <div class="lesson-card-footer">
                         <a href="{{ url_for('student_view_lesson', plan_id=plan.id) }}"
                            class="view-lesson-btn">
-                            View Full Lesson
+                            View Full Lesson →
                         </a>
                     </div>
                 </div>
@@ -60,8 +69,10 @@
             </div>
         {% else %}
             <div class="no-lessons">
-                <p>📖 No lesson plans available yet.</p>
-                <p class="hint">Your educator hasn't created any lesson plans for this course.</p>
+                <div class="empty-icon">📖</div>
+                <h3>No Lesson Plans Yet</h3>
+                <p>Your educator hasn't created any lesson plans for this course.</p>
+                <p class="hint">Check back later for updates!</p>
             </div>
         {% endif %}
     </div>
