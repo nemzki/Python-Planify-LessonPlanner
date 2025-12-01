@@ -1523,7 +1523,7 @@ textarea.form-input {
    color: #000;
    text-align: center;
    text-decoration: none;
-   box-shadow: 0 3px 8px rgba(185, 246, 112, 0.6);
+   box-shadow: 0 3px 7px rgba(185, 246, 112, 0.6);
    cursor: pointer;
    transition: background-color 0.3s ease, box-shadow 0.3s ease;
    user-select: none;
@@ -1532,14 +1532,14 @@ textarea.form-input {
 
 .button-manage-lessons:hover,
 .button-record-attendance:hover {
-   background-color: #568203;
+   background-color: #000000;
    color: white;
-   box-shadow: 0 4px 15px rgba(166, 208, 70, 0.8);
+   box-shadow: 0 4px 8px rgba(166, 208, 70, 0.8);
 }
 
 .divider {
    border: none;
-   border-top: 1px solid #ccc;
+   border-top: 1px solid #000;
    margin: 0 0 2.5rem 0;
 }
 
@@ -1552,7 +1552,7 @@ textarea.form-input {
 .stat-item {
    background-color: #f4f4f4;
    border-radius: 10px;
-   border: 1px solid #bbb;
+   border: 1px solid #000;
    padding: 1rem 0;
    flex: 1;
    min-width: 120px;
@@ -1562,7 +1562,7 @@ textarea.form-input {
 
 .stat-title {
    font-size: 0.95rem;
-   color: #333;
+   color: #000;
    margin-bottom: 0.6rem;
    font-weight: 600;
 }
@@ -1570,7 +1570,7 @@ textarea.form-input {
 .stat-number {
    font-size: 2.8rem;
    font-weight: 900;
-   color: #000;
+   color: #000000;;
    line-height: 1;
 }
 
