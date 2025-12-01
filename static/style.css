@@ -33,7 +33,7 @@ html, body {
    margin: 0;
    padding: 0;
    height: 100%;
-   background-color: #f5f7fa;
+   background-color: #ffffff;
 }
 
 body {
@@ -2469,16 +2469,6 @@ textarea.form-input {
 }
 
 
-/* ==========================================
-   COLOR PALETTE VARIABLES
-   ========================================== */
-:root {
-    --color-green-light: #B9FF66;
-    --color-green-dark: #568203;
-    --color-black: #000000;
-    --color-gray-light: #F3F3F3;
-    --color-white: #FFFFFF;
-}
 
 /* ==========================================
    STUDENT DASHBOARD - GREEN THEME
