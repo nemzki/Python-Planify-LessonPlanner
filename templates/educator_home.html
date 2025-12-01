@@ -2,26 +2,27 @@
 
 {% block content %}
 <div class="educator-home-container">
-    <h2>Welcome, {{ current_user.first_name }}!</h2>
-    <p>What do you want to create today?</p>
+    <h2>
+        It’s Good to have you back, <span class="highlight-name">{{ current_user.first_name }}!</span>
+    </h2>
+    <p>“Let’s make teaching easier today.”</p>
 
     <div class="educator-home-button-group">
-        <a href="{{ url_for('educator_courses') }}" class="create-lesson-plan-btn">
-            📝 Manage Lesson Plans
-        </a>
-        <a href="{{ url_for('educator_courses') }}" class="record-attendance-btn">
-            ✅ Record Attendance
+        <a href="{{ url_for('educator_courses') }}" class="button-record-attendance">
+            Manage Lesson Plan and Atttendance
         </a>
     </div>
 
+    <hr class="divider">
+
     <div class="quick-stats">
         <div class="stat-item">
-            <h3>My Courses</h3>
-            <p>{{ current_user.courses|length }}</p>
+            <div class="stat-title">My Courses</div>
+            <div class="stat-number">{{ current_user.courses|length }}</div>
         </div>
         <div class="stat-item">
-            <h3>Lesson Plans</h3>
-            <p>{{ current_user.lesson_plans|length }}</p>
+            <div class="stat-title">Lesson Plans</div>
+            <div class="stat-number">{{ current_user.lesson_plans|length }}</div>
         </div>
     </div>
 </div>

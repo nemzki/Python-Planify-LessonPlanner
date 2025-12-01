@@ -3,28 +3,45 @@
 {% block content %}
 <div class="plans-container">
     <div class="plans-header">
-        <h2>Lesson Plans for {{ course.course_name }}</h2>
-        <a href="{{ url_for('add_lesson_plan', course_id=course.id) }}" class="add-btn">+ Create Lesson Plan</a>
+        <div>
+            <h2>Lesson Plans</h2>
+            <p class="course-subtitle">{{ course.course_name }}</p>
+        </div>
+        <a href="{{ url_for('add_lesson_plan', course_id=course.id) }}" class="add-btn">
+            + Create Lesson Plan
+        </a>
     </div>
 
     <div class="plans-grid">
         {% if lesson_plans %}
             {% for plan in lesson_plans %}
             <div class="plan-card">
-                <h3>{{ plan.title }}</h3>
-                <p class="topic">Topic: {{ plan.topic or 'N/A' }}</p>
-                <p class="date">Created: {{ plan.created_at.strftime('%B %d, %Y') }}</p>
-                <div class="card-actions">
-                    <a href="{{ url_for('view_lesson_plan', plan_id=plan.id) }}" class="view-btn">View</a>
-                    <a href="{{ url_for('edit_lesson_plan', plan_id=plan.id) }}" class="edit-btn">Edit</a>
+                <div class="plan-card-top">
+                    <h3>{{ plan.title }}</h3>
+                    <span class="plan-date">{{ plan.created_at.strftime('%b %d, %Y') }}</span>
+                </div>
+
+                <p class="plan-topic">
+                    <strong>Topic:</strong> {{ plan.topic or 'Not specified' }}
+                </p>
+
+                <div class="plan-actions">
+                    <a href="{{ url_for('view_lesson_plan', plan_id=plan.id) }}" class="btn-view">
+                        View Details
+                    </a>
+                    <a href="{{ url_for('edit_lesson_plan', plan_id=plan.id) }}" class="btn-edit">
+                        Edit
+                    </a>
                 </div>
             </div>
             {% endfor %}
         {% else %}
-            <p class="empty-state">No lesson plans yet. Create your first one!</p>
+            <div class="empty-state">
+                <p>No lesson plans yet. Create your first one!</p>
+            </div>
         {% endif %}
     </div>
 
-    <a href="{{ url_for('educator_courses') }}" class="back-btn">Back to Courses</a>
+    <a href="{{ url_for('educator_courses') }}" class="back-btn">← Back to Courses</a>
 </div>
 {% endblock %}

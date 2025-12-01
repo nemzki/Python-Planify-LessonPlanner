@@ -61,43 +61,11 @@
 
         {% if students %}
             <button type="submit" class="submit-btn">Save Attendance</button>
-        {% else %}
+        {%
+ else %}
             <p class="empty-state">No students enrolled in this course yet.</p>
         {% endif %}
     </form>
-
-    <a href="{{ url_for('educator_courses') }}" class="back-btn">Back to Courses</a>
+    <a href="{{ url_for('educator_courses') }}" class="back-btn">← Back to Courses</a>
 </div>
-
-<style>
-.attendance-header-with-history {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.view-history-btn {
-    padding: 0.75rem 1.5rem;
-    background: #9b59b6;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s;
-}
-
-.view-history-btn:hover {
-    background: #8e44ad;
-    transform: translateY(-2px);
-}
-
-@media (max-width: 768px) {
-    .attendance-header-with-history {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-}
-</style>
 {% endblock %}
