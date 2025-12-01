@@ -24,14 +24,22 @@
    text-decoration: none;
    border-radius: 8px;
    font-weight: 600;
-   border: 2px solid var(--color-black);
-   transition: all 0.3s ease;
+   border: 1.5px solid var(--color-black);
+   transition: all 0.25s ease;
+   cursor: pointer;
+   color: var(--color-black);
+   white-space: nowrap;
 }
 
 .logout:hover {
-   background-color: var(--color-black);
-   color: var(--color-green-light);
+   background-color: var(--color-green-light);
+   color: var(--color-black);
+   color: var(--color-black);
+   transform: translateY(-3px);
+   border: 1.5px solid var(--color-black);
+   outline: none;
 }
+
 
 /* ==========================================
   GLOBAL STYLES
@@ -2626,24 +2634,24 @@ textarea.form-input {
 .courses-link {
     background: var(--color-green-light);
     color: var(--color-black);
-    border-color: var(--color-green-dark);
+    border: 2px solid black;
 }
 
 .courses-link:hover {
-    background: var(--color-green-dark);
+    background: black;
     color: var(--color-white);
 }
 
 .materials-link {
     background: var(--color-black);
     color: var(--color-green-light);
-    border-color: var(--color-green-light);
+    border: 2px solid black;
 }
 
 .materials-link:hover {
-    background: var(--color-green-dark);
-    color: var(--color-white);
-    border-color: var(--color-green-dark);
+    background: var(--color-white);
+    color: var(--color-black);
+    border: 2px solid black;;
 }
 
 /* Enrolled Courses Section */
@@ -2656,7 +2664,7 @@ textarea.form-input {
     font-size: 2rem;
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
-    border-bottom: 3px solid var(--color-green-light);
+    border-bottom: 3px solid var(--color-black);
     display: inline-block;
 }
 
@@ -2686,13 +2694,13 @@ textarea.form-input {
     left: 0;
     width: 100%;
     height: 5px;
-    background: linear-gradient(90deg, var(--color-green-light) 0%, var(--color-green-dark) 100%);
+    background: black;
 }
 
 .course-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-    border-color: var(--color-green-light);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 1);
+    border-color: var(--color-black);
 }
 
 /* Course Item Header */
@@ -2712,19 +2720,18 @@ textarea.form-input {
 }
 
 .course-badge {
-    background: var(--color-green-dark);
-    color: var(--color-white);
+    background: var(--color-green-light);
+    color: var(--color-black);
     padding: 0.4rem 1rem;
     border-radius: 25px;
     font-size: 0.85rem;
     font-weight: 700;
     white-space: nowrap;
-    box-shadow: 0 2px 8px rgba(86, 130, 3, 0.3);
+    border: 1px solid black;
 }
-
 /* Course Details */
 .course-educator {
-    color: var(--color-green-dark);
+    color: var(--color-black);
     margin-bottom: 0.75rem;
     font-weight: 600;
     font-size: 1rem;
@@ -2743,7 +2750,7 @@ textarea.form-input {
     gap: 2rem;
     margin-bottom: 1.5rem;
     padding: 1rem;
-    background: var(--color-white);
+    background: #f8f9fa;
     border-radius: 10px;
     font-size: 0.95rem;
     font-weight: 600;
@@ -2774,14 +2781,14 @@ textarea.form-input {
 .action-link {
     background: var(--color-green-light);
     color: var(--color-black);
-    border-color: var(--color-green-dark);
+    border: 1px solid black;
 }
 
 .action-link:hover {
     background: var(--color-green-dark);
     color: var(--color-white);
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(86, 130, 3, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .10);
 }
 
 .action-link.materials {
