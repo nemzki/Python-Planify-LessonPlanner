@@ -72,6 +72,37 @@
 
 
    {% block scripts %}{% endblock %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const flashes = document.querySelectorAll('.flash');
+
+    flashes.forEach(flash => {
+
+        setTimeout(() => {
+
+            flash.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+            flash.style.opacity = '0';
+            flash.style.transform = 'translateY(-10px)';
+
+
+            setTimeout(() => flash.remove(), 500);
+        }, 3000);
+
+
+        const closeBtn = flash.querySelector('.flash-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                flash.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                flash.style.opacity = '0';
+                flash.style.transform = 'translateY(-10px)';
+                setTimeout(() => flash.remove(), 500);
+            });
+        }
+    });
+});
+</script>
+
 </body>
 </html>
 
