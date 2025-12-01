@@ -4,50 +4,35 @@
 
 {% block content %}
 <div class="admin-dashboard">
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, {{ current_user.username }}!</p>
 
-    <div class="admin-header">
-        <h1>Admin Dashboard</h1>
-        <p class="welcome">Welcome back, <strong>{{ current_user.username }}</strong>!</p>
-    </div>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Users</h3>
+            <p class="stat-number">{{ total_users }}</p>
+        </div>
 
-    <!-- OVERVIEW (2 COLUMNS) -->
-    <div class="overview-section">
-        <h2 class="section-title center">Overview</h2>
+        <div class="stat-card">
+            <h3>Students</h3>
+            <p class="stat-number">{{ total_students }}</p>
+        </div>
 
-        <div class="overview-grid">
-            <div class="stat-card">
-                <h3>Total Users</h3>
-                <p class="stat-number">{{ total_users }}</p>
-            </div>
+        <div class="stat-card">
+            <h3>Educators</h3>
+            <p class="stat-number">{{ total_educators }}</p>
+        </div>
 
-            <div class="stat-card">
-                <h3>Students</h3>
-                <p class="stat-number">{{ total_students }}</p>
-            </div>
-
-            <div class="stat-card">
-                <h3>Educators</h3>
-                <p class="stat-number">{{ total_educators }}</p>
-            </div>
-
-            <div class="stat-card">
-                <h3>Courses</h3>
-                <p class="stat-number">{{ total_courses }}</p>
-            </div>
+        <div class="stat-card">
+            <h3>Courses</h3>
+            <p class="stat-number">{{ total_courses }}</p>
         </div>
     </div>
 
-    <!-- QUICK ACTIONS (2 COLUMNS) -->
-    <div class="quick-actions">
-        <h2 class="section-title center">Quick Actions</h2>
-
-        <div class="quick-actions-grid">
-            <a href="{{ url_for('admin_users') }}" class="admin-btn">Manage Users</a>
-            <a href="{{ url_for('admin_courses') }}" class="admin-btn">Manage Courses</a>
-        </div>
+    <div class="admin-actions">
+        <a href="{{ url_for('admin_users') }}" class="admin-btn">View All Users</a>
+        <a href="{{ url_for('admin_courses') }}" class="admin-btn">View All Courses</a>
+        <a href="{{ url_for('admin_messages') }}" class="admin-btn">View Contact Messages</a>
     </div>
-
 </div>
 {% endblock %}
-
-

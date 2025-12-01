@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Messages{% endblock %}
+
+{% block content %}
+<div class="admin-messages-container">
+    <div class="messages-header">
+        <div>
+            <h1>Contact Messages</h1>
+            <p class="header-subtitle">View and manage messages from users</p>
+        </div>
+        <div class="unread-badge">
+            {{ unread_count }} Unread
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="messages-list">
+            {% for message in messages %}
+            <div class="message-card {% if not message.is_read %}unread{% endif %}">
+                <div class="message-header">
+                    <div class="sender-info">
+                        <span class="sender-icon">{% if message.is_read %}✉️{% else %}📩{% endif %}</span>
+                        <div>
+                            <h3>{{ message.name or 'Anonymous' }}</h3>
+                            <p class="sender-email">{{ message.email }}</p>
+                        </div>
+                    </div>
+                    <div class="message-meta">
+                        <span class="message-date">{{ message.created_at.strftime('%b %d, %Y at %I:%M %p') }}</span>
+                        {% if not message.is_read %}
+                            <span class="new-badge">NEW</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="message-body">
+                    <p>{{ message.message }}</p>
+                </div>
+
+                <div class="message-actions">
+                    {% if not message.is_read %}
+                        <form method="POST" action="{{ url_for('mark_message_read', message_id=message.id) }}" style="display:inline;">
+                            <button type="submit" class="btn-mark-read">Mark as Read</button>
+                        </form>
+                    {% endif %}
+                    <form method="POST" action="{{ url_for('delete_message', message_id=message.id) }}"
+                          onsubmit="return confirm('Are you sure you want to delete this message?');"
+                          style="display:inline;">
+                        <button type="submit" class="btn-delete">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-messages">
+            <div class="empty-icon">📬</div>
+            <h3>No Messages Yet</h3>
+            <p>You haven't received any contact messages.</p>
+        </div>
+    {% endif %}
+
+    <a href="{{ url_for('admin_home') }}" class="back-btn">← Back to Dashboard</a>
+</div>
+{% endblock %}

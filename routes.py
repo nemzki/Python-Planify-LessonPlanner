@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app
 from database import db
-from forms import RegisterForm, LoginForm, CourseForm, LessonPlanForm, AttendanceForm, EnrollmentForm
-from models import User, Course, LessonPlan, LearningMaterial, Enrollment, AttendanceRecord
+from forms import RegisterForm, LoginForm, CourseForm, LessonPlanForm, AttendanceForm, EnrollmentForm, ContactForm
+from models import User, Course, LessonPlan, LearningMaterial, Enrollment, AttendanceRecord, ContactMessage
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
@@ -38,9 +38,6 @@ def about_us():
     return render_template('about_us.html')
 
 
-@app.route('/contacts')
-def contacts():
-    return render_template('contacts.html')
 
 
 # ==========================================
@@ -906,3 +903,91 @@ def student_course_materials(course_id):
                            course=course,
                            lesson_plans=lesson_plans,
                            total_materials=total_materials)
+
+
+# ==========================================
+# CONTACT PAGE ROUTES
+# ==========================================
+
+# CONTACT PAGE
+@app.route('/contacts', methods=['GET', 'POST'])
+def contacts():
+    from forms import ContactForm
+    from models import ContactMessage
+
+    form = ContactForm()
+
+    if form.validate_on_submit():
+        # Create new contact message
+        new_message = ContactMessage(
+            name=form.name.data,
+            email=form.email.data,
+            message=form.message.data
+        )
+
+        db.session.add(new_message)
+        db.session.commit()
+
+        flash("Thank you for your message! We'll get back to you soon.", "success")
+        return redirect(url_for('contacts'))
+
+    return render_template('contacts.html', form=form)
+
+
+# ==========================================
+# ADMIN - VIEW CONTACT MESSAGES
+# ==========================================
+
+# VIEW ALL CONTACT MESSAGES (ADMIN)
+@app.route('/admin/messages')
+@login_required
+def admin_messages():
+    if current_user.role != 'admin':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    from models import ContactMessage
+
+    # Get all messages, ordered by newest first
+    messages = ContactMessage.query.order_by(ContactMessage.created_at.desc()).all()
+
+    # Count unread messages
+    unread_count = ContactMessage.query.filter_by(is_read=False).count()
+
+    return render_template('admin_messages.html', messages=messages, unread_count=unread_count)
+
+
+# MARK MESSAGE AS READ (ADMIN)
+@app.route('/admin/message/<int:message_id>/mark-read', methods=['POST'])
+@login_required
+def mark_message_read(message_id):
+    if current_user.role != 'admin':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    from models import ContactMessage
+
+    message = ContactMessage.query.get_or_404(message_id)
+    message.is_read = True
+    db.session.commit()
+
+    flash("Message marked as read.", "success")
+    return redirect(url_for('admin_messages'))
+
+
+# DELETE MESSAGE (ADMIN)
+@app.route('/admin/message/<int:message_id>/delete', methods=['POST'])
+@login_required
+def delete_message(message_id):
+    if current_user.role != 'admin':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    from models import ContactMessage
+
+    message = ContactMessage.query.get_or_404(message_id)
+    db.session.delete(message)
+    db.session.commit()
+
+    flash("Message deleted successfully.", "success")
+    return redirect(url_for('admin_messages'))

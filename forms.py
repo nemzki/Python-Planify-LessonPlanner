@@ -89,3 +89,14 @@ class AttendanceForm(FlaskForm):
 class EnrollmentForm(FlaskForm):
     student_id = SelectField("Select Student", coerce=int, validators=[DataRequired()])
     submit = SubmitField("Enroll Student")
+
+# ==========================================
+# CONTACT FORM
+# ==========================================
+
+# FORM FOR CONTACT PAGE
+class ContactForm(FlaskForm):
+    name = StringField("Name", validators=[Optional(), Length(max=100)])
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    message = TextAreaField("Message", validators=[DataRequired(), Length(min=10, max=1000)])
+    submit = SubmitField("Send Message")
