@@ -2817,6 +2817,49 @@ textarea.form-input {
     }
 }
 
+.enrolled-courses {
+    margin-top: 2rem;
+}
+
+.courses-list {
+    display: grid;
+    grid-template-columns: 1fr;      /* Default: 1 column (mobile) */
+    gap: 1.8rem;
+    width: 100%;
+    margin-top: 1.2rem;
+}
+
+/* Course Card */
+.course-item {
+    background: #ffffff;
+    border: 1.5px solid #ddd;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.course-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(0,0,0,0.1);
+}
+
+/* Make it 2 columns starting at 768px */
+@media (min-width: 768px) {
+    .courses-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* If you want full 3-column layout on very large screens */
+@media (min-width: 1400px) {
+    .courses-list {
+        grid-template-columns: repeat(2, 1fr); /* <- change to 3 if you want */
+        max-width: 1300px;
+        margin: auto;
+    }
+}
+
 
 /* ==========================================
    STUDENT COURSES PAGE
@@ -3098,6 +3141,25 @@ textarea.form-input {
     font-weight: 700;
 }
 
+.stcourse-back-link {
+    color: var(--color-green-dark);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--color-green-dark);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: var(--color-white);
+    margin-left: 20px;
+}
+
+.stcourse-back-link:hover {
+    background: var(--color-green-dark);
+    color: var(--color-white);
+    transform: translateX(-5px);
+}
+
 /* ==========================================
    RESPONSIVE DESIGN
    ========================================== */
@@ -3172,7 +3234,7 @@ textarea.form-input {
 
 
 /* ==========================================
-   STUDENT LESSONS PAGE - CLEAN TWO-COLUMN LAYOUT
+   STUDENT LESSONS PAGE
    ========================================== */
 
 .student-lessons-container {
@@ -4466,4 +4528,4 @@ textarea.form-input {
 }
 
 
-/* END SHEETSYLE*/
+/* END SHEET STYLE*/
