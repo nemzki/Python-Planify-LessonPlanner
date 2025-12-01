@@ -4,17 +4,17 @@
 
 {% block content %}
 <div class="student-materials-container">
+
     <div class="materials-header">
         <div class="header-info">
             <h1>Course Materials</h1>
             <h2>{{ course.course_name }}</h2>
             <p>All downloadable materials organized by lesson</p>
         </div>
+
         <div class="header-stats">
-            <div class="stat">
-                <span class="stat-number">{{ total_materials }}</span>
-                <span class="stat-label">Total Materials</span>
-            </div>
+            <span class="stat-number">{{ total_materials }}</span>
+            <span class="stat-label">Total Materials</span>
         </div>
     </div>
 
