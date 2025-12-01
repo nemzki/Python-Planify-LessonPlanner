@@ -4056,21 +4056,118 @@ textarea.form-input {
 }
 
 
-/* ==========================================
-  DANGER ZONE
-  ========================================== */
-.danger-zone {
-   margin-top: 3rem;
-   padding: 1.5rem;
-   border: 2px solid #e74c3c;
-   border-radius: 10px;
+/* =============================
+   EDIT COURSE LAYOUT
+   ============================= */
+
+.edit-course-wrapper {
+    width: 200%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: none;
 }
 
+.edit-course-card {
+    width: 100%;
+    max-width: 700px; /* expands nicely */
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+}
+
+.form-title {
+    margin-bottom: 1.8rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #222;
+}
+
+/* Form fields */
+.form-group {
+    margin-bottom: 1.3rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem .9rem;
+    border-radius: 10px;
+    border: 1.4px solid #dcdcdc;
+    background: #fafafa;
+    font-size: 15px;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #6aa9ff;
+    background: #fff;
+}
+
+.error {
+    color: #d9534f;
+    font-size: 0.85rem;
+}
+
+.form-buttons {
+    display: flex;
+    flex-direction: column;   /* ← stack vertically */
+    gap: 10px;                /* spacing between buttons */
+    width: 100%;              /* form width stays the same */
+}
+
+.save-course-btn,
+.cancel-btn {
+    width: 100%;              /* same size */
+    height: 45px;             /* adjust height here */
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Optional colors */
+.save-course-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #d9534f;
+    color: white;
+}
+
+
+/* ============ DANGER ZONE ============ */
+
+.danger-zone {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    border: 2px solid #e74c3c;
+    background: rgba(255, 0, 0, 0.05);
+    border-radius: 10px;
+}
 
 .danger-zone h3 {
-   color: #e74c3c;
-   margin-bottom: 1rem;
+    color: #e74c3c;
+    margin-bottom: 1rem;
+    font-weight: 600;
 }
+
+.delete-btn {
+    background: #e74c3c;
+    color: #fff;
+    padding: 0.7rem 1.3rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.delete-btn:hover {
+    background: #d32f2f;
+}
+
 
 
 /* ==========================================

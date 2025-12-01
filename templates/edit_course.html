@@ -1,48 +1,53 @@
 {% extends "educator_base.html" %}
 
 {% block content %}
-<div class="form-container">
-    <h2>Edit Course</h2>
+<div class="edit-course-wrapper">
+    <div class="edit-course-card">
 
-    <form method="POST">
-        {{ form.hidden_tag() }}
+        <h2 class="form-title">Edit Course</h2>
 
-        <div class="form-group">
-            {{ form.course_name.label }}
-            {{ form.course_name(class="form-input") }}
-            {% if form.course_name.errors %}
-                <small class="error">{{ form.course_name.errors[0] }}</small>
-            {% endif %}
-        </div>
+        <form method="POST" class="edit-form">
+            {{ form.hidden_tag() }}
 
-        <div class="form-group">
-            {{ form.course_code.label }}
-            {{ form.course_code(class="form-input") }}
-            {% if form.course_code.errors %}
-                <small class="error">{{ form.course_code.errors[0] }}</small>
-            {% endif %}
-        </div>
+            <div class="form-group">
+                {{ form.course_name.label }}
+                {{ form.course_name(class="form-input") }}
+                {% if form.course_name.errors %}
+                    <small class="error">{{ form.course_name.errors[0] }}</small>
+                {% endif %}
+            </div>
 
-        <div class="form-group">
-            {{ form.description.label }}
-            {{ form.description(class="form-input", rows="4") }}
-            {% if form.description.errors %}
-                <small class="error">{{ form.description.errors[0] }}</small>
-            {% endif %}
-        </div>
+            <div class="form-group">
+                {{ form.course_code.label }}
+                {{ form.course_code(class="form-input") }}
+                {% if form.course_code.errors %}
+                    <small class="error">{{ form.course_code.errors[0] }}</small>
+                {% endif %}
+            </div>
 
-        <div class="form-group">
-            {{ form.submit(class="submit-btn") }}
-            <a href="{{ url_for('educator_courses') }}" class="cancel-btn">Cancel</a>
-        </div>
-    </form>
+            <div class="form-group">
+                {{ form.description.label }}
+                {{ form.description(class="form-input", rows="4") }}
+                {% if form.description.errors %}
+                    <small class="error">{{ form.description.errors[0] }}</small>
+                {% endif %}
+            </div>
 
-    <div class="danger-zone">
-        <h3>Danger Zone</h3>
-        <form method="POST" action="{{ url_for('delete_course', course_id=course.id) }}"
-              onsubmit="return confirm('Are you sure you want to delete this course? This action cannot be undone.');">
-            <button type="submit" class="delete-btn">Delete Course</button>
+            <div class="form-buttons">
+                <button class="save-course-btn">Save Course</button>
+                <button class="cancel-btn">Cancel</button>
+            </div>
+
         </form>
+
+        <div class="danger-zone">
+            <h3>Danger Zone</h3>
+            <form method="POST" action="{{ url_for('delete_course', course_id=course.id) }}"
+                  onsubmit="return confirm('Are you sure you want to delete this course? This action cannot be undone.');">
+                <button type="submit" class="delete-btn">Delete Course</button>
+            </form>
+        </div>
+
     </div>
 </div>
 {% endblock %}
