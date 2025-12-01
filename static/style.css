@@ -939,6 +939,16 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
   }
 }
 
+.register-form-container {
+   max-width: 700px;  /* Set maximum width for the register form container */
+   margin: 4rem ; /* Center horizontally with vertical margin */
+   padding: 2.5rem 2rem;
+   box-sizing: border-box;
+   background: white;
+   border-radius: 15px;
+   box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+   width: 90%;        /* Responsive width */
+}
 
 
 
@@ -959,12 +969,13 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
 
 .form-container {
    background: white;
-   padding: 2.5rem;
+   padding: 2.5rem 2rem;
    border-radius: 15px;
    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-   max-width: 850px;  /* INCREASED from 500px to 850px */
-   margin: 2rem auto;
-   width: 90%;  /* ADDED for better responsiveness */
+   max-width: 400px;      /* wider container */
+   margin: 4rem auto;
+   width: 90%;
+   box-sizing: border-box;
 }
 
 .form-container h1,
@@ -976,20 +987,22 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
 
 /* ADD THESE NEW STYLES FOR THE REGISTER FORM LAYOUT */
 .form-row {
-   display: flex;
-   gap: 1.5rem;
-   margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 2%;
+    flex-wrap: wrap;
 }
 
 .form-group.half-width {
-   flex: 1;
-   margin-bottom: 0;
+    width: 48%;  /* About half width with a small gap */
+    margin-bottom: 1.5rem;
 }
 
 .form-group.full-width {
-   width: 100%;
-   margin-bottom: 1.5rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
 }
+
 
 .form-info {
    flex: 1;
@@ -1016,20 +1029,31 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
   color: #000;
 }
 
+/* Inputs and textarea fill the width */
 .form-input {
    width: 100%;
-   padding: 0.75rem;
-   border: 2px solid #ddd;
+   padding: 0.6rem 1rem;
+   border: 1.5px solid #ccc;
    border-radius: 8px;
    font-size: 1rem;
-   transition: border-color 0.3s;
-   box-sizing: border-box;  /* ADDED to ensure padding doesn't break layout */
+   box-sizing: border-box;
+   transition: border-color 0.3s ease;
 }
 
 .form-input:focus {
    outline: none;
-   border-color: #667eea;
+   border-color: var(--color-green-dark);
 }
+.form-input[rows] {
+   min-height: 100px;  /* textarea height */
+   resize: vertical;
+}
+
+textarea.form-input {
+   min-height: 100px; /* better height */
+   resize: vertical;
+}
+
 
 /* RESPONSIVE DESIGN FOR REGISTER FORM */
 @media (max-width: 768px) {
@@ -1090,22 +1114,48 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
   text-decoration: underline;
 }
 
-
-
-.cancel-btn {
-   display: inline-block;
-   padding: 1rem;
-   margin-left: 1rem;
-   background: #95a5a6;
-   color: white;
-   text-decoration: none;
-   border-radius: 8px;
-   transition: all 0.3s;
+/* Buttons container for alignment */
+.form-group {
+   margin-bottom: 1.5rem;
+}
+/* Submit button styling */
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 0;
+    background-color: var(--color-green-light);
+    border: 2px solid var(--color-green-dark);
+    border-radius: 8px;
+    color: var(--color-black);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+.submit-btn:hover {
+    background-color: #a1d94f;
+    border-color: #456a02;
 }
 
-
+/* Cancel button styling consistent with submit */
+.cancel-btn {
+   display: block;
+   width: 100%;
+   padding: 0.75rem 0;
+   margin-top: 0.5rem;
+   background-color: #8e9b9b;
+   color: white;
+   border-radius: 8px;
+   text-decoration: none;
+   font-size: 1rem;
+   text-align: center;
+   box-sizing: border-box;
+   transition: background-color 0.3s ease;
+}
 .cancel-btn:hover {
-   background: #7f8c8d;
+   background-color: #728080;
 }
 
 
@@ -1115,192 +1165,378 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
 .educator-layout {
    display: flex;
    background: #f5f7fa;
+   min-height: 100vh;
 }
 
-
 .sidebar {
-   width: 250px;
-   background: white;
+   width: 260px;
+   background: var(--color-white);
    min-height: 100vh;
-   box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+   box-shadow: 2px 0 15px rgba(0, 0, 0, 0.08);
    position: fixed;
    left: 0;
    top: 0;
+   display: flex;
+   flex-direction: column;
+   z-index: 100;
 }
-
 
 .sidebar-header {
-   padding: 2rem 1.5rem;
-   border-bottom: 1px solid #eee;
+   padding: 1.5rem;
+   border-bottom: 2px solid var(--color-gray-light);
+   background: var(--color-white);
+   flex-shrink: 0;
 }
-
 
 .sidebar-header .logo {
-   font-size: 1.5rem;
+   display: flex;
+   align-items: center;
+   justify-content: flex-start; /* Align to left like nav items */
+   padding: 0.5rem; /* Match nav-item padding feel */
    text-decoration: none;
-   color: #667eea;
+   transition: transform 0.3s ease;
 }
 
+.sidebar-header .logo:hover {
+   transform: scale(1.02);
+}
+
+.sidebar-header .logo img {
+   height: 60px; /* Slightly larger than icons for prominence */
+   width: auto;
+   object-fit: contain;
+   margin-left: 0.5rem; /* Align with nav-item text */
+}
 
 .sidebar-nav {
-   padding: 1rem 0;
+   padding: 1.5rem 0;
+   flex: 1;
+   overflow-y: auto;
 }
-
 
 .nav-item {
    display: flex;
    align-items: center;
    padding: 1rem 1.5rem;
-   color: #333;
+   color: var(--color-black);
    text-decoration: none;
-   transition: all 0.3s;
+   font-weight: 500;
+   font-size: 1rem;
+   transition: all 0.3s ease;
+   margin: 0.25rem 0.75rem;
+   border-radius: 10px;
+   position: relative;
 }
 
+.nav-item::before {
+   content: '';
+   position: absolute;
+   left: 0;
+   top: 50%;
+   transform: translateY(-50%);
+   width: 4px;
+   height: 0;
+   background: var(--color-black);
+   border-radius: 0 4px 4px 0;
+   transition: height 0.3s ease;
+}
 
 .nav-item:hover {
-   background: #f5f7fa;
-   color: #667eea;
+   background: rgba(128, 128, 128, 0.21);
+   color: var(--color-black);
+   padding-left: 1.75rem;
 }
 
+.nav-item:hover::before {
+   height: 70%;
+}
+
+.nav-item.active {
+   background: rgba(128, 128, 128, 0.21);
+   color: var(--color-gray-light);
+   font-weight: 600;
+   padding-left: 1.75rem;
+}
+
+.nav-item.active::before {
+   height: 70%;
+}
 
 .nav-item .icon {
-   margin-right: 0.75rem;
-   font-size: 1.2rem;
+   margin-right: 1rem;
+   font-size: 1.3rem;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   min-width: 24px;
 }
-
 
 .logout-item {
    color: #e74c3c;
 }
 
-
-.sidebar-footer {
-   position: absolute;
-   bottom: 0;
-   left: 0;
-   right: 0;
-   padding: 1.5rem;
-   border-top: 1px solid #eee;
+.logout-item:hover {
+   background: rgba(231, 76, 60, 0.1);
+   color: #c0392b;
 }
 
+.logout-item::before {
+   background: #e74c3c;
+}
+
+.sidebar-footer {
+   padding: 1.5rem;
+   border-top: 2px solid var(--color-gray-light);
+   background: var(--color-gray-light);
+   flex-shrink: 0; /* Prevent footer from shrinking */
+}
 
 .user-info {
    text-align: center;
 }
 
-
 .user-name {
-   font-weight: 600;
-   color: #333;
+   font-weight: 700;
+   font-size: 1rem;
+   color: var(--color-black);
    margin-bottom: 0.25rem;
 }
 
-
 .user-role {
-   font-size: 0.875rem;
-   color: #666;
+   font-size: 0.85rem;
+   color: var(--color-black);
+   font-weight: 600;
+   background: var(--color-gray-light);
+   padding: 0.25rem 0.75rem;
+   border-radius: 12px;
+   display: inline-block;
 }
 
-
 .main-content {
-   margin-left: 250px;
+   margin-left: 260px;
    flex: 1;
    min-height: 100vh;
    background: #f5f7fa;
+   display: flex;
+   flex-direction: column;
+}
+
+/* Content area inside main-content */
+.main-content .content {
+   flex: 1;
+   padding: 2rem;
+}
+
+/* Footer inside main-content */
+.main-content .footer {
+   margin-top: auto;
+   flex-shrink: 0;
+}
+
+/* ==========================================
+  RESPONSIVE DESIGN FOR SIDEBAR
+  ========================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+   .sidebar {
+       width: 220px;
+   }
+
+   .main-content {
+       margin-left: 220px;
+   }
+
+   .nav-item {
+       font-size: 0.95rem;
+       padding: 0.9rem 1.25rem;
+   }
+
+   .sidebar-header .logo img {
+       height: 40px;
+   }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+   .educator-layout {
+       flex-direction: column;
+   }
+
+   .sidebar {
+       width: 100%;
+       min-height: auto;
+       position: relative;
+       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+   }
+
+   .sidebar-nav {
+       padding: 1rem 0;
+       display: flex;
+       flex-direction: row;
+       flex-wrap: wrap;
+       justify-content: center;
+       gap: 0.5rem;
+   }
+
+   .nav-item {
+       margin: 0;
+       flex: 1 1 auto;
+       min-width: 120px;
+       max-width: 200px;
+       justify-content: center;
+       padding: 0.75rem 1rem;
+   }
+
+   .nav-item::before {
+       display: none;
+   }
+
+   .nav-item:hover,
+   .nav-item.active {
+       padding-left: 1rem;
+   }
+
+   .main-content {
+       margin-left: 0;
+   }
+
+   .sidebar-footer {
+       padding: 1rem;
+   }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+   .sidebar-header {
+       padding: 1rem;
+   }
+
+   .sidebar-header .logo img {
+       height: 35px;
+   }
+
+   .nav-item {
+       font-size: 0.9rem;
+       min-width: 100px;
+   }
+
+   .nav-item .icon {
+       font-size: 1.1rem;
+       margin-right: 0.5rem;
+   }
+
+   .user-name {
+       font-size: 0.9rem;
+   }
+
+   .user-role {
+       font-size: 0.8rem;
+   }
 }
 
 
 /* ==========================================
   EDUCATOR HOME
   ========================================== */
-.educator-home-container {
-   background: white;
-   padding: 3rem;
-   border-radius: 15px;
-   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-   text-align: center;
-}
-
-
 .educator-home-container h2 {
-   font-size: 2rem;
-   margin-bottom: 1rem;
-   color: #333;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 0.3rem;
+  display: inline;
 }
 
+.highlight-name {
+  display: inline-block;
+  margin-left: 0.25rem;
+  vertical-align: baseline;
+
+  color: #B9FF66;
+  font-weight: 600;
+
+  -webkit-text-stroke: 1px black;
+  text-stroke: 1px black;
+}
+
+
+.educator-home-container p {
+   font-size: 1rem;
+   color: #222;
+   margin-top: 0;
+   margin-bottom: 2.5rem;
+}
 
 .educator-home-button-group {
    display: flex;
+   justify-content: space-between;
    gap: 2rem;
-   justify-content: center;
-   margin: 3rem 0;
+   margin-bottom: 2.5rem;
 }
 
-
-.create-lesson-plan-btn,
-.record-attendance-btn {
-   padding: 2rem 3rem;
-   border-radius: 15px;
-   text-decoration: none;
+.button-manage-lessons,
+.button-record-attendance {
+   flex: 1;
+   background-color: #b9f670;
+   border: none;
+   border-radius: 10px;
+   padding: 1.3rem 0;       /* slightly taller buttons */
+   font-size: 1.1rem;      /* slightly larger font */
    font-weight: 600;
-   font-size: 1.1rem;
-   transition: all 0.3s;
-   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+   color: #000;
+   text-align: center;
+   text-decoration: none;
+   box-shadow: 0 3px 8px rgba(185, 246, 112, 0.6);
+   cursor: pointer;
+   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+   user-select: none;
+   border: 1px solid black;
 }
 
-
-.create-lesson-plan-btn {
-   background: #667eea;
+.button-manage-lessons:hover,
+.button-record-attendance:hover {
+   background-color: #568203;
    color: white;
+   box-shadow: 0 4px 15px rgba(166, 208, 70, 0.8);
 }
 
-
-.create-lesson-plan-btn:hover {
-   background: #5568d3;
-   transform: translateY(-5px);
+.divider {
+   border: none;
+   border-top: 1px solid #ccc;
+   margin: 0 0 2.5rem 0;
 }
-
-
-.record-attendance-btn {
-   background: #2ecc71;
-   color: white;
-}
-
-
-.record-attendance-btn:hover {
-   background: #27ae60;
-   transform: translateY(-5px);
-}
-
 
 .quick-stats {
    display: flex;
-   gap: 2rem;
-   justify-content: center;
-   margin-top: 3rem;
+   justify-content: space-between;
+   gap: 1.5rem;
 }
-
 
 .stat-item {
-   background: #f8f9fa;
-   padding: 1.5rem 2rem;
+   background-color: #f4f4f4;
    border-radius: 10px;
-   min-width: 150px;
+   border: 1px solid #bbb;
+   padding: 1rem 0;
+   flex: 1;
+   min-width: 120px;
+   box-shadow: 1px 1px 5px rgba(0,0,0,0.05);
+   text-align: center;
 }
 
-
-.stat-item h3 {
-   font-size: 0.9rem;
-   color: #666;
-   margin-bottom: 0.5rem;
+.stat-title {
+   font-size: 0.95rem;
+   color: #333;
+   margin-bottom: 0.6rem;
+   font-weight: 600;
 }
 
-
-.stat-item p {
-   font-size: 2rem;
-   font-weight: bold;
-   color: #667eea;
+.stat-number {
+   font-size: 2.8rem;
+   font-weight: 900;
+   color: #000;
+   line-height: 1;
 }
+
 
 
 /* ==========================================
@@ -1318,9 +1554,10 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
    text-align: center;
    margin-bottom: 2rem;
    padding: 2rem;
-   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+   background: linear-gradient(90deg, #5a7b00 0%, #a3e231 100%);
    color: white;
    border-radius: 10px;
+   border: 1px solid black;
 }
 
 
@@ -1333,19 +1570,23 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
 
 
 .add-course-btn {
-   padding: 0.75rem 1.5rem;
-   background: #667eea;
-   color: white;
-   text-decoration: none;
-   border-radius: 8px;
-   font-weight: 600;
-   transition: all 0.3s;
+    background-color: #568203; /* Dark Green */
+    color: white;
+    padding: 0.55rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 1px solid black; /* Soft semi-transparent border */
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor:pointer;
 }
 
 
 .add-course-btn:hover {
-   background: #5568d3;
-   transform: translateY(-2px);
+    background-color: #4a6a02; /* Slightly darker green */
+    border: 1px solid black; /* Slightly stronger shadow on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12); /* Adds a soft shadow effect */
+    transform: translateY(-2px);
 }
 
 
@@ -1361,6 +1602,7 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
    padding: 1.5rem;
    border-radius: 10px;
    transition: all 0.3s;
+   border: 1px solid black;
 }
 
 
@@ -1383,13 +1625,19 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
    font-size: 1.2rem;
 }
 
+.courses-grid .course-card .course-header .course-code {
+   color: #ffffff;
+}
 
 .course-code {
-   background: #667eea;
-   color: white;
+   background-color:#568203; /* Changed from #667eea to dark green */
+   color: #ffffff;            /* White text for contrast */
    padding: 0.25rem 0.75rem;
    border-radius: 20px;
    font-size: 0.875rem;
+   white-space: nowrap;
+   display: inline-block;
+   border: 1px solid black;
 }
 
 
@@ -1422,23 +1670,27 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
    font-size: 0.875rem;
    font-weight: 600;
    transition: all 0.3s;
+   border: 1px solid black;
 }
 
 
 .plans-btn {
    background: #3498db;
    color: white;
+   border: 1px solid black;
 }
 
 
 .plans-btn:hover {
    background: #2980b9;
+   border: 1px solid black;
 }
 
 
 .attendance-btn {
    background: #2ecc71;
    color: white;
+   border: 1px solid black;
 }
 
 
@@ -1485,6 +1737,7 @@ transition: background-color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s 
    text-decoration: none;
    border-radius: 8px;
    font-weight: 600;
+   border: 1px solid black;
 }
 
 
