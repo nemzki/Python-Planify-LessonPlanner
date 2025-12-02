@@ -4,35 +4,49 @@
 
 {% block content %}
 <div class="admin-dashboard">
-    <h1>Admin Dashboard</h1>
-    <p>Welcome, {{ current_user.username }}!</p>
-
-    <div class="stats-grid">
-        <div class="stat-card">
-            <h3>Total Users</h3>
-            <p class="stat-number">{{ total_users }}</p>
-        </div>
-
-        <div class="stat-card">
-            <h3>Students</h3>
-            <p class="stat-number">{{ total_students }}</p>
-        </div>
-
-        <div class="stat-card">
-            <h3>Educators</h3>
-            <p class="stat-number">{{ total_educators }}</p>
-        </div>
-
-        <div class="stat-card">
-            <h3>Courses</h3>
-            <p class="stat-number">{{ total_courses }}</p>
-        </div>
+    <!-- Header Section -->
+    <div class="admin-header">
+        <h1>Admin Dashboard</h1>
+        <p class="welcome">Welcome back, {{ current_user.username }}!</p>
     </div>
 
-    <div class="admin-actions">
-        <a href="{{ url_for('admin_users') }}" class="admin-btn">View All Users</a>
-        <a href="{{ url_for('admin_courses') }}" class="admin-btn">View All Courses</a>
-        <a href="{{ url_for('admin_messages') }}" class="admin-btn">View Contact Messages</a>
+    <!-- Main 2-Column Grid -->
+    <div class="admin-main-grid">
+        <!-- Left Column: Statistics -->
+        <div class="admin-section">
+            <h2 class="section-title">Platform Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Users</h3>
+                    <p class="stat-number">{{ total_users }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Students</h3>
+                    <p class="stat-number">{{ total_students }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Educators</h3>
+                    <p class="stat-number">{{ total_educators }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Courses</h3>
+                    <p class="stat-number">{{ total_courses }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Quick Actions -->
+        <div class="admin-section">
+            <h2 class="section-title">Quick Actions</h2>
+            <div class="admin-actions">
+                <a href="{{ url_for('admin_users') }}" class="admin-btn">View All Users</a>
+                <a href="{{ url_for('admin_courses') }}" class="admin-btn">View All Courses</a>
+                <a href="{{ url_for('admin_messages') }}" class="admin-btn">Contact Messages</a>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
