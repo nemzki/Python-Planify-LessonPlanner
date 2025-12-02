@@ -28,7 +28,7 @@
 html,
 body {
   font-family: 'Space Grotesk', sans-serif;
-  background-color: var(--color-white);
+  background: var(--color-white);
   color: var(--color-black);
   min-height: 100vh;
   height: 100%;
@@ -96,12 +96,13 @@ button {
   border: none;
   background: none;
   padding: 0;
+  margin-left: -8px;
   box-shadow: none;
 }
 
 .logo-img {
-  height: 70px;
-  width: 204px;
+  height: 90px;
+  width: 200px;
   display: block;
   object-fit: contain;
 }
@@ -118,21 +119,28 @@ a.logo {
   display: flex;
   align-items: center;
   gap: 2.5rem;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1rem;
+  color: #333
 }
 
 .nav-links a {
   color: var(--color-black);
   transition: color 0.3s ease;
+  text-decoration: none;
+  font-weight: 400;
 }
 
-.nav-links a:hover,
-.nav-links a:focus {
-  color: var(--color-black);
+.nav-links a:hover {
+  color: var(--color-green-black);
+  text-decoration: underline;
+}
+
+.nav-links a:focus,
+.nav-links a:active {
   outline: none;
+  box-shadow: none;
 }
-
 
 
 /* ============================================================================
@@ -527,71 +535,92 @@ a.logo {
    ============================================================================ */
 
 .contact-container {
-  max-width: 900px;
-  margin: 3rem auto 6rem;
-  padding: 0 2rem;
-  font-family: 'Space Grotesk', sans-serif;
-  color: var(--color-black);
+  max-width: 850px;
+  margin: 2rem auto;
 }
 
-.contact-form-wrapper {
-  background: white;
-  padding: 0;
-}
-
+/* CONTACT HEADER */
 .contact-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 2rem;
-  background: ;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.contact-header {
+  border-bottom: none !important;
 }
 
 .contact-header h2 {
   font-weight: 700;
-  font-size: 1rem;
-  background-color: var(--color-green-light);
-  padding: 0.2rem 0.8rem;
-  border-radius: 0.3rem;
+  font-size: 1.8rem;
+  background-color: var(--color-green-light) !important;
+  color: var(--color-black);
+  padding: 0.2rem 0.8rem !important;
+  border-radius: 0.3rem !important;
   margin: 0;
 }
 
+
+
 .contact-header p {
-  font-weight: 200;
+  font-weight: 300;
   font-size: 1rem;
+  margin: 0 !important;
   color: black;
-  margin: 0;
+  }
+
+  .contact-header p{
+  color: black !important;
 }
 
 .contact-form-wrapper {
-  display: flex;
   background-color: var(--color-gray-light);
-  border-radius: 1.5rem;
-  padding: 2rem 3rem;
-  gap: 3rem;
-  position: relative;
-  border: 1px solid black;
-}
-
-.contact-form {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+
+  max-width: 900px;
+  margin: auto;
+
+  border-radius: 1.5rem;
+  padding: 2rem 3rem;
+
+  /* FIX: remove green border */
+  border: 1px solid #e5e5e5; /* light gray */
+
+  gap: 2rem;
 }
 
+.contact-form-wrapper {
+  border: 1px solid #e5e5e5 !important;
+}
+
+
+/* FORM TITLE */
 .contact-form h3 {
   font-weight: 700;
+  font-size: 1.4rem;
+  text-align: center;
   margin-bottom: 1rem;
-  color: var(--color-black);
+}
+
+/* FORM FIELDS */
+.contact-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .contact-form label {
   font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--color-black);
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 0.3rem;
 }
-
 
 .required {
   color: var(--color-black);
@@ -599,56 +628,55 @@ a.logo {
   margin-left: 0.15rem;
 }
 
-
 .contact-form input[type="text"],
 .contact-form input[type="email"],
 .contact-form textarea {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid #999;
+  border: 1px solid #000 !important;
   border-radius: 0.75rem;
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1rem;
   color: var(--color-black);
   resize: vertical;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s ease;
 }
 
-.contact-form input[type="text"]:focus,
-.contact-form input[type="email"]:focus,
+.contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
-  border-color: var(--color-black);
+  border-color: var(--color-black) !important;
 }
 
-.contact-form textarea {
-  min-height: 120px;
+/* CONTACT FORM SUBMIT BUTTON */
+.contact-form .submit-btn {
+    background-color: var(--color-black) !important;
+    color: var(--color-green-light) !important;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--color-black);
+    cursor: pointer;
+    padding: 0.75rem 1.5rem;
+
+    /* Center the button */
+    display: block;
+    margin: 1.5rem auto 0 auto;
+    text-align: center;
+
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.contact-form button {
-  background-color: var(--color-black);
-  color: var(--color-white);
-  font-weight: 700;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: 1px solid black;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  align-self: flex-start;
-  display: block;
-  margin: 1rem auto;
-  padding: 0.75rem 1.5rem;
-  width: fit-content;
+/* HOVER */
+.contact-form .submit-btn:hover {
+    background-color: var(--color-green-light) !important;
+    color: var(--color-black) !important;
+    transform: translateY(-3px);
+    border: 1px solid black;
 }
 
-.contact-form button:hover,
-.contact-form button:focus {
-  background-color: var(--color-green-light);
-  color: var(--color-black);
-  transform: translateY(-3px);
-  border: 1.5px solid var(--color-black);
-  outline: none;
-}
+
+
 
 
 /* ============================================================================
@@ -702,17 +730,19 @@ a.logo {
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.25s ease;
-  color: var(--color-black);
+  color: var(--color-white) !important;
   white-space: nowrap;
+  background-color: black;
 }
 
 .login-btn:hover,
 .login-btn:focus {
   background-color: var(--color-green-light);
-  color: var(--color-black);
+  color: var(--color-black) !important;
   transform: translateY(-3px);
   border: 1.5px solid var(--color-black);
   outline: none;
+  text-decoration: none !important;
 }
 
 /* Logout Button */
@@ -831,8 +861,8 @@ a.logo {
   font-weight: 400;
   font-size: 1rem;
   color: #555;
-  margin-top: 0.5rem;
-  margin-bottom: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 4rem;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -851,13 +881,12 @@ a.logo {
 /* Base Role Card */
 .role-card {
   background-color: #fff;
-  border: 1.8px solid #ccc;
+  border: 1.8px solid #fff;
   border-radius: 8px;
   width: 260px;
   padding: 1rem 1.5rem;
   text-decoration: none;
   color: #000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -868,30 +897,29 @@ a.logo {
 
 .role-card:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  border-color: #8fb951;
 }
 
 /* Student Card */
 .student-card {
-  border: 1.5px solid #8fb951;
+  border: 1.5px solid #000;
   box-shadow: 0 4px 15px rgba(143, 185, 81, 0.15);
 }
 
 .student-card:hover {
   background-color: rgba(185, 255, 102, 0.21);
-  border-color: #8fb951;
+  border-color: #000;
   box-shadow: 0 10px 24px rgba(143, 185, 81, 0.45);
 }
 
 /* Educator Card */
 .educator-card {
-  border: 1.5px solid #a7c657;
+  border: 1.5px solid #000;
   box-shadow: 0 4px 18px rgba(167, 198, 87, 0.25);
 }
 
 .educator-card:hover {
   background-color: rgba(185, 255, 102, 0.21);
-  border-color: #8fb951;
+  border-color: #000;
   box-shadow: 0 10px 24px rgba(143, 185, 81, 0.45);
 }
 
@@ -905,7 +933,6 @@ a.logo {
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 

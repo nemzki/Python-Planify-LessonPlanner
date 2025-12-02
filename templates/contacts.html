@@ -3,12 +3,14 @@
 {% block title %}Contact Us{% endblock %}
 
 {% block content %}
-<div class="contact-container">
+
+    <!-- CONTACT HEADER -->
     <div class="contact-header">
         <h2>Contact Us</h2>
         <p>Connect with Us: Help us to improve our website!</p>
     </div>
 
+    <!-- FORM WRAPPER -->
     <div class="contact-form-wrapper">
         <form class="contact-form" method="POST">
             {{ form.hidden_tag() }}
@@ -40,7 +42,8 @@
             </div>
 
             {{ form.submit(class="submit-btn") }}
+
         </form>
     </div>
-</div>
+
 {% endblock %}
