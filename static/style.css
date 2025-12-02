@@ -134,13 +134,14 @@ a.logo {
 }
 
 
+
 /* ============================================================================
    5. LAYOUT - SIDEBAR
    ============================================================================ */
 
 .sidebar {
   width: 260px;
-  background: var(--color-white);
+  background: #fff;
   min-height: 100vh;
   box-shadow: 2px 0 15px rgba(0, 0, 0, 0.08);
   position: fixed;
@@ -206,13 +207,13 @@ a.logo {
   transform: translateY(-50%);
   width: 4px;
   height: 0;
-  background: var(--color-black);
+  background: var(--color-green-light);
   border-radius: 0 4px 4px 0;
   transition: height 0.3s ease;
 }
 
 .nav-item:hover {
-  background: rgba(128, 128, 128, 0.21);
+  background: rgba(185, 255, 102, .21);;
   color: var(--color-black);
   padding-left: 1.75rem;
 }
@@ -223,7 +224,7 @@ a.logo {
 
 .nav-item.active {
   background: rgba(128, 128, 128, 0.21);
-  color: var(--color-gray-light);
+  color: var(--color-black);
   font-weight: 600;
   padding-left: 1.75rem;
 }
@@ -257,7 +258,7 @@ a.logo {
 .sidebar-footer {
   padding: 1.5rem;
   border-top: 2px solid var(--color-gray-light);
-  background: var(--color-gray-light);
+  background: var(--color-white);
   flex-shrink: 0;
 }
 
@@ -533,16 +534,22 @@ a.logo {
   color: var(--color-black);
 }
 
+.contact-form-wrapper {
+  background: white;
+  padding: 0;
+}
+
 .contact-header {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-bottom: 2rem;
+  background: ;
 }
 
 .contact-header h2 {
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 1rem;
   background-color: var(--color-green-light);
   padding: 0.2rem 0.8rem;
   border-radius: 0.3rem;
@@ -550,8 +557,9 @@ a.logo {
 }
 
 .contact-header p {
-  font-weight: 400;
+  font-weight: 200;
   font-size: 1rem;
+  color: black;
   margin: 0;
 }
 
@@ -562,6 +570,7 @@ a.logo {
   padding: 2rem 3rem;
   gap: 3rem;
   position: relative;
+  border: 1px solid black;
 }
 
 .contact-form {
@@ -583,11 +592,13 @@ a.logo {
   color: var(--color-black);
 }
 
+
 .required {
   color: var(--color-black);
   font-weight: 700;
   margin-left: 0.15rem;
 }
+
 
 .contact-form input[type="text"],
 .contact-form input[type="email"],
@@ -607,7 +618,7 @@ a.logo {
 .contact-form input[type="email"]:focus,
 .contact-form textarea:focus {
   outline: none;
-  border-color: var(--color-green-dark);
+  border-color: var(--color-black);
 }
 
 .contact-form textarea {
@@ -3654,6 +3665,7 @@ textarea.form-input {
 
 .submit-btn.sign-in-btn:hover {
   background-color: #000;
+  color: var(--color-green-light);
   border-color: #fff;
 }
 
