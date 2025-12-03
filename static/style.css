@@ -1351,12 +1351,14 @@ a.logo {
 .plans-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 3px solid var(--color-black);
-  gap: 1.5rem;
+  align-items: center; /* same as courses */
+  height: 60px;        /* match */
+  padding: 0 1rem;     /* match */
+  margin-bottom: 60px; /* same spacing */
+  box-sizing: border-box;
+  border-bottom: none; /* REMOVE underline to match courses */
 }
+
 
 .plans-header > div {
   flex: 1;
@@ -1403,25 +1405,33 @@ a.logo {
 /* Plans Grid */
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.75rem;
-  margin-bottom: 2.5rem;
+  grid-template-columns: repeat(3, 1fr); /* MATCH COURSES */
+  gap: 2rem;                             /* SAME GAP */
+  justify-items: start;
+  padding-bottom: 1rem;
 }
 
-/* Plan Card */
+
 .plan-card {
-  background: var(--color-gray-light);
-  padding: 1.75rem;
-  border-radius: 12px;
-  border: 2px solid transparent;
+  background: #fff;
+  width: 300px;           /* MATCH */
+  height: 204px;          /* MATCH */
+  padding: 1.5rem;        /* MATCH */
+  border-radius: 12px;    /* MATCH */
+  border: 1px solid black;/* MATCH */
+  box-shadow: 0 1px 5px rgba(0,0,0,0.05); /* MATCH */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* MATCH */
   transition: all 0.3s ease;
-  border: 1px solid black;
+  box-sizing: border-box;
 }
+
 
 .plan-card:hover {
-  border-color: var(--color-black);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  border-color: #000;
 }
 
 .plan-card-top {
