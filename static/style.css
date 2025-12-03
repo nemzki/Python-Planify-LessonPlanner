@@ -1348,19 +1348,28 @@ a.logo {
    16. LESSON PLANS - LIST & CARDS
    ============================================================================ */
 
+/* Plans Container */
+.plans-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Plans Header */
 .plans-header {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* same as courses */
-  height: 60px;        /* match */
-  padding: 0 1rem;     /* match */
-  margin-bottom: 60px; /* same spacing */
+  align-items: center;
+  height: 60px;
+  padding: 0 1rem;
+  margin-bottom: 1.5rem;
   box-sizing: border-box;
-  border-bottom: none; /* REMOVE underline to match courses */
 }
 
-
-.plans-header > div {
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   flex: 1;
   min-width: 0;
 }
@@ -1369,15 +1378,45 @@ a.logo {
   font-size: 2rem;
   font-weight: 700;
   color: var(--color-black);
-  margin-bottom: 0.25rem;
+  margin: 0;
+}
+
+/* Back Icon Button */
+.back-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background-color: transparent;
+  border: 2px solid var(--color-black);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.back-icon-btn img {
+  width: 24px;
+  height: 24px;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.back-icon-btn:hover {
+  background-color: var(--color-green-light);
+  transform: translateX(-3px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.back-icon-btn:hover img {
+  transform: translateX(-2px);
 }
 
 .course-subtitle {
-  font-size: 1.1rem;
-  color: var(--color-black);
-  font-weight: 600;
-  margin-top: 0.25rem;
-  word-wrap: break-word;
+  display: none; /* Hide subtitle in header - will show in banner */
 }
 
 .add-btn {
@@ -1388,7 +1427,7 @@ a.logo {
   border-radius: 8px;
   font-weight: 700;
   font-size: 0.9rem;
-  border: 2px solid var(--color-black);
+  border: 1px solid var(--color-black);
   transition: all 0.3s ease;
   white-space: nowrap;
   flex-shrink: 0;
@@ -1396,67 +1435,91 @@ a.logo {
 }
 
 .add-btn:hover {
-  background-color: var(--color-green-dark);
+  background-color: var(--color-black);
   color: var(--color-white);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(86, 130, 3, 0.3);
 }
 
+/* Course Name Banner */
+.course-name-banner {
+  background-color: var(--color-green-light);
+  border: 1px solid var(--color-black);
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.course-name-banner h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-black);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 /* Plans Grid */
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* MATCH COURSES */
-  gap: 2rem;                             /* SAME GAP */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
   justify-items: start;
   padding-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
-
+/* Plan Card */
 .plan-card {
   background: #fff;
-  width: 300px;           /* MATCH */
-  height: 204px;          /* MATCH */
-  padding: 1.5rem;        /* MATCH */
-  border-radius: 12px;    /* MATCH */
-  border: 1px solid black;/* MATCH */
-  box-shadow: 0 1px 5px rgba(0,0,0,0.05); /* MATCH */
+  width: 100%;
+  max-width: 380px;
+  min-height: 220px;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-black);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* MATCH */
+  justify-content: space-between;
   transition: all 0.3s ease;
   box-sizing: border-box;
 }
 
-
 .plan-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  border-color: #000;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-color: var(--color-black);
 }
 
 .plan-card-top {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
   margin-bottom: 1rem;
   gap: 1rem;
 }
 
-.plan-card h3 {
+.plan-card h4 {
   color: var(--color-black);
   font-size: 1.3rem;
   font-weight: 700;
   line-height: 1.3;
   flex: 1;
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .plan-date {
   background-color: var(--color-green-light);
   color: var(--color-black);
-  padding: 0.35rem 0.85rem;
+  padding: 0.4rem 0.9rem;
   border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
   white-space: nowrap;
   border: 1px solid var(--color-black);
 }
@@ -1477,6 +1540,7 @@ a.logo {
 .plan-actions {
   display: flex;
   gap: 0.75rem;
+  margin-top: auto;
 }
 
 .btn-view,
@@ -1487,9 +1551,9 @@ a.logo {
   text-decoration: none;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   transition: all 0.3s ease;
-  border: 2px solid var(--color-black);
+  border: 1px solid var(--color-black);
 }
 
 .btn-view {
@@ -1498,9 +1562,9 @@ a.logo {
 }
 
 .btn-view:hover {
-  background-color: var(--color-green-dark);
-  color: var(--color-white);
-  border-color: var(--color-green-dark);
+  background-color: var(--color-green-light);
+  color: var(--color-black);
+  border-color: var(--color-black);
 }
 
 .btn-edit {
@@ -1529,37 +1593,57 @@ a.logo {
   font-weight: 500;
 }
 
-/* Back Button */
+/* Remove old back button styles */
 .back-btn {
-  display: inline-block;
-  padding: 0.85rem 1.75rem;
-  margin-top: 20px;
-  background-color: var(--color-white);
-  color: var(--color-black);
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 600;
-  border: 2px solid var(--color-black);
-  transition: all 0.3s ease;
+  display: none;
 }
 
-.back-btn:hover {
-  background-color: var(--color-black);
-  color: var(--color-green-light);
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .plans-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
+@media (max-width: 768px) {
+  .plans-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
 
+  .plan-card {
+    max-width: 100%;
+  }
+
+  .plans-header {
+    flex-direction: column;
+    height: auto;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .header-left {
+    width: 100%;
+  }
+
+  .add-btn {
+    width: 100%;
+  }
+}
 /* ============================================================================
    17. LESSON PLANS - VIEW & EDIT
    ============================================================================ */
 
+/* ===== VIEW LESSON PLAN ===== */
 .plan-view-container {
   background: white;
   padding: 3rem;
   border-radius: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  max-width: 900px;
+  width: 1000px;
+  max-width: 95%;
   margin: 2rem auto;
+  min-height: auto;
 }
 
 .plan-header {
@@ -1571,7 +1655,7 @@ a.logo {
   border-bottom: 3px solid #eee;
 }
 
-.plan-header h1 {
+.plan-header h2 {
   font-size: 2rem;
   font-weight: 700;
   color: #000;
@@ -1587,7 +1671,7 @@ a.logo {
 .plan-header .edit-btn {
   padding: 0.65rem 1.25rem;
   color: white;
-  border: 1px solid black;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
@@ -1606,8 +1690,10 @@ a.logo {
 }
 
 .plan-header .edit-btn {
-  background: var(--color-green-light);
+  background: #c5e1a5;
   color: #000;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .plan-header .edit-btn:hover {
@@ -1621,7 +1707,7 @@ a.logo {
 }
 
 .detail-section {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   padding: 1.5rem;
   background: #f8f9fa;
   border-radius: 10px;
@@ -1636,24 +1722,16 @@ a.logo {
 }
 
 .detail-section p {
-  color: #000;
+  color: #333;
   line-height: 1.8;
   font-size: 1rem;
   margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
-/* Learning Materials Section */
-.materials-section {
-  margin-bottom: 2.5rem;
-}
-
-.materials-section h3 {
-  color: #667eea;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
+/* Learning Materials List */
 .materials-list {
   list-style: none;
   padding: 0;
@@ -1662,7 +1740,7 @@ a.logo {
 
 .materials-list li {
   padding: 1rem 1.25rem;
-  background: #f8f9fa;
+  background: white;
   margin-bottom: 0.75rem;
   border-radius: 8px;
   display: flex;
@@ -1673,7 +1751,7 @@ a.logo {
 }
 
 .materials-list li:hover {
-  background: #e9ecef;
+  background: #f0f0f0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -1689,10 +1767,10 @@ a.logo {
 }
 
 .remove-btn {
-    padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem;
   background: #e74c3c;
   color: white;
-  border: 1px solid black;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.875rem;
@@ -1704,149 +1782,210 @@ a.logo {
   background: #c0392b;
 }
 
-/* Metadata Section */
-.metadata-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.back-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #568203;
   color: white;
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-bottom: 2rem;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s;
+  margin-top: 1rem;
 }
 
-.metadata-section h3 {
-  color: white;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
+.back-btn:hover {
+  background: #456a02;
 }
 
-.metadata-section p {
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
+/* ===== EDIT LESSON PLAN ===== */
+.form-container {
+  background: white;
+  padding: 3rem;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  width: 1000px;
+  max-width: 95%;
+  margin: 2rem auto;
 }
 
-.metadata-section p:last-child {
-  margin-bottom: 0;
-}
-
-.metadata-section strong {
+.form-container h2 {
+  font-size: 2rem;
   font-weight: 700;
+  color: #000;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #eee;
 }
 
-/* Add Course Form Container */
-.add-course-form-container {
-  background: white;
-  padding: 3rem 3rem;
-  border-radius: 15px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  max-width: 700px;
-  margin: 4rem auto;
-  width: 120%;
-  box-sizing: border-box;
-}
-
-.add-course-form-container h2 {
-  margin-bottom: 1rem;
-}
-
-.add-course-form-container .form-group {
+.form-group {
   margin-bottom: 1.8rem;
 }
 
-.add-course-form-container .form-input,
-.add-course-form-container textarea.form-input,
-.add-course-form-container .submit-btn,
-.add-course-form-container .cancel-btn {
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 1rem;
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
 }
 
-.add-course-form-container textarea.form-input {
-  min-height: 140px;
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #568203;
+  box-shadow: 0 0 0 3px rgba(86, 130, 3, 0.1);
+}
+
+textarea.form-input {
+  min-height: 120px;
   resize: vertical;
-  margin-bottom: 2rem;
 }
 
-.add-course-form-container .submit-btn {
-  margin-bottom: 2rem;
+/* Current Materials Display in Edit Form */
+.form-group h4 {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
 }
 
-/* Add Lesson Form Container */
-.add-lesson-form-container {
+.form-group .materials-list {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.form-group .materials-list li {
   background: white;
-  padding: 3rem 3rem;
-  border-radius: 15px;
-  border-weight: 1px solid black;
-  max-width: 800px;
-  margin: 4rem auto;
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e0e0e0;
+  font-size: 0.95rem;
+  color: #555;
 }
 
-.add-lesson-form-container .form-input,
-.add-lesson-form-container textarea.form-input,
-.add-lesson-form-container .submit-btn,
-.add-lesson-form-container .cancel-btn {
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 1rem;
+.info {
+  display: block;
+  font-size: 0.875rem;
+  color: #666;
+  margin-top: 0.5rem;
+  font-style: italic;
 }
 
-/* Edit Course Layout */
-.edit-course-wrapper {
-  width: 200%;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: none;
-}
-
-.edit-course-card {
-  width: 100%;
-  max-width: 700px;
-  background: #fff;
-  padding: 2.5rem;
-  border-radius: 14px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
-}
-
-.form-title {
-  margin-bottom: 1.8rem;
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #222;
-}
-
-/* Danger Zone */
-.danger-zone {
-  margin-top: 3rem;
-  padding: 1.5rem;
-  border: 2px solid #e74c3c;
-  background: rgba(255, 0, 0, 0.05);
-  border-radius: 10px;
-}
-
-.danger-zone h3 {
+.error {
+  display: block;
   color: #e74c3c;
-  margin-bottom: 1rem;
-  font-weight: 600;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
 }
 
-.danger-zone .delete-btn {
-  background: #e74c3c;
-  color: #fff;
-  padding: 0.7rem 1.3rem;
+/* Form Buttons */
+.submit-btn {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: #c5e1a5;
+  color: #000;
   border: none;
   border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.3s;
+  margin-bottom: 1rem;
 }
 
-.danger-zone .delete-btn:hover {
-  background: #d32f2f;
+.submit-btn:hover {
+  background: #568203;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(86, 130, 3, 0.3);
 }
 
+.cancel-btn {
+  display: block;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: #e0e0e0;
+  color: #333;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-sizing: border-box;
+}
+
+.cancel-btn:hover {
+  background: #d0d0d0;
+}
+
+/* File Input Styling */
+input[type="file"].form-input {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+input[type="file"].form-input::file-selector-button {
+  padding: 0.5rem 1rem;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 1rem;
+  transition: all 0.3s;
+}
+
+input[type="file"].form-input::file-selector-button:hover {
+  background: #e0e0e0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .plan-view-container,
+  .form-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .plan-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .plan-header .actions {
+    width: 100%;
+  }
+
+  .plan-header .actions .edit-btn,
+  .plan-header .actions .delete-btn {
+    flex: 1;
+  }
+
+  .materials-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .remove-btn {
+    width: 100%;
+  }
+}
 
 /* ============================================================================
    18. ATTENDANCE - RECORDING

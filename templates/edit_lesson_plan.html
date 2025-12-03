@@ -1,70 +1,56 @@
 {% extends "educator_base.html" %}
 
 {% block content %}
-<div class="form-container">
-    <h2>Edit Lesson Plan</h2>
-
-    <form method="POST" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-
-        <div class="form-group">
-            {{ form.title.label }}
-            {{ form.title(class="form-input") }}
-            {% if form.title.errors %}
-                <small class="error">{{ form.title.errors[0] }}</small>
-            {% endif %}
+<div class="plans-container">
+    <div class="plan-section">
+        <!-- Header with Back Icon, Title and Create Button -->
+        <div class="plans-header">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <a href="{{ url_for('educator_courses') }}" class="back-icon-btn" title="Back to Courses">
+                    <img src="{{ url_for('static', filename='icons/icons8-back-sf-black-32.png') }}" alt="Back" style="width: 32px; height: 32px; display: block;">
+                </a>
+                <h2>Lesson Plans</h2>
+            </div>
+            <a href="{{ url_for('add_lesson_plan', course_id=course.id) }}" class="add-btn">
+                + Create Lesson Plan
+            </a>
         </div>
 
-        <div class="form-group">
-            {{ form.topic.label }}
-            {{ form.topic(class="form-input") }}
-            {% if form.topic.errors %}
-                <small class="error">{{ form.topic.errors[0] }}</small>
-            {% endif %}
+        <!-- Course Name Banner -->
+        <div class="course-name-banner">
+            <h3>{{ course.course_name }}</h3>
         </div>
 
-        <div class="form-group">
-            {{ form.objectives.label }}
-            {{ form.objectives(class="form-input", rows="5") }}
-            {% if form.objectives.errors %}
-                <small class="error">{{ form.objectives.errors[0] }}</small>
-            {% endif %}
-        </div>
+        <!-- Lesson Plans Grid -->
+        <div class="plans-grid">
+            {% if lesson_plans %}
+                {% for plan in lesson_plans %}
+                <div class="plan-card">
+                    <div class="plan-card-top">
+                        <h4>{{ plan.title }}</h4>
+                        <span class="plan-date">{{ plan.created_at.strftime('%b %d, %Y') }}</span>
+                    </div>
 
-        <div class="form-group">
-            {{ form.description.label }}
-            {{ form.description(class="form-input", rows="6") }}
-            {% if form.description.errors %}
-                <small class="error">{{ form.description.errors[0] }}</small>
-            {% endif %}
-        </div>
+                    <p class="plan-topic">
+                        <strong>Topic:</strong> {{ plan.topic or 'Not specified' }}
+                    </p>
 
-        <div class="form-group">
-            <h4>Current Materials</h4>
-            {% if plan.materials %}
-                <ul class="materials-list">
-                    {% for material in plan.materials %}
-                    <li>{{ material.filename }}</li>
-                    {% endfor %}
-                </ul>
+                    <div class="plan-actions">
+                        <a href="{{ url_for('view_lesson_plan', plan_id=plan.id) }}" class="btn-view">
+                            View Details
+                        </a>
+                        <a href="{{ url_for('edit_lesson_plan', plan_id=plan.id) }}" class="btn-edit">
+                            Edit
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
             {% else %}
-                <p>No materials yet</p>
+                <div class="empty-state">
+                    <p>No lesson plans yet. Create your first one!</p>
+                </div>
             {% endif %}
         </div>
-
-        <div class="form-group">
-            {{ form.materials.label }}
-            {{ form.materials(class="form-input") }}
-            <small class="info">Upload additional materials (existing ones will be kept)</small>
-            {% if form.materials.errors %}
-                <small class="error">{{ form.materials.errors[0] }}</small>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.submit(class="submit-btn") }}
-            <a href="{{ url_for('view_lesson_plan', plan_id=plan.id) }}" class="cancel-btn">Cancel</a>
-        </div>
-    </form>
+    </div>
 </div>
 {% endblock %}
