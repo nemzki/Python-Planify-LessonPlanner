@@ -1,108 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1" />
-   <title>Planify | {% block title %}{% endblock %}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Planify | {% block title %}{% endblock %}</title>
 
-
-   <!-- Custom CSS -->
-   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-   {% block head %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    {% block head %}{% endblock %}
 </head>
-
 
 <body>
 
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="logo">
+                <img src="{{ url_for('static', filename='pictures/logo.png') }}" alt="Planify logo" class="logo-img" />
+            </a>
 
-   <!-- NAVIGATION BAR -->
-   <nav class="navbar">
-       <div class="nav-container">
-           <a href="{{ url_for('home') }}" class="logo">
-           <img src="{{ url_for('static', filename='pictures/logo.png') }}" alt="Planify logo" class="logo-img" />
-       </a>
-           </a>
-
-
-
-
-           <ul class="nav-links">
-               {% if current_user.is_authenticated %}
-                   <li><a href="{{ url_for('logout') }}" class="logout">Logout</a></li>
-               {% else %}
-                   <li><a href="{{ url_for('home') }}">Home</a></li>
-                   <li><a href="{{ url_for('about_us') }}">About Us</a></li>
-                   <li><a href="{{ url_for('contacts') }}">Contact</a></li>
-                   <li><a href="{{ url_for('login') }}" class="login-btn">Login</a></li>
-               {% endif %}
-           </ul>
-       </div>
-   </nav>
-
-
-   <!-- MAIN CONTENT -->
-   <main class="content">
-       {% block content %}
-       {% endblock %}
-   </main>
-
-   <!-- FLASH MESSAGES -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-<div class="flash-container">
-    {% for category, message in messages %}
-        <div class="flash-message flash-{{ category }}">
-            <span>{{ message }}</span>
-            <button class="flash-close" onclick="this.parentElement.remove()">✖</button>
+            <ul class="nav-links">
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('logout') }}" class="logout">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('about_us') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+                    <li><a href="{{ url_for('login') }}" class="login-btn">Login</a></li>
+                {% endif %}
+            </ul>
         </div>
-    {% endfor %}
-</div>
-{% endif %}
-{% endwith %}
+    </nav>
 
+    <!-- MAIN CONTENT -->
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
 
-   <!-- FOOTER -->
-   <footer class="footer">
-       <p>© 2025 Planify. All Rights Reserved.</p>
-   </footer>
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-container">
+        {% for category, message in messages %}
+            <div class="flash-message flash-{{ category }}">
+                <span>{{ message }}</span>
+                <button class="flash-close" onclick="this.parentElement.remove()">✖</button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
 
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2025 Planify. All Rights Reserved.</p>
+    </footer>
 
-   <!-- MAIN SCRIPT -->
-   <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
+    {% block scripts %}{% endblock %}
 
-   {% block scripts %}{% endblock %}
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+    <!-- FLASH ANIMATION FIXED -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const flashes = document.querySelectorAll('.flash-message');
 
-    const flashes = document.querySelectorAll('.flash');
-
-    flashes.forEach(flash => {
-
-        setTimeout(() => {
-
-            flash.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-            flash.style.opacity = '0';
-            flash.style.transform = 'translateY(-10px)';
-
-
-            setTimeout(() => flash.remove(), 500);
-        }, 3000);
-
-
-        const closeBtn = flash.querySelector('.flash-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
+        flashes.forEach(flash => {
+            setTimeout(() => {
                 flash.style.transition = "opacity 0.5s ease, transform 0.5s ease";
                 flash.style.opacity = '0';
                 flash.style.transform = 'translateY(-10px)';
+
                 setTimeout(() => flash.remove(), 500);
-            });
-        }
+            }, 3000);
+
+            const closeBtn = flash.querySelector('.flash-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    flash.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                    flash.style.opacity = '0';
+                    flash.style.transform = 'translateY(-10px)';
+                    setTimeout(() => flash.remove(), 500);
+                });
+            }
+        });
     });
-});
-</script>
+    </script>
 
 </body>
 </html>
-

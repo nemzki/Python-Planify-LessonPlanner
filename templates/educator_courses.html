@@ -2,14 +2,9 @@
 
 {% block content %}
 <div class="courses-container">
-    <div class="banner">
-        <h1>My Courses</h1>
-        <p>Manage your courses, lesson plans, and attendance</p>
-    </div>
-
     <div class="courses-section">
         <div class="section-header">
-            <h3>Your Courses</h3>
+            <h1>Courses</h1>
             <a href="{{ url_for('add_course') }}" class="add-course-btn">+ Add New Course</a>
         </div>
 
@@ -18,7 +13,7 @@
                 {% for course in courses %}
                 <div class="course-card">
                     <div class="course-header">
-                        <h3>{{ course.course_name }}</h3>
+                        <h4>{{ course.course_name }}</h4>
                         <span class="course-code">{{ course.course_code }}</span>
                     </div>
 
