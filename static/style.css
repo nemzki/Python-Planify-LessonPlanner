@@ -2330,200 +2330,184 @@ input[type="file"].form-input::file-selector-button:hover {
    18. ATTENDANCE - RECORDING
    ============================================================================ */
 
-.attendance-container {
-  width: calc(100% + 4rem);
-  max-width: none;
-  margin: 0 -2rem;
-  padding: 2rem 3rem;
+.main-content:has(.attendance-container) {
+    background: #ffffff !important;
+    padding: 0 !important;
 }
 
-/* Header with back button and history */
+.main-content .content:has(.attendance-container) {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0;
+}
+
+
+.attendance-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.attendance-container > * {
+    width: 100%;
+}
+
+
+
+/* --------------------------------------------
+   HEADER ROW (Back + Title + History Button)
+--------------------------------------------- */
 .attendance-header-with-back-history {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;        /* vertical align everything */
+    padding: 18px 20px;
+    border-bottom: 1px solid #dcdcdc;
+    background: #fafafa;
 }
 
 .header-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+    display: flex;
+    align-items: center;        /* center back icon + title */
+    gap: 12px;
 }
 
 .header-left h2 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.back-icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: #f8f9fa;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  transition: all 0.3s;
-}
-
-.back-icon-btn:hover {
-  background: #e9ecef;
-  transform: translateX(-3px);
+    margin: 0;                  /* remove default browser margin */
+    padding: 0;
+    line-height: 1.1;           /* tight & clean vertical alignment */
 }
 
 .back-icon-btn img {
-  width: 20px;
-  height: 20px;
+    width: 34px;
+    height: 34px;
+    padding: 6px;
+    border: 1px solid #cfcfcf;
+    border-radius: 6px;
+    display: block;
 }
 
-/* Date form inline */
+/* History Button */
+.view-history-btn {
+    background: #B9FF66;
+    padding: 4px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #000;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    height: 34px;
+}
+
+
+/* --------------------------------------------
+   SEARCH DATE BAR (Grey strip)
+--------------------------------------------- */
 .date-form-inline {
-  margin-bottom: 1.5rem;
+    width: 100%;
+    border-bottom: 1px solid #dcdcdc;
+    background: #f2f2f2;
+    padding: 12px 20px;
 }
 
 .form-row-inline {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .form-group-search {
-  flex: 0 0 250px;
-  max-width: 250px;
-}
-
-.form-group-search label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .form-input-date {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
+    border: 1px solid #c8c8c8;
+    padding: 4px 6px;
+    border-radius: 4px;
 }
 
+/* View Date Button */
 .submit-btn-green {
-  padding: 0.75rem 2rem;
-  background: #B9FF66;
-  color: #000;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s;
+    background: #B9FF66;
+    border: 1px solid black;
+    padding: 4px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: black;
 }
 
-.submit-btn-green:hover {
-  background: #a8ee55;
-  transform: translateY(-2px);
-}
-
-/* Date and Save row */
+/* --------------------------------------------
+   DATE + SAVE ROW
+--------------------------------------------- */
 .date-save-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+    background: #f7f7f7;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .date-save-row h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #333;
+    font-size: 14px;
+    font-weight: 600;
 }
 
-/* Attendance Table */
+/* Save button (small) */
+.date-save-row button {
+    background: #B9FF66;
+    padding: 4px 18px;
+    border: 1px solid black;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+/* --------------------------------------------
+   ATTENDANCE TABLE
+--------------------------------------------- */
 .attendance-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 2rem;
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.attendance-table th,
-.attendance-table td {
-  padding: 1rem;
-  text-align: center;
-  border-bottom: 1px solid #e0e0e0;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14px;
 }
 
 .attendance-table th {
-  background: #f8f9fa;
-  font-weight: 600;
-  color: #333;
-  text-align: left;
-  border-right: 1px solid #e0e0e0;
-}
-
-.attendance-table th:first-child {
-  text-align: left;
-}
-
-.attendance-table th:not(:first-child) {
-  text-align: center;
-}
-
-.attendance-table th:last-child {
-  border-right: none;
+    background: #efefef;
+    padding: 10px 0;
+    border: 1px solid #dcdcdc;
+    font-weight: 600;
 }
 
 .attendance-table td {
-  text-align: center;
-  border-right: 1px solid #e0e0e0;
+    padding: 10px 0;
+    border: 1px solid #e1e1e1;
 }
 
-.attendance-table td:first-child {
-  text-align: left;
-  font-weight: 500;
+.attendance-table tr:hover {
+    background: #fafafa;
 }
 
-.attendance-table td:last-child {
-  border-right: none;
-}
-
-.attendance-table tbody tr:hover {
-  background: #f9f9f9;
-}
-
-.attendance-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
+/* Radio buttons */
 .attendance-table input[type="radio"] {
-  cursor: pointer;
-  width: 18px;
-  height: 18px;
+    transform: scale(1.1);
+    cursor: pointer;
 }
 
-.view-history-btn {
-  padding: 0.75rem 1.5rem;
-  background: #B9FF66;
-  color: #000;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s;
-  text-decoration: none;
+/* Empty state */
+.empty-state {
+    padding: 20px;
+    text-align: center;
+    color: #777;
 }
 
-.view-history-btn:hover {
-  background: #a8ee55;
-  transform: translateY(-2px);
-}
+
+
 
 
 /* ============================================================================
