@@ -3,7 +3,12 @@
 {% block content %}
 <div class="attendance-history-container">
     <div class="history-header">
-        <h2>Attendance History - {{ course.course_name }}</h2>
+        <div class="header-left">
+            <a href="{{ url_for('educator_courses') }}" class="back-icon-btn">
+                <img src="{{ url_for('static', filename='pictures/back-button.png') }}" alt="Back">
+            </a>
+            <h2>Attendance History - {{ course.course_name }}</h2>
+        </div>
         <div class="header-actions">
             <a href="{{ url_for('course_attendance', course_id=course.id) }}" class="record-new-btn">
                 ➕ Record New Attendance
@@ -85,7 +90,5 @@
             </a>
         </div>
     {% endif %}
-
-    <a href="{{ url_for('educator_courses') }}" class="back-btn">← Back to Courses</a>
 </div>
 {% endblock %}

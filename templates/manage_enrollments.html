@@ -2,7 +2,14 @@
 
 {% block content %}
 <div class="enrollment-container">
-    <h2>Manage Enrollments - {{ course.course_name }}</h2>
+    <div class="enrollment-header">
+        <div class="header-left">
+            <a href="{{ url_for('educator_courses') }}" class="back-icon-btn">
+                <img src="{{ url_for('static', filename='pictures/back-button.png') }}" alt="Back">
+            </a>
+            <h2>Manage Enrollments - {{ course.course_name }}</h2>
+        </div>
+    </div>
 
     <div class="enroll-form">
         <h3>Enroll New Student</h3>
@@ -57,7 +64,5 @@
             <p class="empty-state">No students enrolled yet.</p>
         {% endif %}
     </div>
-
-    <a href="{{ url_for('educator_courses') }}" class="back-btn">Back to Courses</a>
 </div>
 {% endblock %}
