@@ -12,8 +12,354 @@
   --color-black: #000000;
   --color-gray-light: #F3F3F3;
   --color-white: #FFFFFF;
+  --color-primary: #5D8736;
+  --color-accent: #B9FF66;
+  --color-muted: #6b7280;
+  --color-danger: #e74c3c;
+  --color-success: #2ecc71;
+  --surface: #fbfbfb;
 }
 
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #111;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Normalize images and media */
+img, picture, video, canvas, svg {
+  max-width: 100%;
+  display: block;
+}
+
+  /* Layout */
+  --container-max-width: 1200px;
+  --gap: 1rem;
+  --radius: 8px;
+
+  /* Accessibility / focus */
+  --focus-ring: 3px solid #B9FF66;
+
+  /* Timings */
+  --fast: 150ms ease-in-out;
+}
+
+/* ---------------------------
+   Utility classes
+   --------------------------- */
+.container {
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+.center { display: flex; align-items: center; justify-content: center; }
+.rounded { border-radius: var(--radius); }
+.shadow-sm { box-shadow: 0 6px 18px rgba(0,0,0,0.04); }
+
+/* ---------------------------
+   Accessibility helpers
+   --------------------------- */
+/* Skip link hidden until keyboard focus */
+.skip-link {
+  position: absolute; left: -999px; top: auto;
+  width: 1px; height: 1px; overflow: hidden;
+  z-index: 10000;
+}
+.skip-link:focus,
+.skip-link:active {
+  left: 1rem; top: 1rem; width: auto; height: auto;
+  padding: 0.5rem 0.9rem; background: var(--color-white);
+  color: var(--color-black); border-radius: 4px; box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* External links hint for screen readers */
+a[target="_blank"]::after {
+  content: " (opens in a new tab)";
+  font-size: 0;
+  height: 0;
+  overflow: hidden;
+  display: inline-block;
+}
+
+/* ---------------------------
+   Base components (links, buttons)
+   --------------------------- */
+a { color: inherit; text-decoration: none; }
+a:hover, a:focus { text-decoration: none; }
+
+button,
+.button,
+.action-btn,
+.add-btn,
+.edit-btn,
+.delete-btn,
+.login-btn,
+.logout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 700;
+  transition: all var(--fast);
+  min-height: 38px;
+}
+
+/* Secondary / neutral */
+.cancel-btn {
+  background: var(--color-green-light) !important;
+  border: 1px solid #000;
+  color: var(--color-black) !important;
+}
+
+/* Edit button (improved contrast) */
+.edit-btn {
+  background: var(--color-black);
+  color: var(--color-accent);
+}
+.edit-btn:hover { background: var(--color-primary); color: var(--color-white); }
+
+/* Delete button */
+.delete-btn { background: var(--color-danger); color: white; }
+.delete-btn:hover { background: #c0392b; }
+
+/* Make sure interactive items have keyboard-friendly targets */
+button:focus-visible,
+a:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
+
+/* ---------------------------
+   Layout: Navbar & Header
+   --------------------------- */
+.navbar {
+  background: var(--color-white);
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0; z-index: 50;
+}
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding: 0.75rem 0;
+}
+.logo { display: inline-flex; align-items: center; gap: .5rem; }
+.logo-img { height: 40px; width: auto; display: block; }
+
+/* Nav links list */
+.nav-links {
+  display: flex;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0; padding: 0;
+}
+.nav-links a { padding: 0.45rem 0.75rem; border-radius: 6px; }
+.nav-links a:hover { background: var(--color-green-light); }
+
+/* Inline form (e.g., logout) */
+.inline-form { display: inline; margin: 0; padding: 0; }
+
+/* ---------------------------
+   Layout: Educator / Sidebar
+   --------------------------- */
+.educator-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+.sidebar {
+  width: 260px;
+  background: var(--color-white);
+  border-right: 1px solid #eee;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.sidebar .sidebar-header { display: flex; align-items: center; gap: .5rem; }
+.sidebar-nav { display: flex; flex-direction: column; gap: .25rem; margin-top: .5rem; }
+.sidebar-nav .nav-item {
+  display: flex; gap: .75rem; align-items: center; padding: .6rem; border-radius: 8px;
+}
+.sidebar-nav .nav-item:hover { background: rgba(93,135,54,0.06); }
+
+/* main content */
+.main-content { flex: 1; display: flex; flex-direction: column; }
+.main-content .content { padding: 2rem; flex: 1; max-width: var(--container-max-width); margin: 0 auto; }
+
+/* ---------------------------
+   Forms & Inputs
+   --------------------------- */
+.form-container,
+.add-lesson-form-container {
+  background: var(--color-white);
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  border: 1px solid #eee;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.add-lesson-form-group { margin-bottom: 1rem; display: flex; flex-direction: column; }
+.add-lesson-form-group label { font-weight: 700; margin-bottom: .35rem; }
+
+.form-input,
+textarea.form-input,
+select.form-input,
+input[type="text"],
+input[type="file"] {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  font-size: 1rem; color: var(--color-black);
+  background: var(--color-white);
+}
+.form-input:focus { outline: none; box-shadow: 0 0 0 4px rgba(93,135,54,0.06); border-color: var(--color-primary); }
+
+/* Helper text & errors */
+.hint { font-size: .9rem; color: var(--color-muted); }
+.error { color: var(--color-danger); font-size: .95rem; }
+
+/* ---------------------------
+   Lesson Plans / Cards
+   --------------------------- */
+.plans-container { padding: 2rem 0; }
+.plans-header {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: var(--gap); margin-bottom: 1rem; flex-wrap: wrap;
+}
+.header-left { display: flex; gap: 1rem; align-items: center; }
+
+.course-name-banner {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid #f0f0f0;
+}
+
+/* grid responsive */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.plan-card {
+  background: var(--color-white);
+  padding: 1rem; border-radius: 10px; border: 1px solid #eee;
+  display: flex; flex-direction: column; gap: .5rem;
+}
+.plan-card h4 { margin: 0; color: var(--color-black); }
+.plan-actions { display: flex; gap: .5rem; margin-left: auto; }
+
+/* focus style for cards */
+.plan-card:focus-within { box-shadow: 0 0 0 4px rgba(93,135,54,0.06); }
+
+/* ---------------------------
+   Courses list
+   --------------------------- */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+.course-card {
+  padding: 1rem; background: var(--color-white); border-radius: 10px; border: 1px solid #eee;
+}
+
+/* ---------------------------
+   Back button & small components
+   --------------------------- */
+.back-icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 8px; border: 1px solid #ddd;
+  background: transparent; color: inherit; text-decoration: none;
+}
+.back-icon-btn img { width: 24px; height: 24px; display: block; }
+
+/* ---------------------------
+   Flash messages
+   --------------------------- */
+.flash-container {
+  position: fixed; top: 1rem; right: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: .5rem;
+}
+.flash-message {
+  background: var(--color-white); border: 1px solid #e6e6e6; padding: .75rem 1rem;
+  border-radius: 8px; display: flex; gap: .75rem; align-items: center; min-width: 220px;
+}
+.flash-success { border-left: 4px solid var(--color-success); }
+.flash-error   { border-left: 4px solid var(--color-danger); }
+.flash-info    { border-left: 4px solid var(--color-primary); }
+
+/* ---------------------------
+   Typography tweaks
+   --------------------------- */
+h1,h2,h3,h4,h5,h6 { color: var(--color-black); margin: 0 0 .5rem 0; line-height: 1.2; }
+p { margin: 0 0 .75rem 0; color: var(--color-muted); }
+
+/* ---------------------------
+   Responsive breakpoints
+   --------------------------- */
+@media (max-width: 1024px) {
+  .sidebar { width: 220px; }
+}
+
+@media (max-width: 768px) {
+  .nav-container { flex-direction: column; align-items: stretch; gap: .5rem; }
+  .sidebar { display: none; }
+  .main-content .content { padding: 1.25rem; }
+  .plans-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  button, .action-btn, .add-btn, .edit-btn { min-height: 44px; font-size: 1rem; padding: .75rem 1rem; }
+  .logo-img { height: 36px; }
+}
+
+/* ---------------------------
+   Small helpers (avoid repetition)
+   --------------------------- */
+.kv { display: flex; gap: .5rem; align-items: center; }
+.small { font-size: .9rem; }
+.muted { color: var(--color-muted); }
+
+/* End of stylesheet */
 
 /* ============================================================================
    2. RESET & BASE STYLES
