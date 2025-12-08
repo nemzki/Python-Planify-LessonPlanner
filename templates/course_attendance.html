@@ -2,25 +2,37 @@
 
 {% block content %}
 <div class="attendance-container">
-    <div class="attendance-header-with-history">
-        <h2>Record Attendance - {{ course.course_name }}</h2>
+    <div class="attendance-header-with-back-history">
+        <div class="header-left">
+            <a href="{{ url_for('educator_courses') }}" class="back-icon-btn">
+                <img src="{{ url_for('static', filename='pictures/back-button.png') }}" alt="Back">
+            </a>
+            <h2>Record Attendance - {{ course.course_name }}</h2>
+        </div>
         <a href="{{ url_for('attendance_history', course_id=course.id) }}" class="view-history-btn">
-            📋 View History
+            View History
         </a>
     </div>
 
-    <form method="POST" class="date-form">
+    <form method="POST" class="date-form-inline">
         {{ form.hidden_tag() }}
-        <div class="form-group-inline">
-            {{ form.date.label }}
-            {{ form.date(class="form-input") }}
-            {{ form.submit(value="View Date", class="submit-btn-small") }}
+        <div class="form-row-inline">
+            <div class="form-group-search">
+                <label>Search Attendance</label>
+                {{ form.date(class="form-input-date") }}
+            </div>
+            {{ form.submit(value="View Date", class="submit-btn-green") }}
         </div>
     </form>
 
-    <h3>Date: {{ selected_date.strftime('%B %d, %Y') }}</h3>
+    <div class="date-save-row">
+        <h3>Date: {{ selected_date.strftime('%B %d, %Y') }}</h3>
+        {% if students %}
+            <button type="submit" form="attendance-form" class="submit-btn-green">Save</button>
+        {% endif %}
+    </div>
 
-    <form method="POST" action="{{ url_for('record_attendance') }}">
+    <form method="POST" action="{{ url_for('record_attendance') }}" id="attendance-form">
         <input type="hidden" name="course_id" value="{{ course.id }}">
         <input type="hidden" name="date" value="{{ selected_date }}">
 
@@ -59,13 +71,9 @@
             </tbody>
         </table>
 
-        {% if students %}
-            <button type="submit" class="submit-btn">Save Attendance</button>
-        {%
- else %}
+        {% if not students %}
             <p class="empty-state">No students enrolled in this course yet.</p>
         {% endif %}
     </form>
-    <a href="{{ url_for('educator_courses') }}" class="back-btn">← Back to Courses</a>
 </div>
 {% endblock %}

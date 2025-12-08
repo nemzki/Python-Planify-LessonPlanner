@@ -2053,7 +2053,9 @@ a.logo {
   padding: 1.5rem;
   background: #f7fdef;
   border-radius: 10px;
-  border-left: 5px solid #000;
+  border-left: 4px solid #568203;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .detail-section h3 {
@@ -2329,39 +2331,115 @@ input[type="file"].form-input::file-selector-button:hover {
    ============================================================================ */
 
 .attendance-container {
-  background: white;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  width: calc(100% + 4rem);
+  max-width: none;
+  margin: 0 -2rem;
+  padding: 2rem 3rem;
 }
 
-.date-form {
-  margin-bottom: 2rem;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-}
-
-.form-group-inline {
+/* Header with back button and history */
+.attendance-header-with-back-history {
   display: flex;
-  gap: 1rem;
-  align-items: end;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e0e0e0;
 }
 
-.form-group-inline label {
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-left h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.back-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.back-icon-btn:hover {
+  background: #e9ecef;
+  transform: translateX(-3px);
+}
+
+.back-icon-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Date form inline */
+.date-form-inline {
+  margin-bottom: 1.5rem;
+}
+
+.form-row-inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.form-group-search {
+  flex: 0 0 250px;
+  max-width: 250px;
+}
+
+.form-group-search label {
+  display: block;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  display: block;
+  color: #333;
 }
 
-.submit-btn-small {
-  padding: 0.75rem 1.5rem;
-  background: #000;
-  color: white;
+.form-input-date {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.submit-btn-green {
+  padding: 0.75rem 2rem;
+  background: #B9FF66;
+  color: #000;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  transition: all 0.3s;
+}
+
+.submit-btn-green:hover {
+  background: #a8ee55;
+  transform: translateY(-2px);
+}
+
+/* Date and Save row */
+.date-save-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.date-save-row h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
 }
 
 /* Attendance Table */
@@ -2369,19 +2447,59 @@ input[type="file"].form-input::file-selector-button:hover {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 2rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .attendance-table th,
 .attendance-table td {
   padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #eee;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .attendance-table th {
   background: #f8f9fa;
   font-weight: 600;
   color: #333;
+  text-align: left;
+  border-right: 1px solid #e0e0e0;
+}
+
+.attendance-table th:first-child {
+  text-align: left;
+}
+
+.attendance-table th:not(:first-child) {
+  text-align: center;
+}
+
+.attendance-table th:last-child {
+  border-right: none;
+}
+
+.attendance-table td {
+  text-align: center;
+  border-right: 1px solid #e0e0e0;
+}
+
+.attendance-table td:first-child {
+  text-align: left;
+  font-weight: 500;
+}
+
+.attendance-table td:last-child {
+  border-right: none;
+}
+
+.attendance-table tbody tr:hover {
+  background: #f9f9f9;
+}
+
+.attendance-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 .attendance-table input[type="radio"] {
@@ -2390,30 +2508,21 @@ input[type="file"].form-input::file-selector-button:hover {
   height: 18px;
 }
 
-/* Attendance Header with History */
-.attendance-header-with-history {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
 .view-history-btn {
-  padding: 0.65rem 0.65rem;
-  background: #000;
-  color: white;
+  padding: 0.75rem 1.5rem;
+  background: #B9FF66;
+  color: #000;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 600px;
+  font-weight: 600;
   transition: all 0.3s;
-  margin-left: 10px;
+  text-decoration: none;
 }
 
 .view-history-btn:hover {
-  background: var(--color-green-light);
+  background: #a8ee55;
   transform: translateY(-2px);
-  color: black;
 }
 
 
