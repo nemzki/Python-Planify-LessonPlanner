@@ -3,7 +3,12 @@
 {% block content %}
 <div class="plan-view-container">
     <div class="plan-header">
-        <h2>{{ plan.title }}</h2>
+        <div class="header-with-back">
+            <a href="{{ url_for('course_lesson_plans', course_id=plan.course_id) }}" class="back-icon-btn" title="Back to Lesson Plans">
+                <img src="{{ url_for('static', filename='pictures/back-button.png') }}" alt="Back">
+            </a>
+            <h2>{{ plan.title }}</h2>
+        </div>
         <div class="actions">
             <a href="{{ url_for('edit_lesson_plan', plan_id=plan.id) }}" class="edit-btn">Edit</a>
             <form method="POST" action="{{ url_for('delete_lesson_plan', plan_id=plan.id) }}"
@@ -55,7 +60,5 @@
             <p><strong>Last Updated:</strong> {{ plan.updated_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
         </div>
     </div>
-
-    <a href="{{ url_for('course_lesson_plans', course_id=plan.course_id) }}" class="back-btn">Back to Lesson Plans</a>
 </div>
 {% endblock %}
