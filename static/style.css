@@ -13,7 +13,7 @@
   --color-black: #000000;
   --color-danger: #dc3545;
   --color-gray-light: #F3F3F3;
-  --color-green-dark: #568203;
+  --color-green-lighter: #E0FFC2;
   --color-green-light: #B9FF66;
   --color-muted: #6b7280;
   --color-primary: #568203;
@@ -1614,8 +1614,8 @@ a.logo {
 }
 
 .action-btn:hover {
-  background-color: #33691E;
-  color: #fff;
+  background-color: #E0FFC2;
+  color: #000;
 }
 
 
@@ -1636,8 +1636,8 @@ a.logo {
 }
 
 .edit-btn:hover {
-  background-color: #33691E;
-  color: white;
+  background-color: #E0FFC2;
+  color: #000;
   border: 1px solid #000000;
 }
 
@@ -1861,7 +1861,7 @@ a.logo {
     background: var(--color-white);
     padding: 2.5rem;
     border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
     border: 1px solid #000000;
     width: 100%;
     box-sizing: border-box;
@@ -1873,7 +1873,7 @@ a.logo {
     font-size: 1.75rem;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
-    border-bottom: 2px solid var(--color-green-light);
+    border-bottom: 2px solid var(--color-black);
     font-weight: 700;
 }
 
@@ -2416,7 +2416,7 @@ a.logo {
 .detail-section {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: #f7fdef;
+  background: #f2f2f2;
   border-radius: 10px;
   border-left: 4px solid black;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
