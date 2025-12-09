@@ -3130,7 +3130,7 @@ input[type="file"].form-input::file-selector-button:hover {
   background: white;
   padding: 2.5rem;
   border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -3141,7 +3141,7 @@ input[type="file"].form-input::file-selector-button:hover {
   align-items: center;
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 3px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .enrollment-header .header-left {
@@ -3162,8 +3162,8 @@ input[type="file"].form-input::file-selector-button:hover {
   padding: 2.5rem;
   border-radius: 15px;
   margin-bottom: 2.5rem;
-  border: 2px solid #e9ecef;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e9ecef;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
 }
 
 .enroll-form h3 {
@@ -3172,7 +3172,7 @@ input[type="file"].form-input::file-selector-button:hover {
   margin: 0 0 2rem 0;
   font-weight: 700;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .enroll-form .form-group {
@@ -3190,7 +3190,7 @@ input[type="file"].form-input::file-selector-button:hover {
 .enroll-form .form-input {
   width: 100%;
   padding: 1rem;
-  border: 2px solid #ddd;
+  border: 1px solid #ddd;
   border-radius: 10px;
   font-size: 1rem;
   transition: all 0.3s;
@@ -3199,8 +3199,8 @@ input[type="file"].form-input::file-selector-button:hover {
 
 .enroll-form .form-input:focus {
   outline: none;
-  border-color: var(--color-green-light);
-  box-shadow: 0 0 0 4px rgba(185, 255, 102, 0.15);
+  border-color: var(--color-black);
+  box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.15);
   transform: translateY(-1px);
 }
 
@@ -3208,7 +3208,7 @@ input[type="file"].form-input::file-selector-button:hover {
   padding: 1rem 2.5rem;
   background: var(--color-green-light);
   color: var(--color-black);
-  border: 2px solid var(--color-black);
+  border: 1px solid var(--color-black);
   border-radius: 10px;
   font-weight: 700;
   font-size: 1.05rem;
@@ -3221,7 +3221,7 @@ input[type="file"].form-input::file-selector-button:hover {
   background: var(--color-black);
   color: var(--color-green-light);
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .enroll-form .error {
@@ -3242,7 +3242,7 @@ input[type="file"].form-input::file-selector-button:hover {
   margin: 0 0 1.5rem 0;
   font-weight: 700;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .enrollment-table {
@@ -3307,7 +3307,7 @@ input[type="file"].form-input::file-selector-button:hover {
 .enrollment-table .remove-btn:hover {
   background: #c82333;
   transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .empty-state {
@@ -3317,7 +3317,7 @@ input[type="file"].form-input::file-selector-button:hover {
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
   border-radius: 12px;
   font-size: 1.1rem;
-  border: 2px dashed #ddd;
+  border: 1px dashed #ddd;
   margin-top: 1rem;
 }
 
