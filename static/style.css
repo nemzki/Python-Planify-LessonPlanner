@@ -3128,7 +3128,7 @@ input[type="file"].form-input::file-selector-button:hover {
 
 .enrollment-container {
   background: white;
-  padding: 2.5rem;
+  padding: 2rem;
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   max-width: 1400px;
@@ -3139,60 +3139,60 @@ input[type="file"].form-input::file-selector-button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid #f0f0f0;
 }
 
 .enrollment-header .header-left {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .enrollment-header h2 {
   color: #1a1a1a;
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   margin: 0;
   font-weight: 700;
 }
 
 .enroll-form {
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-  padding: 2.5rem;
-  border-radius: 15px;
-  margin-bottom: 2.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
   border: 1px solid #e9ecef;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
 }
 
 .enroll-form h3 {
   color: #1a1a1a;
-  font-size: 1.4rem;
-  margin: 0 0 2rem 0;
+  font-size: 0.95rem;
+  margin: 0 0 1rem 0;
   font-weight: 700;
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid #e9ecef;
 }
 
 .enroll-form .form-group {
-  margin-bottom: 1.75rem;
+  margin-bottom: 1rem;
 }
 
 .enroll-form label {
   display: block;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.4rem;
   color: #1a1a1a;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.85rem;
 }
 
 .enroll-form .form-input {
   width: 100%;
-  padding: 1rem;
+  padding: 0.6rem 0.85rem;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
   transition: all 0.3s;
   background: white;
 }
@@ -3200,18 +3200,17 @@ input[type="file"].form-input::file-selector-button:hover {
 .enroll-form .form-input:focus {
   outline: none;
   border-color: var(--color-black);
-  box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.15);
-  transform: translateY(-1px);
+  box-shadow: 0 0 0 2px rgba(185, 255, 102, 0.15);
 }
 
 .enroll-form .submit-btn {
-  padding: 1rem 2.5rem;
+  padding: 0.65rem 1.5rem;
   background: var(--color-green-light);
   color: var(--color-black);
   border: 1px solid var(--color-black);
-  border-radius: 10px;
+  border-radius: 6px;
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s;
   width: 100%;
@@ -3220,15 +3219,15 @@ input[type="file"].form-input::file-selector-button:hover {
 .enroll-form .submit-btn:hover {
   background: var(--color-black);
   color: var(--color-green-light);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .enroll-form .error {
   display: block;
   color: #dc3545;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
   font-weight: 500;
 }
 
@@ -3238,10 +3237,10 @@ input[type="file"].form-input::file-selector-button:hover {
 
 .enrolled-students h3 {
   color: #1a1a1a;
-  font-size: 1.4rem;
-  margin: 0 0 1.5rem 0;
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
   font-weight: 700;
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid #e9ecef;
 }
 
@@ -3250,14 +3249,14 @@ input[type="file"].form-input::file-selector-button:hover {
   border-collapse: collapse;
   margin-top: 1rem;
   background: white;
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
   border: 1px solid #e9ecef;
 }
 
 .enrollment-table th,
 .enrollment-table td {
-  padding: 1.25rem 1rem;
+  padding: 0.75rem 0.85rem;
   text-align: left;
   border-bottom: 1px solid #f0f0f0;
 }
@@ -3266,9 +3265,9 @@ input[type="file"].form-input::file-selector-button:hover {
   background: linear-gradient(135deg, #e8f9e3 0%, #f0fced 100%);
   font-weight: 700;
   color: #1a1a1a;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   border-bottom: 1px solid #e9ecef;
 }
 
@@ -3278,7 +3277,7 @@ input[type="file"].form-input::file-selector-button:hover {
 
 .enrollment-table tbody tr:hover {
   background: #f8fffe;
-  transform: scale(1.01);
+  transform: scale(1.005);
 }
 
 .enrollment-table tbody tr:last-child td {
@@ -3287,40 +3286,39 @@ input[type="file"].form-input::file-selector-button:hover {
 
 .enrollment-table td {
   color: #333;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
 .enrollment-table .remove-btn {
-  padding: 0.6rem 1.5rem;
+  padding: 0.45rem 1rem;
   background: #dc3545;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.3s;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .enrollment-table .remove-btn:hover {
   background: #c82333;
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .empty-state {
   text-align: center;
   color: #666;
-  padding: 3rem 2rem;
+  padding: 2rem 1.5rem;
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-  border-radius: 12px;
-  font-size: 1.1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
   border: 1px dashed #ddd;
   margin-top: 1rem;
 }
-
 
 /* ============================================================================
    21. ADMIN DASHBOARD - MODERN LAYOUT
