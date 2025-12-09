@@ -1,33 +1,35 @@
-
 /* ============================================================================
-   1. IMPORTS & CSS VARIABLES
+   PLANIFY - LESSON PLANNER STYLESHEET
+   Organized and refactored for maintainability
    ============================================================================ */
 
+/* === IMPORTS === */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
 
+/* === CSS VARIABLES === */
 :root {
   /* Color Palette */
-  --color-green-light: #B9FF66;
-  --color-green-dark: #568203;
-  --color-black: #000000;
-  --color-gray-light: #F3F3F3;
-  --color-white: #FFFFFF;
-  --color-primary: #568203;
   --color-accent: #B9FF66;
-  --color-muted: #6b7280;
+  --color-black: #000000;
   --color-danger: #dc3545;
+  --color-gray-light: #F3F3F3;
+  --color-green-dark: #568203;
+  --color-green-light: #B9FF66;
+  --color-muted: #6b7280;
+  --color-primary: #568203;
   --color-success: #2ecc71;
+  --color-white: #FFFFFF;
   --surface: #fbfbfb;
 
-  /* Layout */
+  /* Layout Variables */
   --container-max-width: 1200px;
   --gap: 1rem;
   --radius: 8px;
 
-  /* Accessibility / focus */
+  /* Accessibility */
   --focus-ring: 3px solid #B9FF66;
 
-  /* Timings */
+  /* Transitions */
   --fast: 150ms ease-in-out;
 }
 
@@ -241,11 +243,12 @@ a:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
 .form-container,
 .add-lesson-form-container {
   background: var(--color-white);
-  padding: 1.25rem;
-  border-radius: var(--radius);
+  padding: 2rem;
+  border-radius: 16px;
   border: 1px solid #eee;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
-  max-width: 900px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  max-width: 700px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -270,19 +273,6 @@ input[type="file"] {
 .hint { font-size: .9rem; color: var(--color-muted); }
 .error { color: var(--color-danger); font-size: .95rem; }
 
-
-/* ---------------------------
-   Courses list
-   --------------------------- */
-.courses-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem;
-}
-.course-card {
-  padding: 1rem; background: var(--color-white); border-radius: 10px; border: 1px solid #eee;
-}
-
 /* ---------------------------
    Back button & small components
    --------------------------- */
@@ -292,20 +282,6 @@ input[type="file"] {
   background: transparent; color: inherit; text-decoration: none;
 }
 .back-icon-btn img { width: 24px; height: 24px; display: block; }
-
-/* ---------------------------
-   Flash messages
-   --------------------------- */
-.flash-container {
-  position: fixed; top: 1rem; right: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: .5rem;
-}
-.flash-message {
-  background: var(--color-white); border: 1px solid #e6e6e6; padding: .75rem 1rem;
-  border-radius: 8px; display: flex; gap: .75rem; align-items: center; min-width: 220px;
-}
-.flash-success { border-left: 4px solid var(--color-success); }
-.flash-error   { border-left: 4px solid var(--color-danger); }
-.flash-info    { border-left: 4px solid var(--color-primary); }
 
 /* ---------------------------
    Typography tweaks
@@ -459,7 +435,7 @@ a.logo {
 }
 
 .nav-links a:hover {
-  color: var(--color-green-black);
+  color: var(--color-green-dark);
   text-decoration: underline;
 }
 
@@ -548,7 +524,7 @@ a.logo {
 }
 
 .nav-item:hover {
-  background: rgba(185, 255, 102, .21);;
+  background: rgba(185, 255, 102, .21);
   color: var(--color-black);
   padding-left: 1.75rem;
 }
@@ -1452,13 +1428,10 @@ a.logo {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 18rem;
-
-  /* Match height to sidebar logo */
   height: 60px;
-  padding: 0 1rem; /* optional horizontal padding for spacing */
-  box-sizing: border-box;
   margin-bottom: 60px;
+  padding: 0 1rem;
+  box-sizing: border-box;
 }
 
 .section-header h1 {
@@ -1872,7 +1845,173 @@ a.logo {
   }
 }
 
+/* ============================================================================
+   ADD COURSE PAGE - STYLES (FIXED WIDTH)
+   ============================================================================ */
 
+/* Add Course Wrapper - Centers and contains the card */
+.add-course-wrapper {
+    width: 900px;
+    margin: 2rem auto;
+    padding: 0;
+}
+
+/* Add Course Card - Beautiful card container */
+.add-course-card {
+    background: var(--color-white);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid #000000;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Form Title */
+.add-course-card .form-title {
+    color: var(--color-black);
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--color-green-light);
+    font-weight: 700;
+}
+
+/* Form Groups */
+.add-course-form .add-course-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.add-course-form .add-course-form-group label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-black);
+    font-size: 0.95rem;
+}
+
+/* Form Inputs */
+.add-course-form .form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: 'Space Grotesk', sans-serif;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    background: var(--color-white);
+    color: var(--color-black);
+}
+
+.add-course-form .form-input:focus {
+    outline: none;
+    border-color: var(--color-black);
+    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
+}
+
+.add-course-form textarea.form-input {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+}
+
+/* Error Messages */
+.add-course-form .error {
+    display: block;
+    color: var(--color-danger);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+/* Form Buttons Container */
+.add-course-form .form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e5e5;
+}
+
+/* Submit Button */
+.add-course-form .add-course-submit {
+    flex: 1;
+    padding: 0.875rem 1.5rem;
+    background: var(--color-black) !important;
+    color: var(--color-green-light) !important;
+    border: 1px solid var(--color-black) !important;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.add-course-form .add-course-submit:hover {
+    background: var(--color-green-light) !important;
+    color: var(--color-black) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Cancel Button */
+.add-course-form .cancel-btn {
+    flex: 1;
+    padding: 0.875rem 1.5rem;
+    background: var(--color-white) !important;
+    color: var(--color-black) !important;
+    border: 1px solid var(--color-black) !important;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.add-course-form .cancel-btn:hover {
+    background: var(--color-green-light) !important;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design for Add Course */
+@media (max-width: 992px) {
+    .add-course-wrapper {
+        width: calc(100% - 3rem);
+        margin: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .add-course-wrapper {
+        width: calc(100% - 2rem);
+        margin: 1rem;
+    }
+
+    .add-course-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .add-course-card .form-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.875rem;
+    }
+
+    .add-course-form .add-course-form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .add-course-form .form-buttons {
+        flex-direction: column;
+        gap: 0.875rem;
+    }
+}
 /* ============================================================================
    16. LESSON PLANS - LIST & CARDS
    ============================================================================ */
@@ -1992,72 +2131,84 @@ a.logo {
 /* Plans Grid */
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  justify-items: start;
+  grid-template-columns: repeat(3, 350px);
+  gap: 1rem;
+  justify-content: start;
   padding-bottom: 1rem;
-  margin-bottom: 2rem;
 }
 
 /* Plan Card */
-.plan-card {
+.plan-card,
+.lesson-card {
   background: #fff;
-  width: 100%;
-  max-width: 380px;
-  min-height: 220px;
+  width: 350px;
+  height: 260px;
   padding: 1.5rem;
   border-radius: 12px;
   border: 1px solid var(--color-black);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: all 0.3s ease;
   box-sizing: border-box;
+  cursor: default;
+  margin-bottom: 15px;
 }
 
-.plan-card:hover {
+.plan-card:hover,
+.lesson-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  border-color: var(--color-black);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-color: #000000;
 }
 
-.plan-card-top {
+.plan-card-top,
+.lesson-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-  gap: 1rem;
+  align-items: start;
+  margin-bottom: 0.5rem;
 }
 
-.plan-card h4 {
-  color: var(--color-black);
-  font-size: 1.3rem;
+.plan-card h4,
+.lesson-card-header h3,
+.lesson-card h4 {
+  color: #000000;
+  font-size: 1rem;
   font-weight: 700;
-  line-height: 1.3;
-  flex: 1;
   margin: 0;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
+  flex-grow: 1;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .plan-date {
-  background-color: var(--color-green-light);
-  color: var(--color-black);
-  padding: 0.4rem 0.9rem;
+  background-color: #000000;
+  color: #fff;
+  padding: 0.3rem 0.8rem;
   border-radius: 20px;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   white-space: nowrap;
-  border: 1px solid var(--color-black);
+  user-select: none;
+  margin-left: 0.8rem;
+  flex-shrink: 0;
 }
 
 .plan-topic {
-  color: #333;
-  font-size: 0.95rem;
-  margin-bottom: 1.25rem;
-  line-height: 1.5;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .plan-topic strong {
@@ -2077,12 +2228,12 @@ a.logo {
 .btn-view,
 .btn-edit {
   flex: 1;
-  padding: 0.8rem 1.1rem;
+  padding: 0.65rem 1rem;
   text-align: center;
   text-decoration: none;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
   border: 1.5px solid var(--color-black);
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
@@ -2151,11 +2302,11 @@ a.logo {
 @media (max-width: 768px) {
   .plans-grid {
     grid-template-columns: 1fr;
-    justify-items: center;
   }
 
   .plan-card {
-    max-width: 100%;
+    width: 100%;
+    max-width: 350px;
   }
 
   .plans-header {
@@ -2335,18 +2486,24 @@ a.logo {
 
 .back-btn {
   display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background: #33691E;
-  color: white;
+  padding: 0.65rem 1.25rem;
+  background-color: var(--color-black);
+  color: var(--color-green-light);
   text-decoration: none;
   border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 1.5px solid var(--color-black);
+  transition: all 0.3s ease;
   margin-top: 1rem;
 }
 
 .back-btn:hover {
-  background: #456a02;
+  background-color: var(--color-green-light);
+  color: var(--color-black);
+  border-color: var(--color-black);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* ===== EDIT LESSON PLAN ===== */
@@ -2390,6 +2547,56 @@ a.logo {
   font-size: 1rem;
   font-family: inherit;
   transition: all 0.3s;
+
+/* =============================
+   Add Course - Global Styles
+   ============================= */
+.add-course-form-container {
+  background: var(--color-white) !important;
+  padding: 2rem !important;
+  border-radius: 16px !important;
+  border: 1px solid #eee !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06) !important;
+  max-width: 700px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+.add-course-form-container h2 {
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  color: #111 !important;
+  margin: 0 0 1rem 0 !important;
+}
+
+.add-course-form-group {
+  margin-bottom: 1rem !important;
+}
+
+.add-course-form-group label {
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  color: #333 !important;
+  margin-bottom: 0.4rem !important;
+  display: block !important;
+}
+
+.add-course-form-container .form-input {
+  padding: 0.7rem 0.9rem !important;
+  font-size: 0.95rem !important;
+  border-radius: 10px !important;
+}
+
+.add-course-form-container textarea.form-input {
+  min-height: 130px !important;
+}
+
+.add-course-form-container .submit-btn,
+.add-course-form-container .cancel-btn {
+  width: 100% !important;
+  padding: 0.9rem 1.4rem !important;
+  font-size: 1rem !important;
+}
   box-sizing: border-box;
 }
 
@@ -2556,7 +2763,7 @@ input[type="file"].form-input::file-selector-button:hover {
     display: flex;
     justify-content: center;
     width: 100%;
-    padding: 0;
+    padding-bottom: 2rem;
 }
 
 
@@ -2564,11 +2771,12 @@ input[type="file"].form-input::file-selector-button:hover {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding-top: 2rem;
+    border: .8px solid #000;
 }
 
 .attendance-container > * {
     width: 100%;
+    padding-bottom: 0;
 }
 
 
@@ -2582,7 +2790,7 @@ input[type="file"].form-input::file-selector-button:hover {
     align-items: center;        /* vertical align everything */
     padding: 18px 20px;
     border-bottom: 1px solid #dcdcdc;
-    background: #fafafa;
+    background: #fff;
 }
 
 .header-left {
@@ -2594,15 +2802,13 @@ input[type="file"].form-input::file-selector-button:hover {
 .header-left h2 {
     margin: 0;                  /* remove default browser margin */
     padding: 0;
-    line-height: 1.1;           /* tight & clean vertical alignment */
+    line-height: 1.1;
+    color: #000;
 }
 
 .back-icon-btn img {
     width: 34px;
     height: 34px;
-    padding: 6px;
-    border: 1px solid #cfcfcf;
-    border-radius: 6px;
     display: block;
 }
 
@@ -2614,8 +2820,8 @@ input[type="file"].form-input::file-selector-button:hover {
     font-weight: 600;
     font-size: 14px;
     text-decoration: none;
-    color: #000000;
-    border: 1px solid #000000;
+    color: #000;
+    border: 1px solid #000;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2625,22 +2831,23 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 .view-history-btn:hover {
-    background-color: #000000;
-    border: 1px solid #000000;
+    background-color: #000;
+    border: 1px solid #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
-    color: var(--color-green-light);
+    color: #B9FF66;;
 }
 
 
 /* --------------------------------------------
-   SEARCH DATE BAR (Grey strip)
+   SEARCH DATE BAR
 --------------------------------------------- */
 .date-form-inline {
     width: 100%;
     border-bottom: 1px solid #dcdcdc;
-    background: #f2f2f2;
+    background: #fff;
     padding: 12px 20px;
+    color: #000;
 }
 
 .form-row-inline {
@@ -2656,37 +2863,37 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 .form-input-date {
-    border: 1px solid #c8c8c8;
+    border: 1px solid #000;
     padding: 4px 6px;
     border-radius: 4px;
 }
 
 /* View Date Button */
 .submit-btn-green {
-    background: #B9FF66;
-    border: 1px solid #000000;
+    background: #B9FF66;;
+    border: 1px solid #000;
     padding: 4px 14px;
     border-radius: 6px;
     font-weight: 600;
-    color: #000000;
+    color: #000;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
 
 .submit-btn-green:hover {
-    background-color: #000000;
-    border: 1px solid #000000;
+    background-color: #000;
+    border: 1px solid #000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
-    color: var(--color-green-light);
+    color: #B9FF66;
 }
 
 /* --------------------------------------------
    DATE + SAVE ROW
 --------------------------------------------- */
 .date-save-row {
-    background: #f7f7f7;
-    border-bottom: 1px solid #dcdcdc;
+    background: #fff;
+    border-bottom: 1px solid #fff;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
@@ -2696,13 +2903,14 @@ input[type="file"].form-input::file-selector-button:hover {
 .date-save-row h3 {
     font-size: 14px;
     font-weight: 600;
+    color: #000;
 }
 
 /* Save button (small) */
 .date-save-row button {
     background: #B9FF66;
     padding: 6px 20px;
-    border: 1px solid #000000;
+    border: 1px solid #000;
     border-radius: 6px;
     font-weight: 600;
     font-size: 14px;
@@ -2716,11 +2924,11 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 .date-save-row button:hover {
-    background-color: #000000;
-    border: 1px solid #000000;
+    background-color: #000;
+    border: 1px solid #000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
-    color: var(--color-green-light);
+    color: #B9FF66;
 }
 
 /* --------------------------------------------
@@ -2728,26 +2936,26 @@ input[type="file"].form-input::file-selector-button:hover {
 --------------------------------------------- */
 .attendance-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: transparent;
     text-align: center;
     font-size: 14px;
-    margin-bottom: 3rem;
 }
 
 .attendance-table th {
-    background: #efefef;
+    background: #000;
     padding: 10px 0;
-    border: 1px solid #dcdcdc;
+    border: 1px solid #fff;
     font-weight: 600;
+    color: #fff;
 }
 
 .attendance-table td {
     padding: 10px 0;
-    border: 1px solid #e1e1e1;
+    border: .5px solid #000;
 }
 
 .attendance-table tr:hover {
-    background: #fafafa;
+    background: #f2f2f2;
 }
 
 /* Radio buttons */
@@ -3023,43 +3231,53 @@ input[type="file"].form-input::file-selector-button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #eee;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #000000;
 }
 
 .detail-header h2 {
-  color: #333;
+  color: #000000;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
 }
 
 .edit-attendance-btn {
-  padding: 0.75rem 1.5rem;
-  background: #3498db;
-  color: white;
+  padding: 0.65rem 1.25rem;
+  background-color: var(--color-green-light);
+  color: var(--color-black);
   text-decoration: none;
   border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 1px solid var(--color-black);
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .edit-attendance-btn:hover {
-  background: #2980b9;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Detail Info Card */
 .detail-info-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background-color: var(--color-green-light);
+  color: var(--color-black);
   padding: 2rem;
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 2rem;
+  border: 1px solid var(--color-black);
 }
 
 .info-item {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .info-item:last-child {
@@ -3098,13 +3316,14 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 .detail-table th {
-  background: #f8f9fa;
-  font-weight: 600;
-  color: #333;
+  background-color: #000000;
+  font-weight: 700;
+  color: var(--color-green-light);
+  border-bottom: 2px solid var(--color-black);
 }
 
 .detail-table tr:hover {
-  background: #f8f9fa;
+  background-color: rgba(185, 255, 102, 0.1);
 }
 
 .student-info {
@@ -4275,32 +4494,29 @@ input[type="file"].form-input::file-selector-button:hover {
 
 /* Lesson Card */
 .lesson-card {
-  background: var(--color-gray-light);
-  border-radius: 15px;
-  padding: 2rem;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-  position: relative;
-  overflow: hidden;
+  background: #fff;
+  width: 100%;
+  max-width: 380px;
+  min-height: 220px;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-black);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  height: 100%;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .lesson-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(90deg, var(--color-green-light) 0%, var(--color-green-dark) 100%);
+  content: none;
 }
 
 .lesson-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-  border-color: var(--color-green-light);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-color: var(--color-black);
 }
 
 /* Card Header */
@@ -4851,7 +5067,7 @@ textarea.form-input {
   font-weight: 700;
   font-size: 1rem;
   border-radius: 10px;
-  border: 3px;
+  border: 1.5px solid var(--color-black);
   cursor: pointer;
   box-shadow: none;
   transition: background-color 0.3s ease, transform 0.3s ease;
@@ -4926,19 +5142,19 @@ textarea.form-input {
   width: 100%;
   height: 45px;
   font-size: 16px;
-  border: none;
+  border: 1px solid var(--color-black);
   border-radius: 5px;
   cursor: pointer;
 }
 
 .save-course-btn {
-  background-color: #4CAF50;
-  color: white;
+  background-color: var(--color-black);
+  color: var(--color-green-light);
 }
 
 .form-buttons .cancel-btn {
-  background-color: #d9534f;
-  color: white;
+  background-color: var(--color-white);
+  color: var(--color-black);
 }
 
 
@@ -5406,13 +5622,7 @@ button:focus {
     min-width: unset;
   }
 
-  /* Add Course Form */
-  .add-course-form-container {
-    max-width: 100%;
-    padding: 2.5rem 2rem;
-    margin: 2rem auto;
-    width: 95%;
-  }
+  /* Add Course Form - removed duplicate block; using global styles above */
 
   /* Register Form */
   .form-container {

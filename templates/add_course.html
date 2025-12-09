@@ -1,42 +1,42 @@
 {% extends "educator_base.html" %}
 
 {% block content %}
-<div class="add-course-form-container">
-    <h2>Add New Course</h2>
+<div class="add-course-wrapper">
+    <div class="add-course-card">
+        <h2 class="form-title">Add New Course</h2>
 
-    <form method="POST">
-        {{ form.hidden_tag() }}
+        <form method="POST" class="add-course-form">
+            {{ form.hidden_tag() }}
 
-        <div class="add-course-form-group">
-            {{ form.course_name.label }}
-            {{ form.course_name(class="form-input") }}
-            {% if form.course_name.errors %}
-                <small class="error">{{ form.course_name.errors[0] }}</small>
-            {% endif %}
-        </div>
+            <div class="add-course-form-group">
+                {{ form.course_name.label }}
+                {{ form.course_name(class="form-input", placeholder="e.g., Introduction to Programming") }}
+                {% if form.course_name.errors %}
+                    <small class="error">{{ form.course_name.errors[0] }}</small>
+                {% endif %}
+            </div>
 
-        <div class="add-course-form-group">
-            {{ form.course_code.label }}
-            {{ form.course_code(class="form-input") }}
-            {% if form.course_code.errors %}
-                <small class="error">{{ form.course_code.errors[0] }}</small>
-            {% endif %}
-        </div>
+            <div class="add-course-form-group">
+                {{ form.course_code.label }}
+                {{ form.course_code(class="form-input", placeholder="e.g., CS101") }}
+                {% if form.course_code.errors %}
+                    <small class="error">{{ form.course_code.errors[0] }}</small>
+                {% endif %}
+            </div>
 
-        <div class="add-course-form-group">
-            {{ form.description.label }}
-            {{ form.description(class="form-input", rows="4") }}
-            {% if form.description.errors %}
-                <small class="error">{{ form.description.errors[0] }}</small>
-            {% endif %}
-        </div>
+            <div class="add-course-form-group">
+                {{ form.description.label }}
+                {{ form.description(class="form-input", rows="5", placeholder="Brief description of the course...") }}
+                {% if form.description.errors %}
+                    <small class="error">{{ form.description.errors[0] }}</small>
+                {% endif %}
+            </div>
 
-        <div class="add-course-form-group">
-    {{ form.submit(class="submit-btn") }}
-</div>
-<div class="add-course-form-group">
-    <a href="{{ url_for('educator_courses') }}" class="cancel-btn">Cancel</a>
-</div>
-    </form>
+            <div class="form-buttons">
+                {{ form.submit(class="submit-btn add-course-submit") }}
+                <a href="{{ url_for('educator_courses') }}" class="cancel-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
