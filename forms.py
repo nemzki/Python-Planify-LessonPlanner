@@ -47,7 +47,8 @@ class LoginForm(FlaskForm):
 class CourseForm(FlaskForm):
     course_name = StringField("Course Name", validators=[DataRequired(), Length(min=3, max=100)])
     course_code = StringField("Course Code", validators=[DataRequired(), Length(min=2, max=20)])
-    description = TextAreaField("Description", validators=[Optional(), Length(max=500)])
+    block_section = StringField("Block Section", validators=[DataRequired(), Length(max=20)])
+    description = TextAreaField("Description", validators=[Optional()])
     submit = SubmitField("Save Course")
 
 

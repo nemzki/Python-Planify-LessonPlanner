@@ -25,8 +25,16 @@
             </div>
 
             <div class="add-course-form-group">
+                {{ form.block_section.label }}
+                {{ form.block_section(class="form-input", placeholder="e.g., BSIT 2101") }}
+                {% if form.block_section.errors %}
+                    <small class="error">{{ form.block_section.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+            <div class="add-course-form-group">
                 {{ form.description.label }}
-                {{ form.description(class="form-input", rows="5", placeholder="e.g BSIT 2101...") }}
+                {{ form.description(class="form-input", rows="5", placeholder="Enter course description (optional)") }}
                 {% if form.description.errors %}
                     <small class="error">{{ form.description.errors[0] }}</small>
                 {% endif %}

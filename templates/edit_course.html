@@ -26,6 +26,14 @@
             </div>
 
             <div class="form-group">
+                {{ form.block_section.label }}
+                {{ form.block_section(class="form-input") }}
+                {% if form.block_section.errors %}
+                    <small class="error">{{ form.block_section.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
                 {{ form.description.label }}
                 {{ form.description(class="form-input", rows="5") }}
                 {% if form.description.errors %}

@@ -29,6 +29,7 @@ class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course_name = db.Column(db.String(100), nullable=False)
     course_code = db.Column(db.String(20), nullable=False)
+    block_section = db.Column(db.String(20), nullable=False)
     description = db.Column(db.Text, nullable=True)
     educator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

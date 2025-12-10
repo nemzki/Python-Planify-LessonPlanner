@@ -8,6 +8,7 @@
                 <img src="{{ url_for('static', filename='pictures/back-button.png') }}" alt="Back">
             </a>
             <h2>Attendance History - {{ course.course_name }}</h2>
+            <p class="course-block">{{ course.course_code }} - {{ course.block_section }}</p>
         </div>
         <div class="header-actions">
             <a href="{{ url_for('course_attendance', course_id=course.id) }}" class="record-new-btn">

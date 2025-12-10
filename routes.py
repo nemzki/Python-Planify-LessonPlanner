@@ -207,6 +207,7 @@ def add_course():
         new_course = Course(
             course_name=form.course_name.data,
             course_code=form.course_code.data,
+            block_section=form.block_section.data,
             description=form.description.data,
             educator_id=current_user.id,
             enrollment_code=enrollment_code  # NEW: Add enrollment code
@@ -345,6 +346,7 @@ def edit_course(course_id):
     if form.validate_on_submit():
         course.course_name = form.course_name.data
         course.course_code = form.course_code.data
+        course.block_section = form.block_section.data
         course.description = form.description.data
 
         db.session.commit()
@@ -354,6 +356,7 @@ def edit_course(course_id):
     # Pre-fill form
     form.course_name.data = course.course_name
     form.course_code.data = course.course_code
+    form.block_section.data = course.block_section
     form.description.data = course.description
 
     return render_template('edit_course.html', form=form, course=course)
