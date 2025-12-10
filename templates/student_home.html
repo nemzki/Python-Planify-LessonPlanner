@@ -13,13 +13,15 @@
         <a href="{{ url_for('student_courses') }}" class="quick-link courses-link">
             📚 <span>My Courses</span>
         </a>
-        <a href="{{ url_for('student_home') }}" class="quick-link materials-link">
-            📄 <span>All Materials</span>
+        <a href="{{ url_for('student_join_course') }}" class="quick-link join-link">
+            ➕ <span>Join Course</span>
         </a>
     </div>
 
     <div class="enrolled-courses">
-        <h2>My Enrolled Courses</h2>
+        <div class="courses-header-section">
+            <h2>My Enrolled Courses</h2>
+        </div>
 
         {% if courses %}
             <div class="courses-list">
@@ -55,7 +57,7 @@
         {% else %}
             <div class="empty-state">
                 <p>📚 You are not enrolled in any courses yet.</p>
-                <p class="hint">Contact your educator to get enrolled in a course.</p>
+                <p class="hint">Click "Join Course" above and enter your course code!</p>
             </div>
         {% endif %}
     </div>

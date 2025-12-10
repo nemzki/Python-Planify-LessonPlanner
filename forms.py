@@ -82,13 +82,23 @@ class AttendanceForm(FlaskForm):
 
 
 # ==========================================
-# ENROLLMENT FORMS
+# ENROLLMENT FORMS - UPDATED
 # ==========================================
 
-# FORM FOR ENROLLING STUDENTS IN COURSES
-class EnrollmentForm(FlaskForm):
-    student_id = SelectField("Select Student", coerce=int, validators=[DataRequired()])
+# FORM FOR ENROLLING STUDENTS BY EMAIL (EDUCATOR)
+class EnrollByEmailForm(FlaskForm):
+    student_email = StringField("Student Email",
+                                validators=[DataRequired(), Email()])
     submit = SubmitField("Enroll Student")
+
+# FORM FOR STUDENTS TO JOIN COURSE BY CODE
+class JoinCourseForm(FlaskForm):
+    enrollment_code = StringField("Course Code",
+                                  validators=[
+                                      DataRequired(),
+                                      Length(min=8, max=8, message="Course code must be 8 characters")
+                                  ])
+    submit = SubmitField("Join Course")
 
 # ==========================================
 # CONTACT FORM

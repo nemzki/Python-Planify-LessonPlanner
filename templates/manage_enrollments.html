@@ -2,25 +2,31 @@
 
 {% block content %}
 <div class="enrollment-container">
-    <div class="enrollment-header">
-        <div class="header-left">
-            <a href="{{ url_for('educator_courses') }}" class="back-icon-btn">
-                <img src="{{ url_for('static', filename='pictures/back-button.png') }}" alt="Back">
-            </a>
-            <h2>Manage Enrollments - {{ course.course_name }}</h2>
+    <h2>Manage Enrollments - {{ course.course_name }}</h2>
+
+    <!-- Course Enrollment Code Section -->
+    <div class="enrollment-code-section">
+        <h3>📋 Course Enrollment Code</h3>
+        <p class="code-description">Share this code with students so they can join your course</p>
+        <div class="code-display">
+            <span class="code-text" id="enrollmentCode">{{ course.enrollment_code }}</span>
+            <button class="copy-btn" onclick="copyEnrollmentCode()">📋 Copy Code</button>
         </div>
+        <p class="code-hint">Students can enter this code in their dashboard to join this course</p>
     </div>
 
+    <!-- Enroll by Email Section -->
     <div class="enroll-form">
-        <h3>Enroll New Student</h3>
+        <h3>Enroll Student by Email</h3>
+        <p class="form-description">Enter a student's email address to enroll them directly</p>
         <form method="POST">
             {{ form.hidden_tag() }}
 
             <div class="form-group">
-                {{ form.student_id.label }}
-                {{ form.student_id(class="form-input") }}
-                {% if form.student_id.errors %}
-                    <small class="error">{{ form.student_id.errors[0] }}</small>
+                {{ form.student_email.label }}
+                {{ form.student_email(class="form-input", placeholder="student@example.com") }}
+                {% if form.student_email.errors %}
+                    <small class="error">{{ form.student_email.errors[0] }}</small>
                 {% endif %}
             </div>
 
@@ -30,8 +36,9 @@
         </form>
     </div>
 
+    <!-- Enrolled Students List -->
     <div class="enrolled-students">
-        <h3>Currently Enrolled Students</h3>
+        <h3>Currently Enrolled Students ({{ enrollments|length }})</h3>
         {% if enrollments %}
             <table class="enrollment-table">
                 <thead>
@@ -64,5 +71,24 @@
             <p class="empty-state">No students enrolled yet.</p>
         {% endif %}
     </div>
+
+    <a href="{{ url_for('educator_courses') }}" class="back-btn">Back to Courses</a>
 </div>
+
+<script>
+function copyEnrollmentCode() {
+    const codeText = document.getElementById('enrollmentCode').textContent;
+    navigator.clipboard.writeText(codeText).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        const originalText = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        btn.style.background = 'var(--color-green-dark)';
+
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = '';
+        }, 2000);
+    });
+}
+</script>
 {% endblock %}

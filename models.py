@@ -1,7 +1,8 @@
 from database import db
 from flask_login import UserMixin
 from datetime import datetime
-
+import string
+import random
 
 # ==========================================
 # USER MODEL
@@ -24,10 +25,6 @@ class User(db.Model, UserMixin):
     enrollments = db.relationship('Enrollment', backref='student', lazy=True, cascade='all, delete-orphan')
 
 
-# ==========================================
-# COURSE MODEL
-# ==========================================
-# Represents courses created by educators
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course_name = db.Column(db.String(100), nullable=False)
@@ -36,10 +33,24 @@ class Course(db.Model):
     educator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # NEW: Add enrollment code (unique, auto-generated)
+    enrollment_code = db.Column(db.String(10), unique=True, nullable=False)
+
     # Relationships
     lesson_plans = db.relationship('LessonPlan', backref='course', lazy=True, cascade='all, delete-orphan')
     enrollments = db.relationship('Enrollment', backref='course', lazy=True, cascade='all, delete-orphan')
     attendance_records = db.relationship('AttendanceRecord', backref='course', lazy=True, cascade='all, delete-orphan')
+
+    # Method to generate enrollment code
+    @staticmethod
+    def generate_enrollment_code():
+        """Generate a unique 8-character enrollment code"""
+        characters = string.ascii_uppercase + string.digits
+        while True:
+            code = ''.join(random.choice(characters) for _ in range(8))
+            # Check if code already exists
+            if not Course.query.filter_by(enrollment_code=code).first():
+                return code
 
 
 # ==========================================

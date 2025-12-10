@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app
 from database import db
-from forms import RegisterForm, LoginForm, CourseForm, LessonPlanForm, AttendanceForm, EnrollmentForm, ContactForm
+from forms import RegisterForm, LoginForm, CourseForm, LessonPlanForm, AttendanceForm, ContactForm, EnrollByEmailForm, JoinCourseForm
 from models import User, Course, LessonPlan, LearningMaterial, Enrollment, AttendanceRecord, ContactMessage
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
@@ -15,7 +15,7 @@ import os
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx', 'ppt', 'pptx', 'txt', 'jpg', 'png'}
 
-# Ensure upload folder exists
+# Ensure the upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
@@ -186,7 +186,11 @@ def educator_courses():
     return render_template('educator_courses.html', courses=courses)
 
 
-# ADD NEW COURSE
+# ==========================================
+# COURSE CREATION - UPDATE TO GENERATE CODE
+# ==========================================
+
+# ADD NEW COURSE - UPDATED
 @app.route('/educator/course/add', methods=['GET', 'POST'])
 @login_required
 def add_course():
@@ -197,21 +201,129 @@ def add_course():
     form = CourseForm()
 
     if form.validate_on_submit():
+        # Generate unique enrollment code
+        enrollment_code = Course.generate_enrollment_code()
+
         new_course = Course(
             course_name=form.course_name.data,
             course_code=form.course_code.data,
             description=form.description.data,
-            educator_id=current_user.id
+            educator_id=current_user.id,
+            enrollment_code=enrollment_code  # NEW: Add enrollment code
         )
 
         db.session.add(new_course)
         db.session.commit()
 
-        flash(f"Course '{new_course.course_name}' created successfully!", "success")
+        flash(f"Course '{new_course.course_name}' created! Enrollment code: {enrollment_code}", "success")
         return redirect(url_for('educator_courses'))
 
     return render_template('add_course.html', form=form)
 
+
+# ==========================================
+# ENROLLMENT MANAGEMENT - UPDATED
+# ==========================================
+
+# MANAGE ENROLLMENTS BY EMAIL (EDUCATOR)
+@app.route('/educator/course/<int:course_id>/enrollments', methods=['GET', 'POST'])
+@login_required
+def manage_enrollments(course_id):
+    if current_user.role != 'educator':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    course = Course.query.get_or_404(course_id)
+
+    if course.educator_id != current_user.id:
+        flash("Access denied.", "error")
+        return redirect(url_for('educator_courses'))
+
+    form = EnrollByEmailForm()
+
+    if form.validate_on_submit():
+        student_email = form.student_email.data
+
+        # Find student by email
+        student = User.query.filter_by(email=student_email, role='student').first()
+
+        if not student:
+            flash("No student found with that email address.", "error")
+            return redirect(url_for('manage_enrollments', course_id=course_id))
+
+        # Check if already enrolled
+        existing_enrollment = Enrollment.query.filter_by(
+            student_id=student.id,
+            course_id=course_id
+        ).first()
+
+        if existing_enrollment:
+            flash(f"{student.first_name} {student.last_name} is already enrolled in this course.", "error")
+            return redirect(url_for('manage_enrollments', course_id=course_id))
+
+        # Enroll student
+        new_enrollment = Enrollment(
+            student_id=student.id,
+            course_id=course_id
+        )
+        db.session.add(new_enrollment)
+        db.session.commit()
+
+        flash(f"{student.first_name} {student.last_name} enrolled successfully!", "success")
+        return redirect(url_for('manage_enrollments', course_id=course_id))
+
+    # Get current enrollments
+    enrollments = Enrollment.query.filter_by(course_id=course_id).all()
+
+    return render_template('manage_enrollments.html', course=course, enrollments=enrollments, form=form)
+
+
+# ==========================================
+# STUDENT - JOIN COURSE BY CODE
+# ==========================================
+
+# JOIN COURSE BY CODE (STUDENT)
+@app.route('/student/join-course', methods=['GET', 'POST'])
+@login_required
+def student_join_course():
+    if current_user.role != 'student':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    form = JoinCourseForm()
+
+    if form.validate_on_submit():
+        enrollment_code = form.enrollment_code.data.upper().strip()
+
+        # Find course by enrollment code
+        course = Course.query.filter_by(enrollment_code=enrollment_code).first()
+
+        if not course:
+            flash("Invalid course code. Please check and try again.", "error")
+            return redirect(url_for('student_join_course'))
+
+        # Check if already enrolled
+        existing_enrollment = Enrollment.query.filter_by(
+            student_id=current_user.id,
+            course_id=course.id
+        ).first()
+
+        if existing_enrollment:
+            flash(f"You are already enrolled in {course.course_name}.", "error")
+            return redirect(url_for('student_courses'))
+
+        # Enroll student
+        new_enrollment = Enrollment(
+            student_id=current_user.id,
+            course_id=course.id
+        )
+        db.session.add(new_enrollment)
+        db.session.commit()
+
+        flash(f"Successfully enrolled in {course.course_name}!", "success")
+        return redirect(url_for('student_courses'))
+
+    return render_template('student_join_course.html', form=form)
 
 # EDIT COURSE
 @app.route('/educator/course/<int:course_id>/edit', methods=['GET', 'POST'])
@@ -560,49 +672,6 @@ def record_attendance():
     db.session.commit()
     flash("Attendance recorded successfully!", "success")
     return redirect(url_for('course_attendance', course_id=course_id))
-
-
-# ==========================================
-# ENROLLMENT MANAGEMENT (EDUCATOR)
-# ==========================================
-
-# MANAGE ENROLLMENTS FOR A COURSE
-@app.route('/educator/course/<int:course_id>/enrollments', methods=['GET', 'POST'])
-@login_required
-def manage_enrollments(course_id):
-    if current_user.role != 'educator':
-        flash("Access denied.", "error")
-        return redirect(url_for('home'))
-
-    course = Course.query.get_or_404(course_id)
-
-    if course.educator_id != current_user.id:
-        flash("Access denied.", "error")
-        return redirect(url_for('educator_courses'))
-
-    form = EnrollmentForm()
-
-    # Get all students not yet enrolled
-    enrolled_ids = [e.student_id for e in Enrollment.query.filter_by(course_id=course_id).all()]
-    available_students = User.query.filter(User.role == 'student', ~User.id.in_(enrolled_ids)).all()
-
-    form.student_id.choices = [(s.id, f"{s.first_name} {s.last_name} ({s.username})") for s in available_students]
-
-    if form.validate_on_submit():
-        new_enrollment = Enrollment(
-            student_id=form.student_id.data,
-            course_id=course_id
-        )
-        db.session.add(new_enrollment)
-        db.session.commit()
-
-        flash("Student enrolled successfully!", "success")
-        return redirect(url_for('manage_enrollments', course_id=course_id))
-
-    # Get current enrollments
-    enrollments = Enrollment.query.filter_by(course_id=course_id).all()
-
-    return render_template('manage_enrollments.html', course=course, enrollments=enrollments, form=form)
 
 
 # REMOVE ENROLLMENT

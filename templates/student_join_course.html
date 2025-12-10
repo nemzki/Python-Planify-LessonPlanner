@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Join Course{% endblock %}
+
+{% block content %}
+<div class="join-course-container">
+    <div class="join-header">
+        <h1>Join a Course</h1>
+        <p class="header-subtitle">Enter the course code provided by your educator</p>
+    </div>
+
+    <div class="join-form-wrapper">
+        <form method="POST" class="join-form">
+            {{ form.hidden_tag() }}
+
+            <div class="code-icon">🎓</div>
+
+            <div class="form-group">
+                {{ form.enrollment_code.label(class="form-label") }}
+                {{ form.enrollment_code(class="form-input code-input",
+                                       placeholder="XXXXXXXX",
+                                       maxlength="8",
+                                       style="text-transform: uppercase; text-align: center; font-size: 1.5rem; letter-spacing: 0.2em; font-weight: bold;") }}
+                {% if form.enrollment_code.errors %}
+                    <small class="error-message">{{ form.enrollment_code.errors[0] }}</small>
+                {% endif %}
+                <small class="info-text">Enter the 8-character code from your educator</small>
+            </div>
+
+            <div class="form-group">
+                {{ form.submit(class="btn-join") }}
+            </div>
+        </form>
+
+        <div class="help-section">
+            <h3>How to join a course:</h3>
+            <ol>
+                <li>Get the course code from your educator</li>
+                <li>Enter the 8-character code above</li>
+                <li>Click "Join Course"</li>
+                <li>Start accessing course materials!</li>
+            </ol>
+        </div>
+    </div>
+
+    <a href="{{ url_for('student_courses') }}" class="back-link">← Back to My Courses</a>
+</div>
+{% endblock %}
