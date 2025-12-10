@@ -32,10 +32,16 @@
                             📅 Recorded on: {{ data.recorded_time.strftime('%B %d, %Y at %I:%M %p') }}
                         </p>
                     </div>
-                    <a href="{{ url_for('view_attendance_date', course_id=course.id, date_str=date.strftime('%Y-%m-%d')) }}"
-                       class="view-details-btn">
-                        View Details
-                    </a>
+                    <div class="card-actions">
+                        <a href="{{ url_for('download_attendance_pdf', course_id=course.id, date_str=date.strftime('%Y-%m-%d')) }}"
+                           class="download-btn">
+                            📥 PDF
+                        </a>
+                        <a href="{{ url_for('view_attendance_date', course_id=course.id, date_str=date.strftime('%Y-%m-%d')) }}"
+                           class="view-details-btn">
+                            View Details
+                        </a>
+                    </div>
                 </div>
 
                 <div class="date-card-stats">

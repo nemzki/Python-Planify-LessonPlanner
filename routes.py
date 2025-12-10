@@ -605,9 +605,17 @@ def course_attendance(course_id):
     enrollments = Enrollment.query.filter_by(course_id=course_id).all()
     students = [enrollment.student for enrollment in enrollments]
 
-    # Get selected date or default to today
+    # Get selected date from URL parameter or form or default to today
     selected_date = date.today()
-    if form.validate_on_submit():
+
+    # Check if date is passed in URL (when clicking edit from detail page)
+    url_date = request.args.get('date')
+    if url_date:
+        try:
+            selected_date = datetime.strptime(url_date, '%Y-%m-%d').date()
+        except ValueError:
+            pass
+    elif form.validate_on_submit():
         selected_date = form.date.data
 
     # Get existing attendance for selected date
@@ -846,6 +854,211 @@ def view_attendance_date(course_id, date_str):
                            enrollments=enrollments,
                            attendance_dict=attendance_dict)
 
+
+# DOWNLOAD ATTENDANCE AS PDF
+@app.route('/educator/course/<int:course_id>/attendance/download/<date_str>')
+@login_required
+def download_attendance_pdf(course_id, date_str):
+    if current_user.role != 'educator':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    course = Course.query.get_or_404(course_id)
+
+    if course.educator_id != current_user.id:
+        flash("Access denied.", "error")
+        return redirect(url_for('educator_courses'))
+
+    # Convert date string to date object
+    from datetime import datetime
+    attendance_date = datetime.strptime(date_str, '%Y-%m-%d').date()
+
+    # Get all attendance records for this date
+    records = AttendanceRecord.query.filter_by(
+        course_id=course_id,
+        date=attendance_date
+    ).order_by(AttendanceRecord.student_id).all()
+
+    # Get all enrolled students
+    enrollments = Enrollment.query.filter_by(course_id=course_id).all()
+
+    # Create PDF
+    from reportlab.lib.pagesizes import letter, A4
+    from reportlab.lib import colors
+    from reportlab.lib.units import inch
+    from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.enums import TA_CENTER, TA_LEFT
+    from io import BytesIO
+
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=letter, topMargin=0.5 * inch, bottomMargin=0.5 * inch)
+
+    elements = []
+    styles = getSampleStyleSheet()
+
+    # Title Style
+    title_style = ParagraphStyle(
+        'CustomTitle',
+        parent=styles['Heading1'],
+        fontSize=18,
+        textColor=colors.HexColor('#2c3e50'),
+        spaceAfter=12,
+        alignment=TA_CENTER,
+        fontName='Helvetica-Bold'
+    )
+
+    # Subtitle Style
+    subtitle_style = ParagraphStyle(
+        'CustomSubtitle',
+        parent=styles['Normal'],
+        fontSize=12,
+        textColor=colors.HexColor('#34495e'),
+        spaceAfter=6,
+        alignment=TA_CENTER
+    )
+
+    # Add Title
+    title = Paragraph(f"<b>Attendance Report</b>", title_style)
+    elements.append(title)
+
+    # Add Course Info
+    course_info = Paragraph(f"{course.course_name} ({course.course_code})", subtitle_style)
+    elements.append(course_info)
+
+    block_info = Paragraph(f"Block: {course.block_section}", subtitle_style)
+    elements.append(block_info)
+
+    date_info = Paragraph(f"Date: {attendance_date.strftime('%A, %B %d, %Y')}", subtitle_style)
+    elements.append(date_info)
+
+    if records:
+        recorded_info = Paragraph(
+            f"Recorded on: {records[0].recorded_at.strftime('%B %d, %Y at %I:%M %p')}",
+            subtitle_style
+        )
+        elements.append(recorded_info)
+
+    elements.append(Spacer(1, 0.3 * inch))
+
+    # Create attendance dictionary
+    attendance_dict = {record.student_id: record for record in records}
+
+    # Calculate statistics
+    total_students = len(enrollments)
+    present_count = len([r for r in records if r.status == 'present'])
+    absent_count = len([r for r in records if r.status == 'absent'])
+    late_count = len([r for r in records if r.status == 'late'])
+    excused_count = len([r for r in records if r.status == 'excused'])
+
+    # Add Statistics Table
+    stats_data = [
+        ['Total Students', 'Present', 'Absent', 'Late', 'Excused'],
+        [str(total_students), str(present_count), str(absent_count), str(late_count), str(excused_count)]
+    ]
+
+    stats_table = Table(stats_data, colWidths=[1.2 * inch, 1.2 * inch, 1.2 * inch, 1.2 * inch, 1.2 * inch])
+    stats_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#3498db')),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 11),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#ecf0f1')),
+        ('GRID', (0, 0), (-1, -1), 1, colors.HexColor('#bdc3c7')),
+        ('FONTSIZE', (0, 1), (-1, -1), 10),
+        ('TOPPADDING', (0, 1), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
+    ]))
+
+    elements.append(stats_table)
+    elements.append(Spacer(1, 0.3 * inch))
+
+    # Add Student Attendance Table
+    data = [['#', 'Student Name', 'Username', 'Status']]
+
+    for idx, enrollment in enumerate(enrollments, 1):
+        student = enrollment.student
+        record = attendance_dict.get(student.id)
+
+        status_text = 'Not Recorded'
+        if record:
+            status_text = record.status.capitalize()
+
+        data.append([
+            str(idx),
+            f"{student.first_name} {student.last_name}",
+            student.username,
+            status_text
+        ])
+
+    table = Table(data, colWidths=[0.5 * inch, 2.5 * inch, 1.8 * inch, 1.5 * inch])
+
+    # Table styling
+    table.setStyle(TableStyle([
+        # Header
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#2c3e50')),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 11),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+
+        # Body
+        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+        ('TEXTCOLOR', (0, 1), (-1, -1), colors.HexColor('#2c3e50')),
+        ('ALIGN', (0, 1), (0, -1), 'CENTER'),  # Center # column
+        ('ALIGN', (1, 1), (-2, -1), 'LEFT'),  # Left align name and username
+        ('ALIGN', (-1, 1), (-1, -1), 'CENTER'),  # Center status column
+        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 1), (-1, -1), 10),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#f8f9fa')]),
+        ('TOPPADDING', (0, 1), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
+    ]))
+
+    # Add status-specific coloring
+    for idx, enrollment in enumerate(enrollments, 1):
+        record = attendance_dict.get(enrollment.student.id)
+        if record:
+            if record.status == 'present':
+                table.setStyle(TableStyle([
+                    ('TEXTCOLOR', (3, idx), (3, idx), colors.HexColor('#27ae60')),
+                    ('FONTNAME', (3, idx), (3, idx), 'Helvetica-Bold'),
+                ]))
+            elif record.status == 'absent':
+                table.setStyle(TableStyle([
+                    ('TEXTCOLOR', (3, idx), (3, idx), colors.HexColor('#e74c3c')),
+                    ('FONTNAME', (3, idx), (3, idx), 'Helvetica-Bold'),
+                ]))
+            elif record.status == 'late':
+                table.setStyle(TableStyle([
+                    ('TEXTCOLOR', (3, idx), (3, idx), colors.HexColor('#f39c12')),
+                    ('FONTNAME', (3, idx), (3, idx), 'Helvetica-Bold'),
+                ]))
+            elif record.status == 'excused':
+                table.setStyle(TableStyle([
+                    ('TEXTCOLOR', (3, idx), (3, idx), colors.HexColor('#3498db')),
+                    ('FONTNAME', (3, idx), (3, idx), 'Helvetica-Bold'),
+                ]))
+
+    elements.append(table)
+
+    # Build PDF
+    doc.build(elements)
+    buffer.seek(0)
+
+    # Send file
+    from flask import send_file
+    filename = f"attendance_{course.course_code}_{date_str}.pdf"
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name=filename,
+        mimetype='application/pdf'
+    )
 
 # ==========================================
 # STUDENT MATERIALS & LESSON PLANS
