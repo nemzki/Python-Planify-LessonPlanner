@@ -14,8 +14,6 @@ ENV/
 .venv/
 
 # --- Flask & Instance Folder ---
-*.db
-*.sqlite3
 
 # --- IDE / Editor Files ---
 .vscode/
