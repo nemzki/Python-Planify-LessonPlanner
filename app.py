@@ -440,40 +440,7 @@ def initialize_database():
         db.session.commit()
         print("✓ Lesson plans created!")
 
-        # ==========================================
-        # CREATE LEARNING MATERIALS
-        # ==========================================
-        print("Creating learning materials...")
 
-        materials_data = [
-            "Python_Basics.pdf", "Variables_Tutorial.docx", "Control_Structures.pdf",
-            "Functions_Examples.pdf", "OOP_Concepts.pptx", "Array_Operations.pdf",
-            "LinkedList_Guide.pdf", "Stack_Queue_Tutorial.docx", "Tree_Traversal.pdf",
-            "Graph_Algorithms.pdf", "HTML_Reference.pdf", "CSS_Cheatsheet.pdf",
-            "JavaScript_Guide.pdf", "Database_Design.docx", "SQL_Query_Examples.pdf",
-            "TCP_IP_Protocol.pdf", "Network_Security.pptx", "Android_Setup.pdf",
-            "Swift_Programming.pdf", "Agile_Framework.pdf", "ML_Algorithms.pdf",
-            "Neural_Networks.pdf", "Practice_Exercises.pdf", "Project_Template.docx",
-            "Code_Examples.txt", "Assignment.pdf", "Lab_Manual.pdf",
-            "Study_Guide.pdf", "Review_Questions.docx", "Final_Project.pdf",
-        ]
-
-        material_count = 0
-        for idx, lesson_plan in enumerate(lesson_plans):
-            num_materials = random.randint(1, 2)
-            for i in range(num_materials):
-                material_idx = (idx * 2 + i) % len(materials_data)
-                material = LearningMaterial(
-                    lesson_plan_id=lesson_plan.id,
-                    filename=materials_data[material_idx],
-                    filepath=f"static/uploads/dummy_{materials_data[material_idx]}",
-                    uploaded_at=datetime.utcnow() - timedelta(days=random.randint(5, 60))
-                )
-                db.session.add(material)
-                material_count += 1
-
-        db.session.commit()
-        print(f"✓ Learning materials created! (Total: {material_count})")
 
         # ==========================================
         # CREATE ATTENDANCE RECORDS
@@ -585,7 +552,6 @@ def initialize_database():
         print(f"✓ {len(courses)} Courses")
         print(f"✓ {enrollment_count} Enrollments")
         print(f"✓ {len(lesson_plans)} Lesson Plans")
-        print(f"✓ {material_count} Learning Materials")
         print(f"✓ {attendance_count} Attendance Records")
         print(f"✓ {len(contact_messages_data)} Contact Messages")
         print("=" * 60 + "\n")
