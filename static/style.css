@@ -1,3 +1,4 @@
+
 /* ============================================================================
    PLANIFY - LESSON PLANNER STYLESHEET
    Organized and refactored for maintainability
@@ -2049,6 +2050,16 @@ a.logo {
   margin: 0;
 }
 
+.lesson-course-code-badge {
+  background: var(--color-black);
+  color: var(--color-white);
+  padding: 0.5rem 1.25rem;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
 /* Back Icon Button */
 .back-icon-btn {
   display: inline-flex;
@@ -2976,18 +2987,17 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 
-
-
-
 /* ============================================================================
    19. ATTENDANCE - HISTORY & DETAIL
    ============================================================================ */
-
 .attendance-history-container {
   background: white;
   padding: 2rem;
-  border-radius: 15px;
+  border-radius: 16px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid black;
+  max-width: 1645px !important;
+  margin: auto;
 }
 
 .history-header {
@@ -3007,27 +3017,48 @@ input[type="file"].form-input::file-selector-button:hover {
 
 .history-header h2 {
   color: #333;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   margin: 0;
 }
 
+/* RIGHT SIDE ALIGN */
 .header-actions {
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 1.2rem;
 }
 
+.course-block,
 .record-new-btn {
-  display: inline-block;
-  padding: 0.85rem 2rem;
-  background-color: var(--color-white);
-  color: var(--color-black);
-  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 38px;          /* same height */
+  padding: 0 0.8rem;     /* same padding */
   border-radius: 8px;
+  font-size: 0.9rem;
   font-weight: 600;
+  white-space: nowrap;
+
+  line-height: 1;        /* FIX: makes the text perfectly centered */
+}
+
+/* COURSE BLOCK */
+.course-block {
+  background-color: #fff;
+  color: #000;
   border: 1px solid var(--color-black);
+  min-width: 120px !important;
+}
+
+/* RECORD BUTTON */
+.record-new-btn {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: 1px solid var(--color-black);
+  min-width: 150px !important;
   transition: all 0.3s ease;
-  font-size: 1rem;
-  margin-left: 20px;
 }
 
 .record-new-btn:hover {
@@ -3035,6 +3066,7 @@ input[type="file"].form-input::file-selector-button:hover {
   color: var(--color-green-light);
   transform: translateY(-2px);
 }
+
 
 .history-info {
   background: #f0f7ff;
@@ -3520,9 +3552,10 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 /* ============================================================================
-   20. ENROLLMENTS - MATCHING ATTENDANCE STYLE
-   ============================================================================ */
+   20. ENROLLMENTS
+============================================================================ */
 
+/* MAIN CONTENT RESET WHEN USING ENROLLMENTS */
 .main-content:has(.enrollment-container) {
     background: #ffffff !important;
     padding: 0 !important;
@@ -3535,32 +3568,24 @@ input[type="file"].form-input::file-selector-button:hover {
     padding-bottom: 2rem;
 }
 
+/* MAIN WRAPPER */
 .enrollment-container {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
     border: .8px solid #000;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    background: #fff;
 }
 
-.enrollment-container > * {
-    width: 100%;
-    padding-bottom: 0;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-/* --------------------------------------------
-   HEADER ROW (Back + Title)
---------------------------------------------- */
+/* ============================================================================
+   HEADER
+============================================================================ */
 .enrollment-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 18px 20px;
     border-bottom: 1px solid #dcdcdc;
-    background: #fff;
 }
 
 .enrollment-header .header-left {
@@ -3571,135 +3596,187 @@ input[type="file"].form-input::file-selector-button:hover {
 
 .enrollment-header .header-left h2 {
     margin: 0;
-    padding: 0;
-    line-height: 1.1;
-    color: #000;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 700;
+    color: #000;
 }
 
 .enrollment-header .back-icon-btn img {
     width: 34px;
     height: 34px;
-    display: block;
 }
 
-/* --------------------------------------------
-   ENROLL FORM SECTION
---------------------------------------------- */
-.enroll-form {
-    width: 100%;
-    border-bottom: 1px solid #dcdcdc;
+.course-code-badge {
+  background: var(--color-black);
+  color: var(--color-white);
+  padding: 0.5rem 1.25rem;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================================
+   TWO-COLUMN SECTION (Enroll Form + Code Box)
+============================================================================ */
+.enrollment-flex {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 25px 20px;
     background: #fff;
-    padding: 20px 20px;
-    color: #000;
+    border-bottom: 1px solid #dcdcdc;
 }
 
-.enroll-form h3 {
+/* BOTH CARDS */
+.enroll-card,
+.code-card {
+    width: 48%;
+    background: #f8f8f8;
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* HEADINGS */
+.enroll-card h3,
+.code-card h3 {
+    margin-bottom: 8px;
     font-size: 16px;
     font-weight: 700;
     color: #000;
-    margin-bottom: 15px;
 }
 
-.enroll-form .form-group {
-    margin-bottom: 15px;
+.form-description,
+.code-description {
+    font-size: 13px;
+    color: #444;
+    margin-bottom: 12px;
 }
 
-.enroll-form label {
+/* ============================================================================
+   ENROLL FORM CARD
+============================================================================ */
+.enroll-card label {
     display: block;
-    margin-bottom: 8px;
-    color: #000;
-    font-weight: 600;
+    margin-bottom: 6px;
     font-size: 14px;
+    font-weight: 600;
 }
 
-.enroll-form .form-input {
+.enroll-card .form-input {
     width: 100%;
-    padding: 8px 12px;
+    padding: 10px;
     border: 1px solid #000;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 14px;
     background: #fff;
-    color: #000;
 }
 
-.enroll-form .form-input:focus {
-    outline: none;
-    border-color: #000;
-}
-
-.enroll-form .submit-btn {
+.submit-btn {
     background: #B9FF66;
     border: 1px solid #000;
-    padding: 8px 20px;
+    padding: 10px 20px;
+    width: 100%;
     border-radius: 6px;
     font-weight: 600;
-    font-size: 14px;
-    color: #000;
+    margin-top: 12px;
+    color: black;
     cursor: pointer;
-    transition: all 0.3s;
-    height: 36px;
-    min-width: 120px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    transition: 0.2s ease;
 }
 
-.enroll-form .submit-btn:hover {
-    background-color: #000;
+.submit-btn:hover {
+    background: #000;
     color: #B9FF66;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
 }
 
-.enroll-form .error {
-    display: block;
-    color: #dc3545;
-    font-size: 12px;
-    margin-top: 5px;
-    font-weight: 500;
+/* ============================================================================
+   CODE CARD
+============================================================================ */
+.code-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0 10px;
+    justify-content: center !important;
 }
 
-/* --------------------------------------------
-   ENROLLED STUDENTS SECTION
---------------------------------------------- */
+.code-text {
+    font-size: 1.5rem !important;
+    letter-spacing: 0.25em;
+    font-weight: 700;
+    text-alin
+}
+
+.copy-btn {
+    border: 1px solid #000;
+    background: #B9FF66 !important;
+    padding: 8px 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    color: black !important;
+}
+
+.code-card {
+    width: 48%;
+    background: #f8f8f8;
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 25px;
+    text-align: center;           /* ← CENTER ALL TEXT */
+}
+
+/* Center the code box + button horizontally */
+.code-display {
+    display: flex;
+    justify-content: center;      /* ← CENTER CONTENT */
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+/* Center the small description */
+.code-card p,
+.code-description,
+.code-hint {
+    text-align: center;
+}
+
+
+/* ============================================================================
+   STUDENT TABLE
+============================================================================ */
 .enrolled-students {
-    background: #fff;
     padding: 20px;
 }
 
 .enrolled-students h3 {
     font-size: 16px;
     font-weight: 700;
-    color: #000;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
-/* --------------------------------------------
-   ENROLLMENT TABLE
---------------------------------------------- */
 .enrollment-table {
     width: 100%;
-    border-collapse: transparent;
+    border-collapse: collapse;
     text-align: center;
-    font-size: 14px;
 }
 
 .enrollment-table th {
     background: #000;
+    color: #fff;
     padding: 10px 0;
     border: 1px solid #fff;
-    font-weight: 600;
-    color: #fff;
-    text-transform: uppercase;
     font-size: 13px;
+    font-weight: 600;
 }
 
 .enrollment-table td {
     padding: 10px 0;
-    border: .5px solid #000;
+    border: 1px solid #000;
+    font-size: 14px;
     color: #000;
 }
 
@@ -3707,33 +3784,38 @@ input[type="file"].form-input::file-selector-button:hover {
     background: #f2f2f2;
 }
 
-/* Remove Button */
-.enrollment-table .remove-btn {
+/* REMOVE BUTTON */
+.remove-btn {
     background: #dc3545;
     color: white;
     border: 1px solid #000;
     padding: 6px 16px;
     border-radius: 6px;
     font-weight: 600;
-    font-size: 12px;
     cursor: pointer;
-    transition: all 0.3s;
-    text-transform: uppercase;
+    transition: 0.2s ease;
 }
 
-.enrollment-table .remove-btn:hover {
+.remove-btn:hover {
     background: #c82333;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
-/* Empty State */
-.enrollment-container .empty-state {
-    padding: 20px;
-    text-align: center;
-    color: #777;
-    font-size: 14px;
+/* ============================================================================
+   RESPONSIVE FIX
+============================================================================ */
+@media (max-width: 900px) {
+    .enrollment-flex {
+        flex-direction: column;
+    }
+
+    .enroll-card,
+    .code-card {
+        width: 100%;
+    }
 }
+
+
+
 /* ============================================================================
    21. ADMIN DASHBOARD - MODERN LAYOUT
    ============================================================================ */
@@ -4635,16 +4717,6 @@ input[type="file"].form-input::file-selector-button:hover {
   align-items: center;
   gap: 1.5rem;
   flex-wrap: wrap;
-}
-
-.course-code-badge {
-  background: var(--color-green-dark);
-  color: var(--color-white);
-  padding: 0.5rem 1.25rem;
-  border-radius: 25px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  box-shadow: 0 2px 8px rgba(86, 130, 3, 0.3);
 }
 
 .lessons-header .educator-info {
@@ -6911,3 +6983,4 @@ button:focus {
     gap: 10px;
     align-items: center;
 }
+

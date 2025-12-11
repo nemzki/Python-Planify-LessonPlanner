@@ -2,93 +2,109 @@
 
 {% block content %}
 <div class="enrollment-container">
-    <h2>Manage Enrollments - {{ course.course_name }}</h2>
-    <p class="course-info">{{ course.course_code }} - {{ course.block_section }}</p>
-    <!-- Course Enrollment Code Section -->
-    <div class="enrollment-code-section">
-        <h3>📋 Course Enrollment Code</h3>
-        <p class="code-description">Share this code with students so they can join your course</p>
-        <div class="code-display">
-            <span class="code-text" id="enrollmentCode">{{ course.enrollment_code }}</span>
-            <button class="copy-btn" onclick="copyEnrollmentCode()">📋 Copy Code</button>
+
+    <!-- Header -->
+    <div class="enrollment-header">
+        <div class="header-left">
+            <a href="{{ url_for('educator_courses') }}" class="back-icon-btn">
+                <img src="{{ url_for('static', filename='pictures/back-button.png') }}" alt="Back">
+            </a>
+            <h2>Manage Enrollments - {{ course.course_name }}</h2>
         </div>
-        <p class="code-hint">Students can enter this code in their dashboard to join this course</p>
+        <div class="course-code-badge">{{ course.block_section }}</div>
     </div>
 
-    <!-- Enroll by Email Section -->
-    <div class="enroll-form">
-        <h3>Enroll Student by Email</h3>
-        <p class="form-description">Enter a student's email address to enroll them directly</p>
-        <form method="POST">
-            {{ form.hidden_tag() }}
+    <!-- TWO COLUMN CARD SECTION -->
+    <div class="enrollment-flex">
 
-            <div class="form-group">
-                {{ form.student_email.label }}
-                {{ form.student_email(class="form-input", placeholder="student@example.com") }}
-                {% if form.student_email.errors %}
-                    <small class="error">{{ form.student_email.errors[0] }}</small>
-                {% endif %}
+        <!-- LEFT: Enroll by Email -->
+        <div class="enroll-card">
+            <h3>Enroll Student by Email</h3>
+            <p class="form-description">Enter a student's email address to enroll them directly</p>
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ form.student_email.label(for="student_email") }}
+                    {{ form.student_email(class="form-input", id="student_email", placeholder="student@example.com") }}
+                    {% if form.student_email.errors %}
+                        <small class="error">{{ form.student_email.errors[0] }}</small>
+                    {% endif %}
+                </div>
+
+                <button class="submit-btn">{{ form.submit.label.text }}</button>
+
+            </form>
+        </div>
+
+        <!-- RIGHT: Course Enrollment Code -->
+        <div class="code-card">
+            <h3>📋 Course Enrollment Code</h3>
+            <p class="code-description">Share this code so students can join your course</p>
+
+            <div class="code-display">
+                <span class="code-text" id="enrollmentCode">{{ course.enrollment_code }}</span>
+                <button class="copy-btn" onclick="copyEnrollmentCode()">📋 Copy Code</button>
             </div>
 
-            <div class="form-group">
-                {{ form.submit(class="submit-btn") }}
-            </div>
-        </form>
+            <p class="code-hint">Students can enter this code in their dashboard</p>
+        </div>
+
     </div>
 
-    <!-- Enrolled Students List -->
+    <!-- ENROLLED STUDENTS -->
     <div class="enrolled-students">
         <h3>Currently Enrolled Students ({{ enrollments|length }})</h3>
         {% if enrollments %}
-            <table class="enrollment-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Enrolled Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for enrollment in enrollments %}
-                    <tr>
-                        <td>{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</td>
-                        <td>{{ enrollment.student.username }}</td>
-                        <td>{{ enrollment.student.email }}</td>
-                        <td>{{ enrollment.enrolled_at.strftime('%B %d, %Y') }}</td>
-                        <td>
-                            <form method="POST" action="{{ url_for('remove_enrollment', enrollment_id=enrollment.id) }}"
-                                  onsubmit="return confirm('Remove this student from the course?');">
-                                <button type="submit" class="remove-btn">Remove</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p class="empty-state">No students enrolled yet.</p>
+        <table class="enrollment-table">
+            <thead>
+                <tr>
+                    <th>NAME</th>
+                    <th>USERNAME</th>
+                    <th>EMAIL</th>
+                    <th>ENROLLED DATE</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for enrollment in enrollments %}
+                <tr>
+                    <td>{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</td>
+                    <td>{{ enrollment.student.username }}</td>
+                    <td>{{ enrollment.student.email }}</td>
+                    <td>{{ enrollment.enrolled_at.strftime('%B %d, %Y') }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('remove_enrollment', enrollment_id=enrollment.id) }}"
+                            onsubmit="return confirm('Remove this student?');">
+                            <button type="submit" class="remove-btn">REMOVE</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         {% endif %}
     </div>
 
-    <a href="{{ url_for('educator_courses') }}" class="back-btn">Back to Courses</a>
 </div>
 
 <script>
 function copyEnrollmentCode() {
-    const codeText = document.getElementById('enrollmentCode').textContent;
-    navigator.clipboard.writeText(codeText).then(() => {
-        const btn = document.querySelector('.copy-btn');
-        const originalText = btn.textContent;
-        btn.textContent = '✓ Copied!';
-        btn.style.background = 'var(--color-green-dark)';
+    const code = document.getElementById("enrollmentCode").textContent.trim();
+    navigator.clipboard.writeText(code);
 
-        setTimeout(() => {
-            btn.textContent = originalText;
-            btn.style.background = '';
-        }, 2000);
-    });
+    const btn = document.querySelector(".copy-btn");
+    btn.textContent = "✓ Copied!";
+    btn.style.background = "#000";
+    btn.style.color = "#B9FF66";
+
+    setTimeout(() => {
+        btn.textContent = "📋 Copy Code";
+        btn.style.background = "";
+        btn.style.color = "";
+    }, 2000);
 }
 </script>
 {% endblock %}
+
