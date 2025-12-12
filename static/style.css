@@ -1420,229 +1420,231 @@ a.logo {
 }
 
 
-/* ============================================================================
-   14. COURSES - GENERAL
+//* ============================================================================
+   19. COURSES - LIST PAGE
    ============================================================================ */
 
-/* Make section-header height same as logo height and align center vertically */
+/* Match Attendance History full-width structure */
+.main-content:has(.courses-container) {
+    background: #ffffff !important;
+    padding: 0 !important;
+}
+
+.main-content .content:has(.courses-container) {
+    max-width: 100% !important;
+    padding: 2rem !important;
+    width: 100%;
+}
+
+.courses-container {
+    background: white;
+    width: 100%;
+    margin: 0;
+}
+
+.courses-section {
+    width: 100%;
+}
+
+/* Header: Title + Add Course */
 .section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-  margin-bottom: 60px;
-  padding: 0 1rem;
-  box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    background: #fff;
+    border-bottom: 1px solid #dcdcdc;
 }
 
 .section-header h1 {
-  font-weight: 700;
-  font-size: 1.5rem; /* slightly smaller to fit in 60px height */
-  color: #000000;
-  margin: 0;
-  line-height: 1;
-  user-select: none;
+    font-size: 1.6rem;
+    font-weight: 700;
 }
 
+/* Add Course Button (Top Right) */
 .add-course-btn {
-  background-color: var(--color-green-light);
-  color: #000000;
-  padding: 0.55rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  border: 1px solid #000000;
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
+    background: #B9FF66;
+    color: black;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s ease;
+    border: 1px solid black;
 }
 
 .add-course-btn:hover {
-  background-color: #000000;
-  border: 1px solid #000000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-  transform: translateY(-2px);
-  color: var(--color-green-light);
-}
-
-.add-course-btn-large {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 1rem 2rem;
-  background: #667eea;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 600;
-  border: 1px solid #000000;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 3rem;
-  color: #666;
+    background: #000;
+    color: #b9ff66;
 }
 
 /* ============================================================================
    15. COURSES - CARDS & GRID
    ============================================================================ */
 
+/* 4-column fixed card layout */
 .courses-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  justify-items: start; /* Aligns cards to the start of each grid cell */
-  padding-bottom: 1rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    justify-items: start;
+    padding-bottom: 1rem;
 }
 
 /* Fixed size cards */
 .course-card {
-  background: #fff;
-  /* fixed width and height */
-  width: 350px;
-  height: 440px;
-  padding: 1.5rem;
-  border-radius: 12px;
-  border: 1px solid #000000;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-sizing: border-box;
-  transition: all 0.3s ease;
-  cursor: default;
-  margin-bottom: 15px;
-}
-
-.main-content {
-  background-color: white !important;
+    background: #fff;
+    width: 350px;
+    height: 440px;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    cursor: default;
+    margin-bottom: 15px;
+    margin-top: 2rem;
 }
 
 .course-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  border-color: #000000;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-color: #000000;
 }
 
+/* Top header of card */
 .course-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.5rem;
 }
 
 .course-header h4 {
-  color: #000000;
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 0;
-  flex-grow: 1;
-  line-height: 1.3;
-  min-height: 2.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    color: #000000;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+    flex-grow: 1;
+    line-height: 1.3;
+    min-height: 2.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* Black pill course code */
 .course-code {
-  background-color: #000000;
-  color: #fff;
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
-  user-select: none;
-  margin-left: 0.8rem;
-  flex-shrink: 0;
-
+    background-color: #000000;
+    color: #fff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    user-select: none;
+    margin-left: 0.8rem;
+    flex-shrink: 0;
 }
 
-/* Description fixes */
+/* Course description */
 .course-description {
-  color: #666;
-  font-size: 0.875rem;
-  line-height: 1.4;
-  min-height: 2.5rem;
-  max-height: 2.8rem;
-  margin-bottom: 0.75rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    color: #666;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    min-height: 2.5rem;
+    max-height: 2.8rem;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Stats area */
+/* Stats line */
 .course-stats {
-  display: flex;
-  gap: 1rem;
-  font-size: 0.875rem;
-  color: #000000;
-  margin-bottom: 0.75rem;
-  align-items: center;
-  min-height: 1.25rem;
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: #000000;
+    margin-bottom: 0.75rem;
+    align-items: center;
+    min-height: 1.25rem;
 }
 
-/* Buttons container stacked vertically */
+/* Buttons vertical stack */
 .course-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: auto;
-  align-items: center;
-}
-
-.course-actions-row {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: auto;
+    align-items: center;
 }
 
 .action-btn {
-  width: 100%;
-  padding: 0.65rem 0;
-  background-color: #B9FF66;
-  border: 1px solid #000000;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-align: center;
-  color: #000000;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  user-select: none;
-  box-sizing: border-box;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 38px;
+    width: 100%;
+    padding: 0.65rem 0;
+    background-color: #B9FF66;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    color: #000000;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 38px;
 }
 
 .action-btn:hover {
-  background-color: #E0FFC2;
-  color: #000;
+    background-color: #E0FFC2;
+    color: #000;
 }
 
-
-
-/* Specifically style edit button */
+/* Edit button special style */
 .edit-btn {
-  background-color: #000000;
-  color: #B9FF66;
-  padding: 0.65rem 0;
-  font-weight: 700;
-  border-radius: 8px;
-  margin-top: 0;
-  font-size: 0.95rem;
-  min-height: 38px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
+    background-color: #000000 !important;
+    color: #B9FF66 !important;
+    font-weight: 700;
 }
 
 .edit-btn:hover {
-  background-color: #E0FFC2;
-  color: #000;
-  border: 1px solid #000000;
+    background-color: #E0FFC2 !important;
+    color: #000 !important;
+    border: 1px solid #000000 !important;
 }
 
+/* ============================================================================
+   EMPTY STATE
+   ============================================================================ */
 
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+}
+
+.add-course-btn-large {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 1rem 2rem;
+    background: #667eea;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    border: 1px solid #000;
+}
+
+.add-course-btn-large:hover {
+    background: #5567d4;
+}
 
 /* ============================================================================
    15. EDIT COURSE - FORM LAYOUT
@@ -2017,12 +2019,31 @@ a.logo {
    16. LESSON PLANS - LIST & CARDS
    ============================================================================ */
 
-/* Plans Container */
-.plans-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem;
+/* Make the page full-width when Lesson Plans are present */
+.main-content:has(.plans-container) {
+    background: #ffffff !important;
+    padding: 0 !important;
 }
+
+/* Expand inner content to maximum width */
+.main-content .content:has(.plans-container) {
+    max-width: 100% !important;
+    padding: 2rem !important;
+    width: 100%;
+}
+
+/* Ensure plans container spans the entire width */
+.plans-container {
+    background: #ffffff;
+    width: 100%;
+    margin: 0;
+}
+
+/* Force lesson plan section to behave like full-width container */
+.plans-section {
+    width: 100%;
+}
+
 
 /* Plans Header */
 .plans-header {
@@ -2099,23 +2120,24 @@ a.logo {
 }
 
 .add-btn {
-  padding: 0.65rem 1.25rem;
-  background-color: var(--color-green-light);
-  color: var(--color-black);
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  border: 1px solid var(--color-black);
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  flex-shrink: 0;
-  align-self: flex-start;
+  background: #B9FF66;
+    color: black;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s ease;
+    border: 1px solid black;
+}
+
+.add-course-btn:hover {
+    background: #000;
+    color: #b9ff66;
 }
 
 .add-btn:hover {
   background-color: var(--color-black);
-  color: var(--color-white);
+  color: var(--color-green-light);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(86, 130, 3, 0.3);
 }
@@ -2142,9 +2164,9 @@ a.logo {
 /* Plans Grid */
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(3, 350px);
-  gap: 1rem;
-  justify-content: start;
+  grid-template-columns: repeat(4, 350px);
+  gap: 2rem;
+  justify-content: center;
   padding-bottom: 1rem;
 }
 
@@ -2760,41 +2782,33 @@ input[type="file"].form-input::file-selector-button:hover {
     width: 100%;
   }
 }
-
 /* ============================================================================
    18. ATTENDANCE - RECORDING
    ============================================================================ */
 
+/* Match attendance details page layout exactly */
 .main-content:has(.attendance-container) {
     background: #ffffff !important;
     padding: 0 !important;
 }
 
 .main-content .content:has(.attendance-container) {
-    display: flex;
-    justify-content: center;
+    max-width: 100% !important;
+    padding: 2rem !important;
     width: 100%;
-    padding-bottom: 2rem;
 }
 
-
+/* Container matches details page styling */
 .attendance-container {
+    background: transparent;
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    border: .8px solid #000;
-    border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.10);
-
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    border: none;
 }
-
-.attendance-container > * {
-    width: 100%;
-    padding-bottom: 0;
-    border-radius: 10px;
-}
-
-
 
 /* --------------------------------------------
    HEADER ROW (Back + Title + History Button)
@@ -2802,55 +2816,88 @@ input[type="file"].form-input::file-selector-button:hover {
 .attendance-header-with-back-history {
     display: flex;
     justify-content: space-between;
-    align-items: center;        /* vertical align everything */
-    padding: 18px 20px;
-    border-bottom: 1px solid #dcdcdc;
-    background: #fff;
+    align-items: center;
+    padding: 0;
+    border-bottom: none;
+    background: transparent;
+    margin-bottom: 2rem;
+    width: 100%;
 }
 
 .header-left {
     display: flex;
-    align-items: center;        /* center back icon + title */
-    gap: 12px;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
 }
 
 .header-left h2 {
-    margin: 0;                  /* remove default browser margin */
+    margin: 0;
     padding: 0;
-    line-height: 1.1;
+    line-height: 1.2;
     color: #000;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.back-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    flex-shrink: 0;
 }
 
 .back-icon-btn img {
-    width: 34px;
-    height: 34px;
+    width: 24px;
+    height: 24px;
     display: block;
+    transition: transform 0.3s ease;
+}
+
+.back-icon-btn:hover {
+    background-color: #B9FF66;
+    transform: translateX(-3px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.back-icon-btn:hover img {
+    transform: translateX(-2px);
 }
 
 /* History Button */
 .view-history-btn {
     background: #B9FF66;
-    padding: 6px 20px;
-    border-radius: 6px;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 0.95rem;
     text-decoration: none;
     color: #000;
     border: 1px solid #000;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 36px;
-    min-width: 120px;
+    min-height: 44px;
+    min-width: 140px;
     transition: all 0.3s;
+    flex-shrink: 0;
 }
 
 .view-history-btn:hover {
     background-color: #000;
-    border: 1px solid #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
-    color: #B9FF66;;
+    color: #B9FF66;
 }
 
 
@@ -2859,46 +2906,68 @@ input[type="file"].form-input::file-selector-button:hover {
 --------------------------------------------- */
 .date-form-inline {
     width: 100%;
-    border-bottom: 1px solid #dcdcdc;
-    background: #fff;
-    padding: 12px 20px;
-    color: #000;
+    border-bottom: none;
+    background: #f2f2f2;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border: 1px solid #e0e0e0;
 }
 
 .form-row-inline {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 1rem;
 }
 
 .form-group-search {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 1rem;
+}
+
+.form-group-search label {
+    font-weight: 700;
+    color: #000;
+    font-size: 1rem;
+    white-space: nowrap;
 }
 
 .form-input-date {
-    border: 1px solid #000;
-    padding: 4px 6px;
-    border-radius: 4px;
+    border: 2px solid #ddd;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #fff;
+    color: #333;
+    transition: all 0.3s;
+}
+
+.form-input-date:focus {
+    outline: none;
+    border-color: #568203;
+    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
 }
 
 /* View Date Button */
 .submit-btn-green {
-    background: #B9FF66;;
+    background: #B9FF66;
     border: 1px solid #000;
-    padding: 4px 14px;
-    border-radius: 6px;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
     font-weight: 600;
     color: #000;
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 0.95rem;
+    min-height: 44px;
+    min-width: 120px;
+    transition: all 0.3s;
     cursor: pointer;
 }
 
 .submit-btn-green:hover {
     background-color: #000;
-    border: 1px solid #000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
     color: #B9FF66;
 }
@@ -2907,30 +2976,32 @@ input[type="file"].form-input::file-selector-button:hover {
    DATE + SAVE ROW
 --------------------------------------------- */
 .date-save-row {
-    background: #fff;
-    border-bottom: 1px solid #fff;
-    padding: 10px 20px;
+    background: transparent;
+    border-bottom: none;
+    padding: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 2rem;
 }
 
 .date-save-row h3 {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 700;
     color: #000;
+    margin: 0;
 }
 
-/* Save button (small) */
+/* Save button */
 .date-save-row button {
     background: #B9FF66;
-    padding: 6px 20px;
+    padding: 0.65rem 1.5rem;
     border: 1px solid #000;
-    border-radius: 6px;
+    border-radius: 8px;
     font-weight: 600;
-    font-size: 14px;
-    height: 36px;
-    min-width: 120px;
+    font-size: 0.95rem;
+    min-height: 44px;
+    min-width: 140px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2940,8 +3011,8 @@ input[type="file"].form-input::file-selector-button:hover {
 
 .date-save-row button:hover {
     background-color: #000;
-    border: 1px solid #000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
     color: #B9FF66;
 }
@@ -2951,53 +3022,955 @@ input[type="file"].form-input::file-selector-button:hover {
 --------------------------------------------- */
 .attendance-table {
     width: 100%;
-    border-collapse: transparent;
+    border-collapse: separate;
+    border-spacing: 0;
     text-align: center;
-    font-size: 14px;
+    font-size: 15px;
+    background: #fff;
+    border-radius: 1px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .attendance-table th {
     background: #000;
-    padding: 10px 0;
+    padding: 1rem;
     border: 1px solid #fff;
     font-weight: 600;
     color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
 }
 
 .attendance-table td {
-    padding: 10px 0;
-    border: .5px solid #000;
+    padding: 1rem;
+    border: 1px solid #000;
+    color: #333;
 }
 
-.attendance-table tr:hover {
-    background: #f2f2f2;
+.attendance-table tbody tr {
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.attendance-table tbody tr:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* Radio buttons */
 .attendance-table input[type="radio"] {
-    transform: scale(1.1);
+    transform: scale(1.2);
     cursor: pointer;
+    accent-color: #568203;
 }
 
 /* Empty state */
 .empty-state {
-    padding: 20px;
+    padding: 3rem;
     text-align: center;
-    color: #777;
+    color: #666;
+    font-size: 1.1rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin: 2rem 0;
+}
+/* ============================================================================
+   18. ATTENDANCE - RECORDING
+   ============================================================================ */
+
+/* Match attendance details page layout exactly */
+.main-content:has(.attendance-container) {
+    background: #ffffff !important;
+    padding: 0 !important;
 }
 
+.main-content .content:has(.attendance-container) {
+    max-width: 100% !important;
+    padding: 2rem !important;
+    width: 100%;
+}
+
+/* Container matches details page styling */
+.attendance-container {
+    background: transparent;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    border: none;
+}
+
+/* --------------------------------------------
+   HEADER ROW (Back + Title + History Button)
+--------------------------------------------- */
+.attendance-header-with-back-history {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    border-bottom: none;
+    background: transparent;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.header-left h2 {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+    color: #000;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.back-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.back-icon-btn img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.back-icon-btn:hover {
+    background-color: #B9FF66;
+    transform: translateX(-3px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.back-icon-btn:hover img {
+    transform: translateX(-2px);
+}
+
+/* History Button */
+.view-history-btn {
+    background: #B9FF66;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: #000;
+    border: 2px solid #000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 140px;
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+.view-history-btn:hover {
+    background-color: #000;
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    color: #B9FF66;
+}
+
+
+/* --------------------------------------------
+   SEARCH DATE BAR
+--------------------------------------------- */
+.date-form-inline {
+    width: 100%;
+    border-bottom: none;
+    background: #f2f2f2;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border: 1px solid #e0e0e0;
+}
+
+.form-row-inline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-group-search {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-group-search label {
+    font-weight: 700;
+    color: #333;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.form-input-date {
+    border: 2px solid #ddd;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #fff;
+    color: #333;
+    transition: all 0.3s;
+}
+
+.form-input-date:focus {
+    outline: none;
+    border-color: #568203;
+    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
+}
+
+/* View Date Button */
+.submit-btn-green {
+    background: #B9FF66;
+    border: 2px solid #000;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #000;
+    font-size: 0.95rem;
+    min-height: 44px;
+    min-width: 120px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.submit-btn-green:hover {
+    background-color: #000;
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    color: #B9FF66;
+}
+
+/* --------------------------------------------
+   DATE + SAVE ROW
+--------------------------------------------- */
+.date-save-row {
+    background: transparent;
+    border-bottom: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.date-save-row h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+    margin: 0;
+}
+
+/* Save button */
+.date-save-row button {
+    background: #B9FF66;
+    padding: 0.65rem 1.5rem;
+    border: 2px solid #000;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-height: 44px;
+    min-width: 140px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.date-save-row button:hover {
+    background-color: #000;
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    color: #B9FF66;
+}
+
+/* --------------------------------------------
+   ATTENDANCE TABLE
+--------------------------------------------- */
+.attendance-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: center;
+    font-size: 15px;
+    background: #fff;
+    border-radius: 1px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.attendance-table th {
+    background: #000;
+    padding: 1rem;
+    border: 1px solid #fff;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.attendance-table td {
+    padding: 1rem;
+    border: 1px solid #000;
+    color: #333;
+}
+
+.attendance-table tbody tr {
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.attendance-table tbody tr:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Radio buttons */
+.attendance-table input[type="radio"] {
+    transform: scale(1.2);
+    cursor: pointer;
+    accent-color: #568203;
+}
+
+/* Empty state */
+.empty-state {
+    padding: 3rem;
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin: 2rem 0;
+}
+/* ============================================================================
+   18. ATTENDANCE - RECORDING
+   ============================================================================ */
+
+/* Match attendance history page layout exactly */
+.main-content:has(.attendance-container) {
+    background: #ffffff !important;
+    padding: 0 !important;
+}
+
+.main-content .content:has(.attendance-container) {
+    max-width: 100% !important;
+    padding: 2rem !important;
+    width: 100%;
+}
+
+/* Container matches history page styling */
+.attendance-container {
+    background: transparent;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    border: none;
+}
+
+/* --------------------------------------------
+   HEADER ROW (Back + Title + History Button)
+--------------------------------------------- */
+.attendance-header-with-back-history {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    border-bottom: none;
+    background: transparent;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.header-left h2 {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+    color: #000;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.back-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.back-icon-btn img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.back-icon-btn:hover {
+    background-color: #B9FF66;
+    transform: translateX(-3px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.back-icon-btn:hover img {
+    transform: translateX(-2px);
+}
+
+/* History Button */
+.view-history-btn {
+    background: #B9FF66;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: #000;
+    border: 2px solid #000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 140px;
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+.view-history-btn:hover {
+    background-color: #000;
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    color: #B9FF66;
+}
+
+
+/* --------------------------------------------
+   SEARCH DATE BAR
+--------------------------------------------- */
+.date-form-inline {
+    width: 100%;
+    border-bottom: none;
+    background: #f0f7ff;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.form-row-inline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-group-search {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-group-search label {
+    font-weight: 700;
+    color: #333;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.form-input-date {
+    border: 2px solid #ddd;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #fff;
+    color: #333;
+    transition: all 0.3s;
+}
+
+.form-input-date:focus {
+    outline: none;
+    border-color: #568203;
+    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
+}
+
+/* View Date Button */
+.submit-btn-green {
+    background: #B9FF66;
+    border: 2px solid #000;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #000;
+    font-size: 0.95rem;
+    min-height: 44px;
+    min-width: 120px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.submit-btn-green:hover {
+    background-color: #000;
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    color: #B9FF66;
+}
+
+/* --------------------------------------------
+   DATE + SAVE ROW
+--------------------------------------------- */
+.date-save-row {
+    background: transparent;
+    border-bottom: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.date-save-row h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+/* Save button */
+.date-save-row button {
+    background: #B9FF66;
+    padding: 0.65rem 1.5rem;
+    border: 2px solid #000;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-height: 44px;
+    min-width: 140px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.date-save-row button:hover {
+    background-color: #000;
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    color: #B9FF66;
+}
+
+/* --------------------------------------------
+   ATTENDANCE TABLE
+--------------------------------------------- */
+.attendance-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: center;
+    font-size: 15px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.attendance-table th {
+    background: #000;
+    padding: 1rem;
+    border: 1px solid #fff;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.attendance-table td {
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    color: #333;
+}
+
+.attendance-table tbody tr {
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.attendance-table tbody tr:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Radio buttons */
+.attendance-table input[type="radio"] {
+    transform: scale(1.2);
+    cursor: pointer;
+    accent-color: #568203;
+}
+
+/* Empty state */
+.empty-state {
+    padding: 3rem;
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin: 2rem 0;
+}
+/* ============================================================================
+   18. ATTENDANCE - RECORDING
+   ============================================================================ */
+
+/* Match attendance history page layout exactly */
+.main-content:has(.attendance-container) {
+    background: #ffffff !important;
+    padding: 0 !important;
+}
+
+.main-content .content:has(.attendance-container) {
+    max-width: 100% !important;
+    padding: 2rem !important;
+    width: 100%;
+}
+
+/* Container matches history page styling */
+.attendance-container {
+    background: white;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    border: none;
+}
+
+/* --------------------------------------------
+   HEADER ROW (Back + Title + History Button)
+--------------------------------------------- */
+.attendance-header-with-back-history {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    border-bottom: none;
+    background: transparent;
+    margin-bottom: 1.5rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-left h2 {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+    color: #000;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.back-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.back-icon-btn img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.back-icon-btn:hover {
+    background-color: var(--color-green-light);
+    transform: translateX(-3px);
+}
+
+/* History Button */
+.view-history-btn {
+    background: #B9FF66;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: #000;
+    border: 2px solid #000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 140px;
+    transition: all 0.3s;
+}
+
+.view-history-btn:hover {
+    background-color: #000;
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    color: #B9FF66;
+}
+
+
+/* --------------------------------------------
+   SEARCH DATE BAR
+--------------------------------------------- */
+.date-form-inline {
+    width: 100%;
+    border-bottom: none;
+    background: #f0f7ff;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.form-row-inline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-group-search {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-group-search label {
+    font-weight: 700;
+    color: #333;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.form-input-date {
+    border: 2px solid #ddd;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #fff;
+    color: #333;
+    transition: all 0.3s;
+}
+
+.form-input-date:focus {
+    outline: none;
+    border-color: var(--color-green-dark);
+    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
+}
+
+/* View Date Button */
+.submit-btn-green {
+    background: #B9FF66;
+    border: 2px solid #000;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #000;
+    font-size: 0.95rem;
+    min-height: 44px;
+    min-width: 120px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.submit-btn-green:hover {
+    background-color: #000;
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    color: #B9FF66;
+}
+
+/* --------------------------------------------
+   DATE + SAVE ROW
+--------------------------------------------- */
+.date-save-row {
+    background: #fff;
+    border-bottom: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.date-save-row h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+/* Save button */
+.date-save-row button {
+    background: #B9FF66;
+    padding: 0.65rem 1.5rem;
+    border: 2px solid #000;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-height: 44px;
+    min-width: 140px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.date-save-row button:hover {
+    background-color: #000;
+    border-color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    color: #B9FF66;
+}
+
+/* --------------------------------------------
+   ATTENDANCE TABLE
+--------------------------------------------- */
+.attendance-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: center;
+    font-size: 15px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.attendance-table th {
+    background: #000;
+    padding: 1rem;
+    border: 1px solid #fff;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.attendance-table td {
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    color: #333;
+}
+
+.attendance-table tbody tr {
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.attendance-table tbody tr:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Radio buttons */
+.attendance-table input[type="radio"] {
+    transform: scale(1.2);
+    cursor: pointer;
+    accent-color: #568203;
+}
+
+/* Empty state */
+.empty-state {
+    padding: 3rem;
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin: 2rem 0;
+}
 
 /* ============================================================================
    19. ATTENDANCE - HISTORY & DETAIL
    ============================================================================ */
+/* Remove padding and max-width constraints for attendance history pages */
+.main-content:has(.attendance-history-container) {
+    background: #ffffff !important;
+    padding: 0 !important;
+}
+
+.main-content .content:has(.attendance-history-container) {
+    max-width: 100% !important;
+    padding: 2rem !important;
+    width: 100%;
+}
+
 .attendance-history-container {
   background: white;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  border: 1px solid black;
-  max-width: 1645px !important;
-  margin: auto;
+  width: 100%;
+  margin: 0;
 }
 
 .history-header {
@@ -3021,11 +3994,11 @@ input[type="file"].form-input::file-selector-button:hover {
   margin: 0;
 }
 
-/* RIGHT SIDE ALIGN */
+/* RIGHT SIDE ALIGN - FIXED */
 .header-actions {
   display: flex;
-  align-items: center;
-  gap: 1.2rem;
+  align-items: stretch;
+  gap: 0.75rem;
 }
 
 .course-block,
@@ -3033,38 +4006,41 @@ input[type="file"].form-input::file-selector-button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  height: 38px;          /* same height */
-  padding: 0 0.8rem;     /* same padding */
+  min-height: 44px;
+  padding: 0.5rem 1.25rem;
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 600;
   white-space: nowrap;
-
-  line-height: 1;        /* FIX: makes the text perfectly centered */
+  border: 2px solid #000;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  box-sizing: border-box;
+  margin: 0;
+  line-height: 1.2;
 }
 
 /* COURSE BLOCK */
 .course-block {
-  background-color: #fff;
-  color: #000;
-  border: 1px solid var(--color-black);
-  min-width: 120px !important;
+  background-color: #000;
+  color: #fff;
+  min-width: 180px;
 }
 
-/* RECORD BUTTON */
+/* RECORD BUTTON - Interactive */
 .record-new-btn {
-  background-color: var(--color-black);
-  color: var(--color-white);
-  border: 1px solid var(--color-black);
-  min-width: 150px !important;
-  transition: all 0.3s ease;
+  background-color: #000;
+  color: #B9FF66;
+  min-width: 220px;
+  cursor: pointer;
 }
 
 .record-new-btn:hover {
-  background-color: var(--color-black);
-  color: var(--color-green-light);
+  background-color: #B9FF66;
+  color: #000;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid black;
 }
 
 
@@ -3085,29 +4061,35 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 .date-card {
-  background: #f8f9fa;
-  border-radius: 10px;
-  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
   transition: all 0.3s;
-  border-left: 4px solid #000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  border-left: 5px solid #000;
 }
 
 .date-card:hover {
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  transform: translateX(5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
 }
 
 .date-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f0f0f0;
 }
 
 .date-info h3 {
-  color: #333;
-  font-size: 1.3rem;
-  margin-bottom: 0.25rem;
+  color: #1a1a1a;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
 .recorded-time {
@@ -3118,7 +4100,7 @@ input[type="file"].form-input::file-selector-button:hover {
 .view-details-btn {
   padding: 0.65rem 1.75rem;
   background: #000;
-  color: var(--color-green-light);
+  color: #B9FF66;
   text-decoration: none;
   border-radius: 8px;
   font-weight: 600;
@@ -3127,59 +4109,63 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 .view-details-btn:hover {
-  background: var(--color-green-light);
+  background: #B9FF66;
   color: black;
   border: 1px solid black;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 12px rgba(185, 255, 102, 0.3);
 }
 
 
 /* Date Card Stats */
 .date-card-stats {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
 
 .stat-box {
-  flex: 1;
-  min-width: 100px;
-  padding: 1rem;
-  border-radius: 8px;
+  padding: 1.25rem;
+  border-radius: 12px;
   text-align: center;
   background: #B9FF66;
   color: black;
-  border: 1px solid black;
+  border: 2px solid black;
+  transition: all 0.3s ease;
+}
+
+.stat-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 255, 102, 0.1);
 }
 
 .stat-box.total {
-  background: #B9FF66;
+  background: #B2DFDB;
   color: black;
   border: 1px solid black;
 }
 
 .stat-box.present {
-  background: #B9FF66;
+  background: #C8E6C9;
   color: black;
   border: 1px solid black;
 }
 
 .stat-box.absent {
-  background: #B9FF66;
+  background: #ffcccc;
   color: black;
   border: 1px solid black;
 }
 
 .stat-box.excused {
-  background: #B9FF66;
+  background: #fff3cd;
   color: black;
   border: 1px solid black;
 }
 
 .stat-box.late {
-  background: #B9FF66;
+  background: #cce5ff;
   color: black;
   border: 1px solid black;
 }
@@ -3196,20 +4182,22 @@ input[type="file"].form-input::file-selector-button:hover {
 
 .stat-value {
   display: block;
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 /* Attendance Summary Bar */
 .attendance-summary {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 .summary-bar {
-  height: 30px;
+  height: 12px;
   display: flex;
-  border-radius: 15px;
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .bar-segment {
@@ -3223,19 +4211,19 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 .bar-segment.present {
-  background: black;
+  background: #C8E6C9;
 }
 
 .bar-segment.absent {
-  background: black;
+  background: #ffcccc;
 }
 
 .bar-segment.excused {
-  background: black;
+  background: #fff3cd;
 }
 
 .bar-segment.late {
-  background: black;
+  background: #cce5ff;
 }
 
 .start-recording-btn {
@@ -3256,7 +4244,7 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 /* ============================================================================
-   ATTENDANCE DETAIL VIEW
+   ATTENDANCE DETAIL VIEW - UPDATED DESIGN
    ============================================================================ */
 
 .main-content:has(.attendance-detail-container) {
@@ -3265,90 +4253,101 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 .main-content .content:has(.attendance-detail-container) {
-    display: flex;
-    justify-content: center;
+    max-width: 100% !important;
+    padding: 2rem !important;
     width: 100%;
-    padding-bottom: 2rem;
 }
 
 .attendance-detail-container {
+    background: white;
     width: 100%;
-    max-width: 1400px;
     margin: 0 auto;
-    border: .8px solid #000;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.10);
-    border-radius: 10px;
+    max-width: 1400px;
 }
 
-.attendance-detail-container > * {
-    width: 100%;
-    padding-bottom: 0;
-    border-radius: 10px;
-}
-
-/* --------------------------------------------
-   HEADER ROW (Title + Edit Button)
---------------------------------------------- */
+/* Header Section */
 .detail-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 20px;
-    border-bottom: 1px solid #dcdcdc;
-    background: #fff;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
 }
 
 .detail-header h2 {
-    margin: 0;
-    padding: 0;
-    line-height: 1.1;
     color: #000;
-    font-size: 1.3rem;
+    font-size: 1.8rem;
     font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-/* Edit Button */
+/* Header Actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.download-pdf-btn,
 .edit-attendance-btn {
-    background: #B9FF66;
-    padding: 6px 20px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-    color: #000;
-    border: 1px solid #000;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    height: 36px;
-    min-width: 120px;
-    transition: all 0.3s;
+    min-height: 44px;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid #000;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.download-pdf-btn {
+    background-color: #B9FF66;
+    color: #000;
+    font-weight: bold !important;
+}
+
+.download-pdf-btn:hover {
+    background-color: #000;
+    color: #B9FF66;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.edit-attendance-btn {
+    background-color: #B9FF66;
+    color: #000;
 }
 
 .edit-attendance-btn:hover {
     background-color: #000;
     color: #B9FF66;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(185, 255, 102, 0.4);
 }
 
-/* --------------------------------------------
-   INFO CARD SECTION
---------------------------------------------- */
+/* Info Card Section */
 .detail-info-card {
-    width: 100%;
-    background: #fff;
-    padding: 20px 20px;
-    color: #000 !important;
-    border-bottom: 1px solid #f2f2f2;
+    background: #f2f2f2;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border: 1px solid #e0e0e0;
 }
 
 .info-item {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #f0f0f0;
-    font-size: 14px;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .info-item:last-child {
@@ -3357,89 +4356,69 @@ input[type="file"].form-input::file-selector-button:hover {
 
 .info-label {
     font-weight: 700;
-    color: #000 !important;
+    color: #000;
+    font-size: 1rem;
+    text-transform: uppercase;
 }
 
 .info-value {
-    font-weight: 500;
+    font-weight: 600;
     color: #000;
     text-align: right;
 }
 
-/* --------------------------------------------
-   DETAIL ACTIONS (Back Button)
---------------------------------------------- */
-.detail-actions {
-    background: #fff;
-    padding: 20px;
-    border-top: 1px solid #dcdcdc;
-}
-
-.detail-actions .back-btn {
-    background: #B9FF66;
-    border: 1px solid #000;
-    padding: 8px 20px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 14px;
-    color: #000;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.detail-actions .back-btn:hover {
-    background-color: #000;
-    color: #B9FF66;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
-}
-
-/* --------------------------------------------
-   ATTENDANCE TABLE SECTION
---------------------------------------------- */
+/* Student Attendance Table Section */
 .attendance-detail-table {
-    background: #fff;
-    padding: 20px;
+    background: white;
+    margin-bottom: 2rem;
 }
 
 .attendance-detail-table h3 {
-    font-size: 16px;
+    font-size: 1.5rem;
     font-weight: 700;
     color: #000;
-    margin-bottom: 2px;
-    padding-bottom: 10px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #eee;
 }
 
 /* Table Styles */
 .detail-table {
     width: 100%;
-    border-collapse: transparent;
+    border-collapse: collapse;
     text-align: center;
-    font-size: 14px;
+    font-size: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 1px;
+    overflow: hidden;
 }
 
 .detail-table th {
     background: #000;
-    padding: 10px 0;
+    padding: 1rem;
     border: 1px solid #fff;
     font-weight: 600;
     color: #fff;
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
 }
 
 .detail-table td {
-    padding: 8px 0;
-    border: .5px solid #000;
+    padding: 1rem;
+    border: 1px solid #000;
     color: #000;
 }
 
+.detail-table tbody tr {
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
 .detail-table tbody tr:hover {
-    background: #f2f2f2;
+    background: #f8f9fa;
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* Student Info Cell */
@@ -3448,74 +4427,115 @@ input[type="file"].form-input::file-selector-button:hover {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .student-icon {
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
-/* Status Badges */
+/* Status Badges - Match History Colors */
 .status-badge {
-    padding: 4px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     border: 1px solid #000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.status-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .status-badge.present {
-    background: #B9FF66;
+    background: #C8E6C9;
     color: #000;
 }
 
 .status-badge.absent {
-    background: #ffcccc;
+    background: #FFCDD2;
     color: #000;
 }
 
 .status-badge.late {
-    background: #fff3cd;
+    background: #BBDEFB;
     color: #000;
 }
 
 .status-badge.excused {
-    background: #cce5ff;
+    background: #FFF9C4;
     color: #000;
 }
 
 .status-badge.not-recorded {
     background: #f0f0f0;
     color: #666;
+    border-color: #999;
 }
 
+/* Back Button Actions */
+.detail-actions {
+    background: #fff;
+    padding: 2rem 0;
+    border-top: 2px solid #eee;
+    margin-top: 2rem;
+}
 
+.detail-actions .back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.75rem;
+    background: #000;
+    color: #B9FF66;
+    border: 2px solid #000;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-/* --------------------------------------------
-   RESPONSIVE DESIGN
---------------------------------------------- */
+.detail-actions .back-btn:hover {
+    background: #B9FF66;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(185, 255, 102, 0.4);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .detail-header {
         flex-direction: column;
         gap: 1rem;
         align-items: flex-start;
-        padding: 15px;
     }
 
+    .header-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .download-pdf-btn,
     .edit-attendance-btn {
         width: 100%;
     }
 
     .detail-info-card {
-        padding: 15px;
+        padding: 1.5rem;
     }
 
     .info-item {
         flex-direction: column;
-        gap: 0.25rem;
+        gap: 0.5rem;
         align-items: flex-start;
     }
 
@@ -3524,26 +4544,30 @@ input[type="file"].form-input::file-selector-button:hover {
     }
 
     .attendance-detail-table {
-        padding: 15px;
         overflow-x: auto;
     }
 
     .detail-table {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .detail-table th,
     .detail-table td {
-        padding: 8px 4px;
+        padding: 0.75rem 0.5rem;
     }
 
     .student-info {
         justify-content: flex-start;
-        font-size: 12px;
+        font-size: 13px;
+    }
+
+    .status-badge {
+        font-size: 11px;
+        padding: 0.4rem 1rem;
     }
 
     .detail-actions {
-        padding: 15px;
+        padding: 1.5rem 0;
     }
 
     .detail-actions .back-btn {
@@ -3551,237 +4575,333 @@ input[type="file"].form-input::file-selector-button:hover {
     }
 }
 
+@media (max-width: 480px) {
+    .detail-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .attendance-detail-table h3 {
+        font-size: 1.25rem;
+    }
+
+    .info-label,
+    .info-value {
+        font-size: 0.9rem;
+    }
+}
+
 /* ============================================================================
    20. ENROLLMENTS
 ============================================================================ */
 
-/* MAIN CONTENT RESET WHEN USING ENROLLMENTS */
+/* MAIN CONTENT RESET - Same as Attendance History */
 .main-content:has(.enrollment-container) {
     background: #ffffff !important;
     padding: 0 !important;
 }
 
 .main-content .content:has(.enrollment-container) {
-    display: flex;
-    justify-content: center;
+    max-width: 100% !important;
+    padding: 2rem !important;
     width: 100%;
-    padding-bottom: 2rem;
 }
 
-/* MAIN WRAPPER */
+/* MAIN WRAPPER - Same as Attendance History */
 .enrollment-container {
+    background: white;
     width: 100%;
-    max-width: 1400px;
     margin: 0 auto;
-    border: .8px solid #000;
-    background: #fff;
+    max-width: 1400px;
 }
 
 /* ============================================================================
-   HEADER
+   HEADER - FIXED ALIGNMENT LIKE LESSON PLANS
 ============================================================================ */
 .enrollment-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 20px;
-    border-bottom: 1px solid #dcdcdc;
+    margin-bottom: 2rem;
+    gap: 1rem;
 }
 
 .enrollment-header .header-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 1rem;
+    flex: 1;
+}
+
+.enrollment-header .back-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.enrollment-header .back-icon-btn img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.enrollment-header .back-icon-btn:hover {
+    background-color: #B9FF66;
+    transform: translateX(-3px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .enrollment-header .header-left h2 {
     margin: 0;
-    font-size: 1.25rem;
+    padding: 0;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #000;
-}
-
-.enrollment-header .back-icon-btn img {
-    width: 34px;
-    height: 34px;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
 }
 
 .course-code-badge {
-  background: var(--color-black);
-  color: var(--color-white);
-  padding: 0.5rem 1.25rem;
-  border-radius: 25px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    background: #000;
+    color: #fff;
+    padding: 0.5rem 1.25rem;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+    white-space: nowrap;
 }
 
 /* ============================================================================
-   TWO-COLUMN SECTION (Enroll Form + Code Box)
+   TWO-COLUMN SECTION - Same as Date Cards
 ============================================================================ */
 .enrollment-flex {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
-    padding: 25px 20px;
-    background: #fff;
-    border-bottom: 1px solid #dcdcdc;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
 
-/* BOTH CARDS */
+/* BOTH CARDS - Same styling as Date Cards */
 .enroll-card,
 .code-card {
-    width: 48%;
+    flex: 1;
     background: #f8f8f8;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     border: 1px solid #000;
-    border-radius: 10px;
-    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.enroll-card:hover,
+.code-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    transform: translateY(-4px);
 }
 
 /* HEADINGS */
 .enroll-card h3,
 .code-card h3 {
-    margin-bottom: 8px;
-    font-size: 16px;
+    margin-bottom: 0.75rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: #000;
 }
 
 .form-description,
 .code-description {
-    font-size: 13px;
-    color: #444;
-    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
 }
 
 /* ============================================================================
    ENROLL FORM CARD
 ============================================================================ */
+.enroll-card .form-group {
+    margin-bottom: 1.5rem;
+}
+
 .enroll-card label {
     display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #000;
 }
 
 .enroll-card .form-input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #000;
-    border-radius: 6px;
-    font-size: 14px;
+    padding: 0.75rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
     background: #fff;
+    color: #333;
+    transition: all 0.3s;
+    box-sizing: border-box;
 }
 
-.submit-btn {
+.enroll-card .form-input:focus {
+    outline: none;
+    border-color: #000;
+    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
+}
+
+.enroll-card .error {
+    display: block;
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+.enroll-card .submit-btn {
     background: #B9FF66;
     border: 1px solid #000;
-    padding: 10px 20px;
+    padding: 0.75rem 1.5rem;
     width: 100%;
-    border-radius: 6px;
+    border-radius: 8px;
     font-weight: 600;
-    margin-top: 12px;
-    color: black;
+    font-size: 0.95rem;
+    color: #000;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: all 0.3s;
+    margin-top: 0.5rem;
 }
 
-.submit-btn:hover {
+.enroll-card .submit-btn:hover {
     background: #000;
     color: #B9FF66;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* ============================================================================
    CODE CARD
 ============================================================================ */
-.code-display {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 18px 0 10px;
-    justify-content: center !important;
-}
-
-.code-text {
-    font-size: 1.5rem !important;
-    letter-spacing: 0.25em;
-    font-weight: 700;
-    text-alin
-}
-
-.copy-btn {
-    border: 1px solid #000;
-    background: #B9FF66 !important;
-    padding: 8px 16px;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    color: black !important;
-}
-
 .code-card {
-    width: 48%;
-    background: #f8f8f8;
-    border: 1px solid #000;
-    border-radius: 10px;
-    padding: 25px;
-    text-align: center;           /* ← CENTER ALL TEXT */
-}
-
-/* Center the code box + button horizontally */
-.code-display {
-    display: flex;
-    justify-content: center;      /* ← CENTER CONTENT */
-    align-items: center;
-    gap: 12px;
-    margin: 20px 0;
-}
-
-/* Center the small description */
-.code-card p,
-.code-description,
-.code-hint {
     text-align: center;
 }
 
+.code-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+}
+
+.code-text {
+    font-size: 2rem;
+    letter-spacing: 0.3em;
+    font-weight: 700;
+    color: #000;
+    font-family: 'Courier New', monospace;
+}
+
+.copy-btn {
+    border: 1px solid #000 !important;
+    background: #B9FF66 !important;
+    padding: 0.65rem 1.25rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #000 !important;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.copy-btn:hover {
+    background: #000 !important;
+    color: #B9FF66 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.code-hint {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
 
 /* ============================================================================
    STUDENT TABLE
 ============================================================================ */
 .enrolled-students {
-    padding: 20px;
+    margin-top: 2rem;
 }
 
 .enrolled-students h3 {
-    font-size: 16px;
+    font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    color: #000;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #eee;
 }
 
 .enrollment-table {
     width: 100%;
     border-collapse: collapse;
+    border-spacing: 0;
     text-align: center;
+    font-size: 15px;
+    background: #fff;
+    border-radius: 0px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .enrollment-table th {
     background: #000;
     color: #fff;
-    padding: 10px 0;
+    padding: 1rem;
     border: 1px solid #fff;
-    font-size: 13px;
     font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
 }
 
 .enrollment-table td {
-    padding: 10px 0;
+    padding: 1rem;
     border: 1px solid #000;
     font-size: 14px;
     color: #000;
 }
 
+.enrollment-table tbody tr {
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
 .enrollment-table tbody tr:hover {
-    background: #f2f2f2;
+    background: #f8f8f8;
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* REMOVE BUTTON */
@@ -3789,15 +4909,20 @@ input[type="file"].form-input::file-selector-button:hover {
     background: #dc3545;
     color: white;
     border: 1px solid #000;
-    padding: 6px 16px;
-    border-radius: 6px;
-    font-weight: 600;
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 700;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: all 0.3s;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .remove-btn:hover {
     background: #c82333;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
 
 /* ============================================================================
@@ -3813,8 +4938,6 @@ input[type="file"].form-input::file-selector-button:hover {
         width: 100%;
     }
 }
-
-
 
 /* ============================================================================
    21. ADMIN DASHBOARD - MODERN LAYOUT
@@ -6956,8 +8079,8 @@ button:focus {
    ========================================== */
 
 .download-pdf-btn, .download-btn {
-    background: #27ae60;
-    color: white;
+    background: #B9FF66;
+    color: black;
     padding: 10px 20px;
     border-radius: 6px;
     text-decoration: none;
@@ -6966,10 +8089,24 @@ button:focus {
     display: inline-block;
 }
 
+.download-btn {
+    background: #000;
+    color: #B9FF66;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: 1px solid black;
+    font-weight: bold;
+}
+
 .download-pdf-btn:hover, .download-btn:hover {
-    background: #229954;
+    background: #b9ff66;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    color: #000;
 }
 
 .header-actions {

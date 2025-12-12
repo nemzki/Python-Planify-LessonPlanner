@@ -38,7 +38,7 @@
             <span class="info-value">{{ records[0].recorded_at.strftime('%B %d, %Y at %I:%M %p') }}</span>
         </div>
         <div class="info-item">
-            <span class="info-label">Recorded By:</span>
+            <span class="info-label">Professor Name:</span>
             <span class="info-value">{{ records[0].recorder.first_name }} {{ records[0].recorder.last_name }}</span>
         </div>
         {% endif %}
@@ -52,7 +52,7 @@
             <thead>
                 <tr>
                     <th>Student Name</th>
-                    <th>Username</th>
+                    <th>Email</th>
                     <th>Status</th>
                     <th>Time Recorded</th>
                 </tr>
@@ -68,7 +68,7 @@
                             {{ student.first_name }} {{ student.last_name }}
                         </div>
                     </td>
-                    <td>{{ student.username }}</td>
+                    <td>{{ enrollment.student.email }}</td>
                     <td>
                         {% if record %}
                             <span class="status-badge {{ record.status }}">
