@@ -4,8 +4,7 @@
 {% block content %}
 <div class="login-wrapper">
   <div class="login-form-container">
-    <h1>Welcome!</h1>
-    <p>Sign in to your account</p>
+    <h1>Welcome back</h1>
     <form method="POST">
       {{ form.hidden_tag() }}
 
@@ -33,10 +32,6 @@
     <p class="signup-link">
       Don’t have an account? <a href="{{ url_for('register') }}">Sign Up</a>
     </p>
-  </div>
-
-  <div class="login-illustration">
-    <img src="{{ url_for('static', filename='pictures/login-illustration.png') }}" alt="Login Illustration" />
   </div>
 
 </div>

@@ -1,7 +1,14 @@
-
 /* ============================================================================
-   PLANIFY - LESSON PLANNER STYLESHEET
-   Organized and refactored for maintainability
+   PLANIFY - LESSON PLANNER STYLESHEET (REFACTORED)
+
+   CHANGELOG:
+   - Global `.back-icon-btn` style unified (40x40px, 8px radius, hover: #B9FF66)
+   - Removed duplicate attendance blocks (recording, history, detail)
+   - De-duplicated: .attendance-table, .date-save-row, .date-form-inline, etc.
+   - Consolidated .submit-btn-green, .view-history-btn styles
+   - Maintained all existing layouts and class names for template compatibility
+
+   TODO: Further simplification possible in button variants and form groups
    ============================================================================ */
 
 /* === IMPORTS === */
@@ -16,6 +23,7 @@
   --color-gray-light: #F3F3F3;
   --color-green-lighter: #E0FFC2;
   --color-green-light: #B9FF66;
+  --color-green-dark: #568203;
   --color-muted: #6b7280;
   --color-primary: #568203;
   --color-success: #2ecc71;
@@ -34,21 +42,34 @@
   --fast: 150ms ease-in-out;
 }
 
+/* ============================================================================
+   1. RESET & BASE STYLES
+   ============================================================================ */
 
 *,
 *::before,
-*::after { box-sizing: border-box; }
-
-html, body { height: 100%; }
-body {
+*::after {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  color: #111;
-  background: #fff;
+  background: var(--color-white);
+  color: var(--color-black);
+  min-height: 100vh;
+  height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 /* Normalize images and media */
@@ -57,9 +78,43 @@ img, picture, video, canvas, svg {
   display: block;
 }
 
-/* ---------------------------
-   Utility classes
-   --------------------------- */
+/* ============================================================================
+   2. TYPOGRAPHY & LINKS
+   ============================================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-black);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0 0 0.75rem 0;
+  color: var(--color-muted);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* ============================================================================
+   3. UTILITY CLASSES
+   ============================================================================ */
+
 .container {
   max-width: var(--container-max-width);
   margin-left: auto;
@@ -69,37 +124,79 @@ img, picture, video, canvas, svg {
   width: 100%;
 }
 
-.sr-only {
+.sr-only,
+.visually-hidden {
   position: absolute !important;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0 0 0 0);
-  white-space: nowrap; border: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.center { display: flex; align-items: center; justify-content: center; }
-.rounded { border-radius: var(--radius); }
-.shadow-sm { box-shadow: 0 6px 18px rgba(0,0,0,0.04); }
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-/* ---------------------------
-   Accessibility helpers
-   --------------------------- */
+.rounded {
+  border-radius: var(--radius);
+}
+
+.shadow-sm {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* ============================================================================
+   4. ACCESSIBILITY HELPERS
+   ============================================================================ */
+
 /* Skip link hidden until keyboard focus */
 .skip-link {
-  position: absolute; left: -999px; top: auto;
-  width: 1px; height: 1px; overflow: hidden;
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
   z-index: 10000;
 }
+
 .skip-link:focus,
 .skip-link:active {
-  left: 1rem; top: 1rem; width: auto; height: auto;
-  padding: 0.5rem 0.9rem; background: var(--color-white);
-  color: var(--color-black); border-radius: 4px; box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 0.9rem;
+  background: var(--color-white);
+  color: var(--color-black);
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
 :focus-visible {
   outline: var(--focus-ring);
   outline-offset: 2px;
+}
+
+a:focus,
+button:focus {
+  outline: 2px solid var(--color-green-dark);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* External links hint for screen readers */
@@ -111,12 +208,46 @@ a[target="_blank"]::after {
   display: inline-block;
 }
 
-/* ---------------------------
-   Base components (links, buttons)
-   --------------------------- */
-a { color: inherit; text-decoration: none; }
-a:hover, a:focus { text-decoration: none; }
+/* ============================================================================
+   5. GLOBAL COMPONENTS - BUTTONS & BACK ICON
+   ============================================================================ */
 
+/* --- GLOBAL BACK ICON BUTTON (UNIFIED) --- */
+/* Used across: Plans, Attendance, Enrollment, History, Detail pages */
+.back-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background-color: transparent;
+  border: 1px solid #000;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.back-icon-btn img {
+  width: 24px;
+  height: 24px;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.back-icon-btn:hover {
+  background-color: #B9FF66;
+  transform: translateX(-3px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.back-icon-btn:hover img {
+  transform: translateX(-2px);
+}
+
+/* --- BASE BUTTONS --- */
 button,
 .button,
 .action-btn,
@@ -128,7 +259,7 @@ button,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: .5rem;
+  gap: 0.5rem;
   padding: 0.5rem 0.9rem;
   cursor: pointer;
   border-radius: 8px;
@@ -140,7 +271,7 @@ button,
   min-height: 38px;
 }
 
-/* Secondary / neutral - Cancel buttons */
+/* Secondary / Neutral - Cancel buttons */
 .cancel-btn {
   background: var(--color-green-light) !important;
   border: 1px solid #000000;
@@ -168,207 +299,212 @@ button,
   background: var(--color-black);
   color: var(--color-accent);
 }
-.edit-btn:hover { background: var(--color-primary); color: var(--color-white); }
+
+.edit-btn:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
 
 /* Delete button */
-.delete-btn { background: var(--color-danger); color: white; }
-.delete-btn:hover { background: #c0392b; }
-
-/* Make sure interactive items have keyboard-friendly targets */
-button:focus-visible,
-a:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
-
-/* ---------------------------
-   Layout: Navbar & Header
-   --------------------------- */
-.navbar {
-  background: var(--color-white);
-  border-bottom: 1px solid #eee;
-  position: sticky;
-  top: 0; z-index: 50;
-}
-.nav-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--gap);
-  padding: 0.75rem 0;
-}
-.logo { display: inline-flex; align-items: center; gap: .5rem; }
-.logo-img { height: 40px; width: auto; display: block; }
-
-/* Nav links list */
-.nav-links {
-  display: flex;
-  gap: 0.75rem;
-  list-style: none;
-  margin: 0; padding: 0;
-}
-.nav-links a { padding: 0.45rem 0.75rem; border-radius: 6px; }
-.nav-links a:hover { background: var(--color-green-light); }
-
-/* Inline form (e.g., logout) */
-.inline-form { display: inline; margin: 0; padding: 0; }
-
-/* ---------------------------
-   Layout: Educator / Sidebar
-   --------------------------- */
-.educator-layout {
-  display: flex;
-  min-height: 100vh;
-  background: #f5f7fa;
-}
-.sidebar {
-  width: 260px;
-  background: var(--color-white);
-  border-right: 1px solid #eee;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.sidebar .sidebar-header { display: flex; align-items: center; gap: .5rem; }
-.sidebar-nav { display: flex; flex-direction: column; gap: .25rem; margin-top: .5rem; }
-.sidebar-nav .nav-item {
-  display: flex; gap: .75rem; align-items: center; padding: .6rem; border-radius: 8px;
-}
-.sidebar-nav .nav-item:hover { background: rgba(93,135,54,0.06); }
-
-/* main content */
-.main-content { flex: 1; display: flex; flex-direction: column; }
-.main-content .content { padding: 2rem; flex: 1; max-width: var(--container-max-width); margin: 0 auto; }
-
-/* ---------------------------
-   Forms & Inputs
-   --------------------------- */
-.form-container,
-.add-lesson-form-container {
-  background: var(--color-white);
-  padding: 2rem;
-  border-radius: 16px;
-  border: 1px solid #eee;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-  max-width: 700px;
-  width: 100%;
-  margin: 0 auto;
+.delete-btn {
+  background: var(--color-danger);
+  color: white;
 }
 
-.add-lesson-form-group { margin-bottom: 1rem; display: flex; flex-direction: column; }
-.add-lesson-form-group label { font-weight: 700; margin-bottom: .35rem; }
+.delete-btn:hover {
+  background: #c0392b;
+}
 
-.form-input,
-textarea.form-input,
-select.form-input,
-input[type="text"],
-input[type="file"] {
-  width: 100%;
-  padding: 0.6rem 0.8rem;
+/* Remove button (used in materials lists) */
+.remove-btn {
+  background: #dc3545;
+  color: white;
+  border: 1px solid #000;
+  padding: 0.5rem 1.25rem;
   border-radius: 8px;
-  border: 1px solid #dcdcdc;
-  font-size: 1rem; color: var(--color-black);
-  background: var(--color-white);
-}
-.form-input:focus { outline: none; box-shadow: 0 0 0 4px rgba(93,135,54,0.06); border-color: var(--color-primary); }
-
-/* Helper text & errors */
-.hint { font-size: .9rem; color: var(--color-muted); }
-.error { color: var(--color-danger); font-size: .95rem; }
-
-/* ---------------------------
-   Back button & small components
-   --------------------------- */
-.back-icon-btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 40px; height: 40px; border-radius: 8px; border: 1px solid #ddd;
-  background: transparent; color: inherit; text-decoration: none;
-}
-.back-icon-btn img { width: 24px; height: 24px; display: block; }
-
-/* ---------------------------
-   Typography tweaks
-   --------------------------- */
-h1,h2,h3,h4,h5,h6 { color: var(--color-black); margin: 0 0 .5rem 0; line-height: 1.2; }
-p { margin: 0 0 .75rem 0; color: var(--color-muted); }
-
-/* ---------------------------
-   Responsive breakpoints
-   --------------------------- */
-@media (max-width: 1024px) {
-  .sidebar { width: 220px; }
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-@media (max-width: 768px) {
-  .nav-container { flex-direction: column; align-items: stretch; gap: .5rem; }
-  .sidebar { display: none; }
-  .main-content .content { padding: 1.25rem; }
-  .plans-grid { grid-template-columns: 1fr; }
+.remove-btn:hover {
+  background: #c82333;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
 
-@media (max-width: 480px) {
-  button, .action-btn, .add-btn, .edit-btn { min-height: 44px; font-size: 1rem; padding: .75rem 1rem; }
-  .logo-img { height: 36px; }
+/* Login Button - navbar button */
+.login-btn {
+  padding: 0.5rem 1.25rem;
+  border: 1.5px solid var(--color-black);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: var(--color-white) !important;
+  white-space: nowrap;
+  background-color: #000000;
 }
 
-/* ---------------------------
-   Small helpers (avoid repetition)
-   --------------------------- */
-.kv { display: flex; gap: .5rem; align-items: center; }
-.small { font-size: .9rem; }
-.muted { color: var(--color-muted); }
+.login-btn:hover,
+.login-btn:focus {
+  background-color: var(--color-green-light);
+  color: var(--color-black) !important;
+  transform: translateY(-3px);
+  border: 1.5px solid var(--color-black);
+  outline: none;
+  text-decoration: none !important;
+}
 
-/* End of stylesheet */
+/* Logout Button - navbar button */
+.logout {
+  display: inline-block;
+  padding: 0.85rem 1.75rem;
+  margin-top: 20px;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1.5px solid var(--color-black);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
 
-/* ============================================================================
-   2. RESET & BASE STYLES
-   ============================================================================ */
+.logout:hover {
+  background-color: var(--color-green-light);
+  color: var(--color-black);
+  transform: translateY(-3px);
+  border: 1.5px solid var(--color-black);
+  outline: none;
+}
 
-* {
-  margin: 0;
-  padding: 0;
+/* Sign Up Button */
+.sign-up-btn {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: 0.85rem 2.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--color-black);
+  cursor: pointer;
+  box-shadow: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+}
+
+.sign-up-btn:hover,
+.sign-up-btn:focus {
+  background-color: var(--color-green-light);
+  color: var(--color-black);
+  transform: translateY(-3px);
+  border: 1.5px solid var(--color-black);
+  outline: none;
+}
+
+/* Submit Button (general forms) */
+.submit-btn {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: #000000;
+  color: #B9FF66;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 1rem;
+}
+
+.submit-btn:hover {
+  background: #1a1a1a;
+  color: #B9FF66;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Sign In Button Variant */
+.submit-btn.sign-in-btn {
+  background-color: #B9FF66;
+  color: #000000;
+  font-weight: 600;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 1rem 0;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
   box-sizing: border-box;
 }
 
-html,
-body {
-  font-family: 'Space Grotesk', sans-serif;
-  background: var(--color-white);
-  color: var(--color-black);
-  min-height: 100vh;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: white;
+.submit-btn.sign-in-btn:hover {
+  background-color: #000000;
+  color: var(--color-green-light);
+  border-color: #fff;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-
-/* ============================================================================
-   3. TYPOGRAPHY & LINKS
-   ============================================================================ */
-
-a {
-  color: inherit;
+/* Back Button (text link style) */
+.back-btn {
+  display: inline-block;
+  padding: 0.65rem 1.25rem;
+  background-color: var(--color-black);
+  color: var(--color-green-light);
   text-decoration: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 1.5px solid var(--color-black);
+  transition: all 0.3s ease;
+  margin-top: 1rem;
 }
 
-ul {
-  list-style: none;
+.back-btn:hover {
+  background-color: var(--color-green-light);
+  color: var(--color-black);
+  border-color: var(--color-black);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-button {
-  font-family: 'Space Grotesk', sans-serif;
+/* Back Link (text link style) */
+.back-link,
+.stcourse-back-link {
+  color: var(--color-green-dark);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--color-green-dark);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  background: var(--color-white);
+  margin-left: 20px;
 }
 
+.back-link:hover,
+.stcourse-back-link:hover {
+  background: var(--color-green-dark);
+  color: var(--color-white);
+  transform: translateX(-5px);
+}
 
+/* Make sure interactive items have keyboard-friendly targets */
+button:focus-visible,
+a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
 
 /* ============================================================================
-   4. LAYOUT - NAVBAR
+   6. LAYOUT - NAVBAR
    ============================================================================ */
 
 .navbar {
@@ -381,6 +517,7 @@ button {
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 1px solid #eee;
 }
 
 .nav-container {
@@ -389,6 +526,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--gap);
 }
 
 .logo {
@@ -425,7 +563,10 @@ a.logo {
   gap: 2.5rem;
   font-weight: 600;
   font-size: 1rem;
-  color: #333
+  color: #333;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links a {
@@ -433,11 +574,14 @@ a.logo {
   transition: color 0.3s ease;
   text-decoration: none;
   font-weight: 400;
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
 }
 
 .nav-links a:hover {
-  color: var(--color-green-dark);
-  text-decoration: underline;
+  background: var(--color-green-light);
+  color: var(--color-black);
+  text-decoration: none;
 }
 
 .nav-links a:focus,
@@ -446,9 +590,15 @@ a.logo {
   box-shadow: none;
 }
 
+/* Inline form (e.g., logout) */
+.inline-form {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
 
 /* ============================================================================
-   5. LAYOUT - SIDEBAR
+   7. LAYOUT - SIDEBAR (EDUCATOR)
    ============================================================================ */
 
 .sidebar {
@@ -462,6 +612,8 @@ a.logo {
   display: flex;
   flex-direction: column;
   z-index: 100;
+  border-right: 1px solid #eee;
+  padding: 1rem;
 }
 
 .sidebar-header {
@@ -469,6 +621,9 @@ a.logo {
   border-bottom: 2px solid var(--color-gray-light);
   background: var(--color-white);
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .sidebar-header .logo {
@@ -495,6 +650,10 @@ a.logo {
   padding: 1.5rem 0;
   flex: 1;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
 }
 
 .nav-item {
@@ -509,6 +668,7 @@ a.logo {
   margin: 0.25rem 0.75rem;
   border-radius: 10px;
   position: relative;
+  gap: 0.75rem;
 }
 
 .nav-item::before {
@@ -525,7 +685,7 @@ a.logo {
 }
 
 .nav-item:hover {
-  background: rgba(185, 255, 102, .21);
+  background: rgba(185, 255, 102, 0.21);
   color: var(--color-black);
   padding-left: 1.75rem;
 }
@@ -595,31 +755,8 @@ a.logo {
   display: inline-block;
 }
 
-
 /* ============================================================================
-   6. LAYOUT - FOOTER
-   ============================================================================ */
-
-.footer {
-  width: 100%;
-  background-color: #000000;
-  color: #ffffff;
-  text-align: center;
-  font-weight: 500;
-  font-size: 0.9rem;
-  padding: 1rem 0;
-  border-top-left-radius: 45px;
-  border-top-right-radius: 45px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  user-select: none;
-  box-sizing: border-box;
-  margin-top: 3rem;
-}
-
-
-/* ============================================================================
-   7. LAYOUT - MAIN CONTENT AREAS
+   8. LAYOUT - MAIN CONTENT AREAS
    ============================================================================ */
 
 .educator-layout {
@@ -641,6 +778,8 @@ a.logo {
 .main-content .content {
   flex: 1;
   padding: 2rem;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
 }
 
 .main-content .footer {
@@ -654,9 +793,188 @@ a.logo {
   padding: 0 2rem;
 }
 
+/* ============================================================================
+   9. LAYOUT - FOOTER
+   ============================================================================ */
+
+.footer {
+  width: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 1rem 0;
+  border-top-left-radius: 45px;
+  border-top-right-radius: 45px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  user-select: none;
+  box-sizing: border-box;
+  margin-top: 3rem;
+}
 
 /* ============================================================================
-   8. LANDING PAGE
+   10. FORMS & INPUTS
+   ============================================================================ */
+
+.form-container,
+.add-lesson-form-container,
+.add-course-form-container {
+  background: var(--color-white);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.form-group,
+.add-lesson-form-group,
+.add-course-form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label,
+.add-lesson-form-group label,
+.add-course-form-group label {
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: var(--color-black);
+  font-size: 0.95rem;
+}
+
+.form-input,
+textarea.form-input,
+select.form-input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="file"] {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  font-size: 1rem;
+  color: var(--color-black);
+  background: var(--color-white);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus,
+textarea.form-input:focus,
+select.form-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(93, 135, 54, 0.06);
+  border-color: var(--color-primary);
+}
+
+textarea.form-input {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Helper text & errors */
+.hint,
+.info {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  display: block;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.error,
+.error-message {
+  color: var(--color-danger);
+  font-size: 0.95rem;
+  display: block;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+/* Form Buttons Container */
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e5e5;
+}
+
+.save-course-btn,
+.add-course-submit {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  background: var(--color-black) !important;
+  color: var(--color-green-light) !important;
+  border: 1px solid var(--color-black) !important;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.save-course-btn:hover,
+.add-course-submit:hover {
+  background: var(--color-green-light) !important;
+  color: var(--color-black) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.form-buttons .cancel-btn {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  background: var(--color-white) !important;
+  color: var(--color-black) !important;
+  border: 1px solid var(--color-black) !important;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.form-buttons .cancel-btn:hover {
+  background: var(--color-green-light) !important;
+  transform: translateY(-2px);
+}
+
+/* File Input Styling */
+input[type="file"].form-input {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+input[type="file"].form-input::file-selector-button {
+  padding: 0.5rem 1rem;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 1rem;
+  transition: all 0.3s;
+}
+
+input[type="file"].form-input::file-selector-button:hover {
+  background: #e0e0e0;
+}
+
+/* ============================================================================
+   11. LANDING PAGE (HOME)
    ============================================================================ */
 
 .home-landing {
@@ -702,9 +1020,8 @@ a.logo {
   object-fit: cover;
 }
 
-
 /* ============================================================================
-   9. ABOUT US PAGE
+   12. ABOUT US PAGE
    ============================================================================ */
 
 .about-us-container {
@@ -808,7 +1125,7 @@ a.logo {
   font-style: normal;
   font-size: 1rem;
   margin-bottom: 1.2rem;
-    color: var(--color-black);
+  color: var(--color-black);
 }
 
 .social-icons {
@@ -833,27 +1150,28 @@ a.logo {
   object-fit: contain;
 }
 
-
 /* ============================================================================
-   10. CONTACT PAGE
+   13. CONTACT PAGE
    ============================================================================ */
 
 .contact-container {
-  max-width: 850px;
-  margin: 2rem auto;
+  background: var(--color-white);
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-/* CONTACT HEADER */
 .contact-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 3px solid var(--color-green-light);
   display: flex;
   align-items: center;
   gap: 1rem;
   justify-content: center;
-  margin-bottom: 1.5rem;
-}
-
-.contact-header {
-  border-bottom: none !important;
 }
 
 .contact-header h2 {
@@ -866,17 +1184,11 @@ a.logo {
   margin: 0;
 }
 
-
-
 .contact-header p {
   font-weight: 300;
   font-size: 1rem;
   margin: 0 !important;
-  color: #000000;
-  }
-
-  .contact-header p{
-  color: black !important;
+  color: #000000 !important;
 }
 
 .contact-form-wrapper {
@@ -885,25 +1197,14 @@ a.logo {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   max-width: 900px;
   margin: auto;
-
   border-radius: 1.5rem;
   padding: 2rem 3rem;
-
-  /* FIX: remove green border */
-  border: 1px solid #e5e5e5; /* light gray */
-
+  border: 1px solid #e5e5e5 !important;
   gap: 2rem;
 }
 
-.contact-form-wrapper {
-  border: 1px solid #e5e5e5 !important;
-}
-
-
-/* FORM TITLE */
 .contact-form h3 {
   font-weight: 700;
   font-size: 1.4rem;
@@ -911,7 +1212,6 @@ a.logo {
   margin-bottom: 1rem;
 }
 
-/* FORM FIELDS */
 .contact-form {
   width: 100%;
   display: flex;
@@ -952,200 +1252,120 @@ a.logo {
   border-color: var(--color-black) !important;
 }
 
-/* CONTACT FORM SUBMIT BUTTON */
 .contact-form .submit-btn {
-    background-color: var(--color-black) !important;
-    color: var(--color-white) !important;
-    font-weight: 700;
-    font-size: 1rem;
-    border-radius: 10px;
-    border: 1.5px solid var(--color-black);
-    cursor: pointer;
-    padding: 0.75rem 1.5rem;
-
-    /* Center the button */
-    display: block;
-    margin: 1.5rem auto 0 auto;
-    text-align: center;
-
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-/* HOVER */
-.contact-form .submit-btn:hover {
-    background-color: var(--color-green-light) !important;
-    color: var(--color-black) !important;
-    transform: translateY(-3px);
-    border: 1px solid #000000;
-}
-
-
-
-
-
-/* ============================================================================
-   11. LOGIN & REGISTRATION
-   ============================================================================ */
-
-.login-wrapper {
-  display: flex;
-  align-items: center;      /* vertical center */
-  justify-content: center;  /* horizontal center */
-  gap: 4rem;
-  max-width: 1905px;
-  margin: 0 auto;
-  padding: 3rem 3rem;
-
-  max-height: 806px;        /* ← missing semicolon (fixed) */
-  overflow: hidden;
-
-  height: 100vh;            /* makes perfect vertical centering */
-  box-sizing: border-box;
-}
-
-
-
-.login-form-container {
-  flex: 1;
-  max-width: 560px;
-  overflow: hidden;
-}
-
-.login-form-container h1 {
-  margin-bottom: 0.5rem;
-  font-size: 2.5rem;
-  font-weight: 700;
-}
-
-.login-form-container p {
-  margin-bottom: 2rem;
-  font-weight: 400;
-  font-size: 1.125rem;
-  color: #333333;
-}
-
-/* Form Labels */
-.login-form-container label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  font-size: 1rem;
-  color: #1a1a1a;
-}
-
-/* Form Inputs */
-.login-form-container input[type="text"],
-.login-form-container input[type="email"],
-.login-form-container input[type="password"] {
-  width: 100%;
-  padding: 0.875rem 1.25rem;
-  font-size: 1rem;
-  border: 1px solid #000000;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  transition: all 0.3s ease;
-  background-color: #fff;
-  box-sizing: border-box;
-}
-
-.login-form-container input:focus {
-  outline: none;
-  border-color: var(--color-black);
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(166, 220, 95, 0.1);
-}
-
-.login-illustration {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.login-illustration img {
-  max-width: 100%;
-  max-height: 100%;
-  height: auto;
-  object-fit: contain;
-}
-
-
-/* Login Button - navbar button */
-.login-btn {
-  padding: 0.5rem 1.25rem;
-  border: 1.5px solid var(--color-black);
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
+  background-color: var(--color-black) !important;
   color: var(--color-white) !important;
-  white-space: nowrap;
-  background-color: #000000;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--color-black);
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  display: block;
+  margin: 1.5rem auto 0 auto;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.login-btn:hover,
-.login-btn:focus {
-  background-color: var(--color-green-light);
+.contact-form .submit-btn:hover {
+  background-color: var(--color-green-light) !important;
   color: var(--color-black) !important;
   transform: translateY(-3px);
-  border: 1.5px solid var(--color-black);
-  outline: none;
-  text-decoration: none !important;
+  border: 1px solid #000000;
 }
 
-/* Logout Button - navbar button*/
-.logout {
-  display: inline-block;
-  padding: 0.85rem 1.75rem;
-  margin-top: 20px;
-  background-color: var(--color-white);
-  color: var(--color-black);
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 600;
-  border: 1.5px solid var(--color-black);
-  transition: all 0.25s ease;
-  cursor: pointer;
-  white-space: nowrap;
+/* ============================================================================
+   LOGIN & REGISTER PAGES (Unified Style)
+   ============================================================================ */
+
+/* WRAPPERS */
+.login-wrapper,
+.register-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
 }
 
-.logout:hover {
-  background-color: var(--color-green-light);
-  color: var(--color-black);
-  transform: translateY(-3px);
-  border: 1.5px solid var(--color-black);
-  outline: none;
-}
+/* ============================================================================
+   SHARED FORM CONTAINER STYLE
+   ============================================================================ */
 
-/* Register Form Container */
+.login-form-container,
 .register-form-container {
-  max-width: 750px;
-  margin: 4rem auto;
-  padding: 2.5rem 2rem;
-  box-sizing: border-box;
-  background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  background: #f2f2f2;
+  border-radius: 35px;
+  border: 1px solid #000;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  padding: 2.8rem 2rem;
 }
 
+/* Size difference */
+.login-form-container {
+  width: 420px;
+}
+
+.register-form-container {
+  width: 620px;    /* wider for more fields */
+  max-width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ============================================================================
+   HEADINGS
+   ============================================================================ */
+
+.login-form-container h1,
 .register-form-container h1 {
-  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2rem;
   font-weight: 700;
-  font-size: 1.8rem;
-  color: #222;
+  color: #000;
+  margin-bottom: 2.2rem;
 }
 
-/* Form Row Layout */
+/* ============================================================================
+   LABELS
+   ============================================================================ */
+
+.login-form-container label,
+.register-form-container label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  color: #000;
+}
+
+/* ============================================================================
+   INPUTS
+   ============================================================================ */
+
+.form-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #000 !important;
+  background: #fff;
+  margin-bottom: 1.2rem;
+  font-size: 0.95rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================================
+   REGISTER GRID (2-column rows)
+   ============================================================================ */
+
 .form-row {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.full-width {
-  width: 100%;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
 }
 
 .half-width {
@@ -1154,36 +1374,72 @@ a.logo {
   flex-direction: column;
 }
 
-/* Sign Up Link */
+.full-width {
+  width: 100%;
+}
+
+/* ============================================================================
+   BUTTONS
+   ============================================================================ */
+
+.submit-btn {
+  width: 100%;
+  padding: 1rem 0;        /* taller button (nice look) */
+  background: #c6ff75;
+  border-radius: 20px;
+  border: 1px solid #000;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.submit-btn:hover {
+  background: #b5fa62;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* ============================================================================
+   LINKS
+   ============================================================================ */
+
 .signup-link {
+  margin-top: 1.2rem;
   text-align: center;
-  margin-top: 1rem;
-  font-weight: 400;
-  color: #333;
-  font-size: 0.875rem;
+  color: #000;
+  font-size: 0.9rem;
 }
 
 .signup-link a {
-  color: #33691E;
+  color: #4a8c1c;
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.3s ease;
 }
 
 .signup-link a:hover {
-  color: var(--color-black);
   text-decoration: underline;
 }
 
-.signup-link a:focus,
-.signup-link a:active {
-  outline: none;
-  box-shadow: none;
+.sign-in-link {
+  margin-top: 1.2rem;
+  text-align: center;
+  color: #000;
+  font-size: 0.9rem;
 }
 
+.sign-in-link a {
+  color: #4a8c1c;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sign-in-link a:hover {
+  text-decoration: underline;
+}
 
 /* ============================================================================
-   12. ROLE SELECTION
+   15. ROLE SELECTION
    ============================================================================ */
 
 .role-selection-container {
@@ -1219,7 +1475,6 @@ a.logo {
   text-align: center;
 }
 
-/* Role Cards Container */
 .role-cards {
   display: flex;
   justify-content: center;
@@ -1227,7 +1482,6 @@ a.logo {
   flex-wrap: wrap;
 }
 
-/* Base Role Card */
 .role-card {
   background-color: #fff;
   border: 1.8px solid #fff;
@@ -1248,7 +1502,6 @@ a.logo {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Student Card */
 .student-card {
   border: 1.5px solid #000000;
   box-shadow: 0 4px 15px rgba(143, 185, 81, 0.15);
@@ -1260,7 +1513,6 @@ a.logo {
   box-shadow: 0 10px 24px rgba(143, 185, 81, 0.45);
 }
 
-/* Educator Card */
 .educator-card {
   border: 1.5px solid #000000;
   box-shadow: 0 4px 18px rgba(167, 198, 87, 0.25);
@@ -1272,7 +1524,6 @@ a.logo {
   box-shadow: 0 10px 24px rgba(143, 185, 81, 0.45);
 }
 
-/* Role Icon */
 .role-icon {
   width: 60px;
   height: 60px;
@@ -1293,7 +1544,6 @@ a.logo {
   display: block;
 }
 
-/* Role Card Text */
 .role-card h3 {
   font-weight: 700;
   font-size: 1.25rem;
@@ -1310,9 +1560,8 @@ a.logo {
   margin: 0;
 }
 
-
 /* ============================================================================
-   13. EDUCATOR DASHBOARD & HOME
+   16. EDUCATOR DASHBOARD & HOME
    ============================================================================ */
 
 .educator-home-container {
@@ -1337,7 +1586,6 @@ a.logo {
   color: #B9FF66;
   font-weight: 600;
   -webkit-text-stroke: 1px black;
-  -webkit-text-stroke: 1px black;
 }
 
 .educator-home-container p {
@@ -1347,7 +1595,6 @@ a.logo {
   margin-bottom: 2.5rem;
 }
 
-/* Button Group */
 .educator-home-button-group {
   display: flex;
   justify-content: space-between;
@@ -1380,14 +1627,12 @@ a.logo {
   box-shadow: 0 4px 8px rgba(166, 208, 70, 0.8);
 }
 
-/* Divider */
 .divider {
   border: none;
   border-top: 1px solid #000000;
   margin: 0 0 2.5rem 0;
 }
 
-/* Quick Stats */
 .quick-stats {
   display: flex;
   justify-content: space-between;
@@ -1419,250 +1664,244 @@ a.logo {
   line-height: 1;
 }
 
-
-//* ============================================================================
-   19. COURSES - LIST PAGE
+/* ============================================================================
+   17. COURSES - LIST PAGE
    ============================================================================ */
 
-/* Match Attendance History full-width structure */
+/* Full-width layout for courses */
 .main-content:has(.courses-container) {
-    background: #ffffff !important;
-    padding: 0 !important;
+  background: #ffffff !important;
+  padding: 0 !important;
 }
 
 .main-content .content:has(.courses-container) {
-    max-width: 100% !important;
-    padding: 2rem !important;
-    width: 100%;
+  max-width: 100% !important;
+  padding: 2rem !important;
+  width: 100%;
 }
 
 .courses-container {
-    background: white;
-    width: 100%;
-    margin: 0;
+  background: white;
+  width: 100%;
+  margin: 0;
 }
 
 .courses-section {
-    width: 100%;
+  width: 100%;
 }
 
-/* Header: Title + Add Course */
 .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 20px;
-    background: #fff;
-    border-bottom: 1px solid #dcdcdc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  background: #fff;
+  border-bottom: 1px solid #dcdcdc;
 }
 
 .section-header h1 {
-    font-size: 1.6rem;
-    font-weight: 700;
+  font-size: 1.6rem;
+  font-weight: 700;
 }
 
-/* Add Course Button (Top Right) */
 .add-course-btn {
-    background: #B9FF66;
-    color: black;
-    padding: 10px 18px;
-    border-radius: 10px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: 0.2s ease;
-    border: 1px solid black;
+  background: #B9FF66;
+  color: black;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s ease;
+  border: 1px solid black;
 }
 
 .add-course-btn:hover {
-    background: #000;
-    color: #b9ff66;
+  background: #000;
+  color: #b9ff66;
 }
 
 /* ============================================================================
-   15. COURSES - CARDS & GRID
+   18. COURSES - CARDS & GRID
    ============================================================================ */
 
-/* 4-column fixed card layout */
 .courses-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    justify-items: start;
-    padding-bottom: 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  justify-items: start;
+  padding-bottom: 1rem;
 }
 
-/* Fixed size cards */
 .course-card {
-    background: #fff;
-    width: 350px;
-    height: 440px;
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid #000000;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-    cursor: default;
-    margin-bottom: 15px;
-    margin-top: 2rem;
+  background: #fff;
+  width: 350px;
+  height: 440px;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #000000;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  cursor: default;
+  margin-bottom: 15px;
+  margin-top: 2rem;
 }
 
 .course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    border-color: #000000;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-color: #000000;
 }
 
-/* Top header of card */
 .course-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 0.5rem;
 }
 
 .course-header h4 {
-    color: #000000;
-    font-size: 1rem;
-    font-weight: 700;
-    margin: 0;
-    flex-grow: 1;
-    line-height: 1.3;
-    min-height: 2.5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  flex-grow: 1;
+  line-height: 1.3;
+  min-height: 2.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Black pill course code */
 .course-code {
-    background-color: #000000;
-    color: #fff;
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    white-space: nowrap;
-    user-select: none;
-    margin-left: 0.8rem;
-    flex-shrink: 0;
+  background-color: #000000;
+  color: #fff;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  user-select: none;
+  margin-left: 0.8rem;
+  flex-shrink: 0;
 }
 
-/* Course description */
 .course-description {
-    color: #666;
-    font-size: 0.875rem;
-    line-height: 1.4;
-    min-height: 2.5rem;
-    max-height: 2.8rem;
-    margin-bottom: 0.75rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  color: #666;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  min-height: 2.5rem;
+  max-height: 2.8rem;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Stats line */
 .course-stats {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.875rem;
-    color: #000000;
-    margin-bottom: 0.75rem;
-    align-items: center;
-    min-height: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #000000;
+  margin-bottom: 0.75rem;
+  align-items: center;
+  min-height: 1.25rem;
 }
 
-/* Buttons vertical stack */
 .course-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: auto;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
+  align-items: center;
 }
 
 .action-btn {
-    width: 100%;
-    padding: 0.65rem 0;
-    background-color: #B9FF66;
-    border: 1px solid #000000;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-align: center;
-    color: #000000;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    user-select: none;
-    box-sizing: border-box;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 38px;
+  width: 100%;
+  padding: 0.65rem 0;
+  background-color: #B9FF66;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+  color: #000000;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 38px;
 }
 
 .action-btn:hover {
-    background-color: #E0FFC2;
-    color: #000;
+  background-color: #E0FFC2;
+  color: #000;
 }
 
-/* Edit button special style */
 .edit-btn {
-    background-color: #000000 !important;
-    color: #B9FF66 !important;
-    font-weight: 700;
+  background-color: #000000 !important;
+  color: #B9FF66 !important;
+  font-weight: 700;
 }
 
 .edit-btn:hover {
-    background-color: #E0FFC2 !important;
-    color: #000 !important;
-    border: 1px solid #000000 !important;
+  background-color: #E0FFC2 !important;
+  color: #000 !important;
+  border: 1px solid #000000 !important;
 }
 
-/* ============================================================================
-   EMPTY STATE
-   ============================================================================ */
-
 .empty-state {
-    text-align: center;
-    padding: 3rem;
-    color: #666;
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  grid-column: 1 / -1;
 }
 
 .add-course-btn-large {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 1rem 2rem;
-    background: #667eea;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    border: 1px solid #000;
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 1rem 2rem;
+  background: #667eea;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid #000;
 }
 
 .add-course-btn-large:hover {
-    background: #5567d4;
+  background: #5567d4;
 }
 
 /* ============================================================================
-   15. EDIT COURSE - FORM LAYOUT
+   19. EDIT/ADD COURSE - FORM LAYOUT
    ============================================================================ */
 
-.edit-course-wrapper {
+.edit-course-wrapper,
+.add-course-wrapper {
   background: var(--color-white);
   padding: 3rem;
   border-radius: 20px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   max-width: 1400px;
+  width: 900px;
   margin: 2rem auto;
 }
 
-.edit-course-card {
+.edit-course-card,
+.add-course-card {
   background: var(--color-white);
   border-radius: 16px;
   overflow: hidden;
+  padding: 2.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  border: 1px solid #000000;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-title {
@@ -1674,15 +1913,18 @@ a.logo {
   font-weight: 700;
 }
 
-.edit-form {
+.edit-form,
+.add-course-form {
   padding: 0;
 }
 
-.edit-form .form-group {
+.edit-form .form-group,
+.add-course-form .add-course-form-group {
   margin-bottom: 1.8rem;
 }
 
-.edit-form label {
+.edit-form label,
+.add-course-form .add-course-form-group label {
   display: block;
   font-weight: 700;
   margin-bottom: 0.5rem;
@@ -1690,7 +1932,8 @@ a.logo {
   font-size: 1rem;
 }
 
-.edit-form .form-input {
+.edit-form .form-input,
+.add-course-form .form-input {
   width: 100%;
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-gray-light);
@@ -1703,13 +1946,15 @@ a.logo {
   color: var(--color-black);
 }
 
-.edit-form .form-input:focus {
+.edit-form .form-input:focus,
+.add-course-form .form-input:focus {
   outline: none;
   border-color: var(--color-green-dark);
   box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
 }
 
-.edit-form textarea.form-input {
+.edit-form textarea.form-input,
+.add-course-form textarea.form-input {
   resize: vertical;
   min-height: 140px;
   line-height: 1.6;
@@ -1721,57 +1966,6 @@ a.logo {
   font-size: 0.875rem;
   margin-top: 0.5rem;
   font-weight: 600;
-}
-
-.form-buttons {
-  display: flex;
-  gap: 1.25rem;
-  margin-top: 2.5rem;
-  padding-top: 2rem;
-  border-top: 2px solid var(--color-gray-light);
-}
-
-.save-course-btn {
-  flex: 1;
-  padding: 1rem 2rem;
-  background: var(--color-black) !important;
-  color: var(--color-green-light) !important;
-  border: 1px solid var(--color-black) !important;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.save-course-btn:hover {
-  background: var(--color-green-light) !important;
-  color: var(--color-black) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-}
-
-.form-buttons .cancel-btn {
-  flex: 1;
-  padding: 1rem 2rem;
-  background: var(--color-white) !important;
-  color: var(--color-black) !important;
-  border: 1px solid var(--color-black) !important;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.form-buttons .cancel-btn:hover {
-  background: var(--color-green-light) !important;
-  transform: translateY(-2px);
 }
 
 .danger-zone {
@@ -1821,231 +2015,32 @@ a.logo {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
-
-@media (max-width: 768px) {
-  .edit-course-wrapper {
-    padding: 2rem 1.5rem;
-    margin: 1rem auto;
-  }
-  .form-title {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-  }
-  .edit-form .form-group {
-    margin-bottom: 1.5rem;
-  }
-  .form-buttons {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .danger-zone {
-    padding: 1.5rem 1rem;
-    margin-top: 2rem;
-  }
-  .danger-zone h3 {
-    font-size: 1.3rem;
-  }
-}
-
 /* ============================================================================
-   ADD COURSE PAGE - STYLES (FIXED WIDTH)
+   20. LESSON PLANS - LIST & CARDS
    ============================================================================ */
 
-/* Add Course Wrapper - Centers and contains the card */
-.add-course-wrapper {
-    width: 900px;
-    margin: 2rem auto;
-    padding: 0;
-}
-
-/* Add Course Card - Beautiful card container */
-.add-course-card {
-    background: var(--color-white);
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
-    border: 1px solid #000000;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* Form Title */
-.add-course-card .form-title {
-    color: var(--color-black);
-    font-size: 1.75rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--color-black);
-    font-weight: 700;
-}
-
-/* Form Groups */
-.add-course-form .add-course-form-group {
-    margin-bottom: 1.5rem;
-}
-
-.add-course-form .add-course-form-group label {
-    display: block;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: var(--color-black);
-    font-size: 0.95rem;
-}
-
-/* Form Inputs */
-.add-course-form .form-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-family: 'Space Grotesk', sans-serif;
-    transition: all 0.3s;
-    box-sizing: border-box;
-    background: var(--color-white);
-    color: var(--color-black);
-}
-
-.add-course-form .form-input:focus {
-    outline: none;
-    border-color: var(--color-black);
-    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
-}
-
-.add-course-form textarea.form-input {
-    resize: vertical;
-    min-height: 120px;
-    line-height: 1.6;
-}
-
-/* Error Messages */
-.add-course-form .error {
-    display: block;
-    color: var(--color-danger);
-    font-size: 0.85rem;
-    margin-top: 0.5rem;
-    font-weight: 600;
-}
-
-/* Form Buttons Container */
-.add-course-form .form-buttons {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #e5e5e5;
-}
-
-/* Submit Button */
-.add-course-form .add-course-submit {
-    flex: 1;
-    padding: 0.875rem 1.5rem;
-    background: var(--color-black) !important;
-    color: var(--color-green-light) !important;
-    border: 1px solid var(--color-black) !important;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.add-course-form .add-course-submit:hover {
-    background: var(--color-green-light) !important;
-    color: var(--color-black) !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-/* Cancel Button */
-.add-course-form .cancel-btn {
-    flex: 1;
-    padding: 0.875rem 1.5rem;
-    background: var(--color-white) !important;
-    color: var(--color-black) !important;
-    border: 1px solid var(--color-black) !important;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.add-course-form .cancel-btn:hover {
-    background: var(--color-green-light) !important;
-    transform: translateY(-2px);
-}
-
-/* Responsive Design for Add Course */
-@media (max-width: 992px) {
-    .add-course-wrapper {
-        width: calc(100% - 3rem);
-        margin: 2rem 1.5rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .add-course-wrapper {
-        width: calc(100% - 2rem);
-        margin: 1rem;
-    }
-
-    .add-course-card {
-        padding: 2rem 1.5rem;
-    }
-
-    .add-course-card .form-title {
-        font-size: 1.5rem;
-        margin-bottom: 1.25rem;
-        padding-bottom: 0.875rem;
-    }
-
-    .add-course-form .add-course-form-group {
-        margin-bottom: 1.25rem;
-    }
-
-    .add-course-form .form-buttons {
-        flex-direction: column;
-        gap: 0.875rem;
-    }
-}
-/* ============================================================================
-   16. LESSON PLANS - LIST & CARDS
-   ============================================================================ */
-
-/* Make the page full-width when Lesson Plans are present */
+/* Full-width layout for plans */
 .main-content:has(.plans-container) {
-    background: #ffffff !important;
-    padding: 0 !important;
+  background: #ffffff !important;
+  padding: 0 !important;
 }
 
-/* Expand inner content to maximum width */
 .main-content .content:has(.plans-container) {
-    max-width: 100% !important;
-    padding: 2rem !important;
-    width: 100%;
+  max-width: 100% !important;
+  padding: 2rem !important;
+  width: 100%;
 }
 
-/* Ensure plans container spans the entire width */
 .plans-container {
-    background: #ffffff;
-    width: 100%;
-    margin: 0;
+  background: #ffffff;
+  width: 100%;
+  margin: 0;
 }
 
-/* Force lesson plan section to behave like full-width container */
 .plans-section {
-    width: 100%;
+  width: 100%;
 }
 
-
-/* Plans Header */
 .plans-header {
   display: flex;
   justify-content: space-between;
@@ -2056,7 +2051,7 @@ a.logo {
   box-sizing: border-box;
 }
 
-.header-left {
+.plans-header .header-left {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -2081,58 +2076,19 @@ a.logo {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Back Icon Button */
-.back-icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  background-color: transparent;
-  border: none;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-
-.back-icon-btn img {
-  width: 24px;
-  height: 24px;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.back-icon-btn:hover {
-  background-color: var(--color-green-light);
-  transform: translateX(-3px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.back-icon-btn:hover img {
-  transform: translateX(-2px);
-}
-
 .course-subtitle {
-  display: none; /* Hide subtitle in header - will show in banner */
+  display: none;
 }
 
 .add-btn {
   background: #B9FF66;
-    color: black;
-    padding: 10px 18px;
-    border-radius: 10px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: 0.2s ease;
-    border: 1px solid black;
-}
-
-.add-course-btn:hover {
-    background: #000;
-    color: #b9ff66;
+  color: black;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s ease;
+  border: 1px solid black;
 }
 
 .add-btn:hover {
@@ -2142,7 +2098,6 @@ a.logo {
   box-shadow: 0 4px 12px rgba(86, 130, 3, 0.3);
 }
 
-/* Course Name Banner */
 .course-name-banner {
   background-color: var(--color-green-light);
   border: 1px solid var(--color-black);
@@ -2161,7 +2116,6 @@ a.logo {
   letter-spacing: 0.5px;
 }
 
-/* Plans Grid */
 .plans-grid {
   display: grid;
   grid-template-columns: repeat(4, 350px);
@@ -2170,7 +2124,6 @@ a.logo {
   padding-bottom: 1rem;
 }
 
-/* Plan Card */
 .plan-card,
 .lesson-card {
   background: #fff;
@@ -2249,7 +2202,6 @@ a.logo {
   font-weight: 700;
 }
 
-/* Plan Actions */
 .plan-actions {
   display: flex;
   gap: 0.9rem;
@@ -2269,7 +2221,7 @@ a.logo {
   font-size: 0.85rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
   border: 1.5px solid var(--color-black);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .btn-view {
@@ -2282,7 +2234,7 @@ a.logo {
   color: var(--color-black);
   border-color: var(--color-black);
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
 
 .btn-edit {
@@ -2294,79 +2246,18 @@ a.logo {
   background-color: var(--color-green-light);
   border-color: var(--color-black);
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
 
-@media (max-width: 640px) {
-  .plan-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .btn-view,
-  .btn-edit {
-    width: 100%;
-  }
-}
-
-/* Empty State for Plans */
-.empty-state {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 4rem 2rem;
-  background: var(--color-gray-light);
-  border-radius: 12px;
-  border: 3px dashed var(--color-green-light);
-}
-
-.empty-state p {
-  font-size: 1.2rem;
-  color: #666;
-  font-weight: 500;
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .plans-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .plans-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .plan-card {
-    width: 100%;
-    max-width: 350px;
-  }
-
-  .plans-header {
-    flex-direction: column;
-    height: auto;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-
-  .header-left {
-    width: 100%;
-  }
-
-  .add-btn {
-    width: 100%;
-  }
-}
 /* ============================================================================
-   17. LESSON PLANS - VIEW & EDIT
+   21. LESSON PLANS - VIEW & EDIT
    ============================================================================ */
 
-/* ===== VIEW LESSON PLAN ===== */
 .plan-view-container {
   background: white;
   padding: 3rem;
   border-radius: 15px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) ;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   width: 1000px;
   max-width: 95%;
   margin: 2rem auto;
@@ -2401,38 +2292,16 @@ a.logo {
   gap: 0.75rem;
 }
 
-.delete-btn,
-.plan-header .edit-btn,
-.remove-btn {
-  padding: 0.65rem 1.25rem;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: all 0.3s;
-  min-width: 80px;
-  text-align: center;
-  display: inline-block;
-  line-height: 1.5;
-}
-
-.delete-btn {
-  background: #dc3545;
-  border: 1px solid #000000;
-  color: white;
-}
-
-.delete-btn:hover {
-  background: #c0392b;
-}
-
 .plan-header .edit-btn {
   background: #B9FF66;
   color: #000000;
   text-decoration: none;
   border: 1px solid #000000;
+  padding: 0.65rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s;
 }
 
 .plan-header .edit-btn:hover {
@@ -2441,7 +2310,6 @@ a.logo {
   border: 1px solid #000000;
 }
 
-/* Plan Details */
 .plan-details {
   margin-bottom: 2rem;
 }
@@ -2472,7 +2340,6 @@ a.logo {
   white-space: pre-wrap;
 }
 
-/* Learning Materials List */
 .materials-list {
   list-style: none;
   padding: 0;
@@ -2508,38 +2375,7 @@ a.logo {
   text-decoration: underline;
 }
 
-.remove-btn {
-  background: #dc3545;
-  color: white;
-}
-
-.remove-btn:hover {
-  background: #c0392b;
-}
-
-.back-btn {
-  display: inline-block;
-  padding: 0.65rem 1.25rem;
-  background-color: var(--color-black);
-  color: var(--color-green-light);
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  border: 1.5px solid var(--color-black);
-  transition: all 0.3s ease;
-  margin-top: 1rem;
-}
-
-.back-btn:hover {
-  background-color: var(--color-green-light);
-  color: var(--color-black);
-  border-color: var(--color-black);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* ===== EDIT LESSON PLAN ===== */
+/* Form Container (Edit Plan) */
 .form-container {
   background: white;
   padding: 3rem;
@@ -2560,91 +2396,6 @@ a.logo {
   border-bottom: 3px solid #eee;
 }
 
-.form-group {
-  margin-bottom: 1.8rem;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
-}
-
-.form-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: inherit;
-  transition: all 0.3s;
-
-/* =============================
-   Add Course - Global Styles
-   ============================= */
-.add-course-form-container {
-  background: var(--color-white) !important;
-  padding: 2rem !important;
-  border-radius: 16px !important;
-  border: 1px solid #eee !important;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06) !important;
-  max-width: 700px !important;
-  width: 100% !important;
-  margin: 0 auto !important;
-}
-
-.add-course-form-container h2 {
-  font-size: 2rem !important;
-  font-weight: 800 !important;
-  color: #111 !important;
-  margin: 0 0 1rem 0 !important;
-}
-
-.add-course-form-group {
-  margin-bottom: 1rem !important;
-}
-
-.add-course-form-group label {
-  font-weight: 700 !important;
-  font-size: 0.95rem !important;
-  color: #333 !important;
-  margin-bottom: 0.4rem !important;
-  display: block !important;
-}
-
-.add-course-form-container .form-input {
-  padding: 0.7rem 0.9rem !important;
-  font-size: 0.95rem !important;
-  border-radius: 10px !important;
-}
-
-.add-course-form-container textarea.form-input {
-  min-height: 130px !important;
-}
-
-.add-course-form-container .submit-btn,
-.add-course-form-container .cancel-btn {
-  width: 100% !important;
-  padding: 0.9rem 1.4rem !important;
-  font-size: 1rem !important;
-}
-  box-sizing: border-box;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: #33691E;
-  box-shadow: 0 0 0 3px rgba(86, 130, 3, 0.1);
-}
-
-textarea.form-input {
-  min-height: 120px;
-  resize: vertical;
-}
-
-/* Current Materials Display in Edit Form */
 .form-group h4 {
   color: #333;
   font-size: 1rem;
@@ -2665,44 +2416,6 @@ textarea.form-input {
   border: 1px solid #e0e0e0;
   font-size: 0.95rem;
   color: #555;
-}
-
-.info {
-  display: block;
-  font-size: 0.875rem;
-  color: #666;
-  margin-top: 0.5rem;
-  font-style: italic;
-}
-
-.error {
-  display: block;
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
-  font-weight: 500;
-}
-
-/* Form Buttons */
-.submit-btn {
-  width: 100%;
-  padding: 0.875rem 1.5rem;
-  background: #000000;
-  color: #B9FF66;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin-bottom: 1rem;
-}
-
-.submit-btn:hover {
-  background: #1a1a1a;
-  color: #B9FF66;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .form-group .cancel-btn {
@@ -2727,1282 +2440,118 @@ textarea.form-input {
   background: #a8ee55;
   transform: translateY(-2px);
 }
-
-/* File Input Styling */
-input[type="file"].form-input {
-  padding: 0.5rem;
-  cursor: pointer;
-}
-
-input[type="file"].form-input::file-selector-button {
-  padding: 0.5rem 1rem;
-  background: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  margin-right: 1rem;
-  transition: all 0.3s;
-}
-
-input[type="file"].form-input::file-selector-button:hover {
-  background: #e0e0e0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .plan-view-container,
-  .form-container {
-    padding: 1.5rem;
-    margin: 1rem;
-  }
-
-  .plan-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .plan-header .actions {
-    width: 100%;
-  }
-
-  .plan-header .actions .edit-btn,
-  .plan-header .actions .delete-btn {
-    flex: 1;
-  }
-
-  .materials-list li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .remove-btn {
-    width: 100%;
-  }
-}
 /* ============================================================================
-   18. ATTENDANCE - RECORDING
+   22. ATTENDANCE - UNIFIED STYLES (RECORDING, HISTORY, DETAIL)
+   De-duplicated: Single set of styles for all attendance pages
    ============================================================================ */
 
-/* Match attendance details page layout exactly */
-.main-content:has(.attendance-container) {
-    background: #ffffff !important;
-    padding: 0 !important;
-}
-
-.main-content .content:has(.attendance-container) {
-    max-width: 100% !important;
-    padding: 2rem !important;
-    width: 100%;
-}
-
-/* Container matches details page styling */
-.attendance-container {
-    background: transparent;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    border-radius: 0;
-    overflow: visible;
-    box-shadow: none;
-    border: none;
-}
-
-/* --------------------------------------------
-   HEADER ROW (Back + Title + History Button)
---------------------------------------------- */
-.attendance-header-with-back-history {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0;
-    border-bottom: none;
-    background: transparent;
-    margin-bottom: 2rem;
-    width: 100%;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex: 1;
-}
-
-.header-left h2 {
-    margin: 0;
-    padding: 0;
-    line-height: 1.2;
-    color: #000;
-    font-size: 1.8rem;
-    font-weight: 700;
-}
-
-.back-icon-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-    flex-shrink: 0;
-}
-
-.back-icon-btn img {
-    width: 24px;
-    height: 24px;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.back-icon-btn:hover {
-    background-color: #B9FF66;
-    transform: translateX(-3px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.back-icon-btn:hover img {
-    transform: translateX(-2px);
-}
-
-/* History Button */
-.view-history-btn {
-    background: #B9FF66;
-    padding: 0.65rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-decoration: none;
-    color: #000;
-    border: 1px solid #000;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    min-width: 140px;
-    transition: all 0.3s;
-    flex-shrink: 0;
-}
-
-.view-history-btn:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-
-/* --------------------------------------------
-   SEARCH DATE BAR
---------------------------------------------- */
-.date-form-inline {
-    width: 100%;
-    border-bottom: none;
-    background: #f2f2f2;
-    padding: 1.5rem 2rem;
-    border-radius: 12px;
-    margin-bottom: 2rem;
-    border: 1px solid #e0e0e0;
-}
-
-.form-row-inline {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.form-group-search {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.form-group-search label {
-    font-weight: 700;
-    color: #000;
-    font-size: 1rem;
-    white-space: nowrap;
-}
-
-.form-input-date {
-    border: 2px solid #ddd;
-    padding: 0.65rem 1rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background: #fff;
-    color: #333;
-    transition: all 0.3s;
-}
-
-.form-input-date:focus {
-    outline: none;
-    border-color: #568203;
-    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
-}
-
-/* View Date Button */
-.submit-btn-green {
-    background: #B9FF66;
-    border: 1px solid #000;
-    padding: 0.65rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    color: #000;
-    font-size: 0.95rem;
-    min-height: 44px;
-    min-width: 120px;
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
-.submit-btn-green:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-/* --------------------------------------------
-   DATE + SAVE ROW
---------------------------------------------- */
-.date-save-row {
-    background: transparent;
-    border-bottom: none;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.date-save-row h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #000;
-    margin: 0;
-}
-
-/* Save button */
-.date-save-row button {
-    background: #B9FF66;
-    padding: 0.65rem 1.5rem;
-    border: 1px solid #000;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    min-height: 44px;
-    min-width: 140px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.date-save-row button:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-/* --------------------------------------------
-   ATTENDANCE TABLE
---------------------------------------------- */
-.attendance-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    text-align: center;
-    font-size: 15px;
-    background: #fff;
-    border-radius: 1px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.attendance-table th {
-    background: #000;
-    padding: 1rem;
-    border: 1px solid #fff;
-    font-weight: 600;
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-}
-
-.attendance-table td {
-    padding: 1rem;
-    border: 1px solid #000;
-    color: #333;
-}
-
-.attendance-table tbody tr {
-    background: #fff;
-    transition: all 0.2s ease;
-}
-
-.attendance-table tbody tr:hover {
-    background: #f8f9fa;
-    transform: scale(1.01);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* Radio buttons */
-.attendance-table input[type="radio"] {
-    transform: scale(1.2);
-    cursor: pointer;
-    accent-color: #568203;
-}
-
-/* Empty state */
-.empty-state {
-    padding: 3rem;
-    text-align: center;
-    color: #666;
-    font-size: 1.1rem;
-    background: #f8f9fa;
-    border-radius: 12px;
-    margin: 2rem 0;
-}
-/* ============================================================================
-   18. ATTENDANCE - RECORDING
-   ============================================================================ */
-
-/* Match attendance details page layout exactly */
-.main-content:has(.attendance-container) {
-    background: #ffffff !important;
-    padding: 0 !important;
-}
-
-.main-content .content:has(.attendance-container) {
-    max-width: 100% !important;
-    padding: 2rem !important;
-    width: 100%;
-}
-
-/* Container matches details page styling */
-.attendance-container {
-    background: transparent;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    border-radius: 0;
-    overflow: visible;
-    box-shadow: none;
-    border: none;
-}
-
-/* --------------------------------------------
-   HEADER ROW (Back + Title + History Button)
---------------------------------------------- */
-.attendance-header-with-back-history {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0;
-    border-bottom: none;
-    background: transparent;
-    margin-bottom: 2rem;
-    width: 100%;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex: 1;
-}
-
-.header-left h2 {
-    margin: 0;
-    padding: 0;
-    line-height: 1.2;
-    color: #000;
-    font-size: 1.8rem;
-    font-weight: 700;
-}
-
-.back-icon-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-    flex-shrink: 0;
-}
-
-.back-icon-btn img {
-    width: 24px;
-    height: 24px;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.back-icon-btn:hover {
-    background-color: #B9FF66;
-    transform: translateX(-3px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.back-icon-btn:hover img {
-    transform: translateX(-2px);
-}
-
-/* History Button */
-.view-history-btn {
-    background: #B9FF66;
-    padding: 0.65rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-decoration: none;
-    color: #000;
-    border: 2px solid #000;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    min-width: 140px;
-    transition: all 0.3s;
-    flex-shrink: 0;
-}
-
-.view-history-btn:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-
-/* --------------------------------------------
-   SEARCH DATE BAR
---------------------------------------------- */
-.date-form-inline {
-    width: 100%;
-    border-bottom: none;
-    background: #f2f2f2;
-    padding: 1.5rem 2rem;
-    border-radius: 12px;
-    margin-bottom: 2rem;
-    border: 1px solid #e0e0e0;
-}
-
-.form-row-inline {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.form-group-search {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.form-group-search label {
-    font-weight: 700;
-    color: #333;
-    font-size: 0.95rem;
-    white-space: nowrap;
-}
-
-.form-input-date {
-    border: 2px solid #ddd;
-    padding: 0.65rem 1rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background: #fff;
-    color: #333;
-    transition: all 0.3s;
-}
-
-.form-input-date:focus {
-    outline: none;
-    border-color: #568203;
-    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
-}
-
-/* View Date Button */
-.submit-btn-green {
-    background: #B9FF66;
-    border: 2px solid #000;
-    padding: 0.65rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    color: #000;
-    font-size: 0.95rem;
-    min-height: 44px;
-    min-width: 120px;
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
-.submit-btn-green:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-/* --------------------------------------------
-   DATE + SAVE ROW
---------------------------------------------- */
-.date-save-row {
-    background: transparent;
-    border-bottom: none;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.date-save-row h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #000;
-    margin: 0;
-}
-
-/* Save button */
-.date-save-row button {
-    background: #B9FF66;
-    padding: 0.65rem 1.5rem;
-    border: 2px solid #000;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    min-height: 44px;
-    min-width: 140px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.date-save-row button:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-/* --------------------------------------------
-   ATTENDANCE TABLE
---------------------------------------------- */
-.attendance-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    text-align: center;
-    font-size: 15px;
-    background: #fff;
-    border-radius: 1px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.attendance-table th {
-    background: #000;
-    padding: 1rem;
-    border: 1px solid #fff;
-    font-weight: 600;
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-}
-
-.attendance-table td {
-    padding: 1rem;
-    border: 1px solid #000;
-    color: #333;
-}
-
-.attendance-table tbody tr {
-    background: #fff;
-    transition: all 0.2s ease;
-}
-
-.attendance-table tbody tr:hover {
-    background: #f8f9fa;
-    transform: scale(1.01);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* Radio buttons */
-.attendance-table input[type="radio"] {
-    transform: scale(1.2);
-    cursor: pointer;
-    accent-color: #568203;
-}
-
-/* Empty state */
-.empty-state {
-    padding: 3rem;
-    text-align: center;
-    color: #666;
-    font-size: 1.1rem;
-    background: #f8f9fa;
-    border-radius: 12px;
-    margin: 2rem 0;
-}
-/* ============================================================================
-   18. ATTENDANCE - RECORDING
-   ============================================================================ */
-
-/* Match attendance history page layout exactly */
-.main-content:has(.attendance-container) {
-    background: #ffffff !important;
-    padding: 0 !important;
-}
-
-.main-content .content:has(.attendance-container) {
-    max-width: 100% !important;
-    padding: 2rem !important;
-    width: 100%;
-}
-
-/* Container matches history page styling */
-.attendance-container {
-    background: transparent;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    border-radius: 0;
-    overflow: visible;
-    box-shadow: none;
-    border: none;
-}
-
-/* --------------------------------------------
-   HEADER ROW (Back + Title + History Button)
---------------------------------------------- */
-.attendance-header-with-back-history {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0;
-    border-bottom: none;
-    background: transparent;
-    margin-bottom: 2rem;
-    width: 100%;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex: 1;
-}
-
-.header-left h2 {
-    margin: 0;
-    padding: 0;
-    line-height: 1.2;
-    color: #000;
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-.back-icon-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-    flex-shrink: 0;
-}
-
-.back-icon-btn img {
-    width: 24px;
-    height: 24px;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.back-icon-btn:hover {
-    background-color: #B9FF66;
-    transform: translateX(-3px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.back-icon-btn:hover img {
-    transform: translateX(-2px);
-}
-
-/* History Button */
-.view-history-btn {
-    background: #B9FF66;
-    padding: 0.65rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-decoration: none;
-    color: #000;
-    border: 2px solid #000;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    min-width: 140px;
-    transition: all 0.3s;
-    flex-shrink: 0;
-}
-
-.view-history-btn:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-
-/* --------------------------------------------
-   SEARCH DATE BAR
---------------------------------------------- */
-.date-form-inline {
-    width: 100%;
-    border-bottom: none;
-    background: #f0f7ff;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-}
-
-.form-row-inline {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.form-group-search {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.form-group-search label {
-    font-weight: 700;
-    color: #333;
-    font-size: 0.95rem;
-    white-space: nowrap;
-}
-
-.form-input-date {
-    border: 2px solid #ddd;
-    padding: 0.65rem 1rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background: #fff;
-    color: #333;
-    transition: all 0.3s;
-}
-
-.form-input-date:focus {
-    outline: none;
-    border-color: #568203;
-    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
-}
-
-/* View Date Button */
-.submit-btn-green {
-    background: #B9FF66;
-    border: 2px solid #000;
-    padding: 0.65rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    color: #000;
-    font-size: 0.95rem;
-    min-height: 44px;
-    min-width: 120px;
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
-.submit-btn-green:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-/* --------------------------------------------
-   DATE + SAVE ROW
---------------------------------------------- */
-.date-save-row {
-    background: transparent;
-    border-bottom: none;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.date-save-row h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #333;
-    margin: 0;
-}
-
-/* Save button */
-.date-save-row button {
-    background: #B9FF66;
-    padding: 0.65rem 1.5rem;
-    border: 2px solid #000;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    min-height: 44px;
-    min-width: 140px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.date-save-row button:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-/* --------------------------------------------
-   ATTENDANCE TABLE
---------------------------------------------- */
-.attendance-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    text-align: center;
-    font-size: 15px;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.attendance-table th {
-    background: #000;
-    padding: 1rem;
-    border: 1px solid #fff;
-    font-weight: 600;
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-}
-
-.attendance-table td {
-    padding: 1rem;
-    border: 1px solid #e0e0e0;
-    color: #333;
-}
-
-.attendance-table tbody tr {
-    background: #fff;
-    transition: all 0.2s ease;
-}
-
-.attendance-table tbody tr:hover {
-    background: #f8f9fa;
-    transform: scale(1.01);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* Radio buttons */
-.attendance-table input[type="radio"] {
-    transform: scale(1.2);
-    cursor: pointer;
-    accent-color: #568203;
-}
-
-/* Empty state */
-.empty-state {
-    padding: 3rem;
-    text-align: center;
-    color: #666;
-    font-size: 1.1rem;
-    background: #f8f9fa;
-    border-radius: 12px;
-    margin: 2rem 0;
-}
-/* ============================================================================
-   18. ATTENDANCE - RECORDING
-   ============================================================================ */
-
-/* Match attendance history page layout exactly */
-.main-content:has(.attendance-container) {
-    background: #ffffff !important;
-    padding: 0 !important;
-}
-
-.main-content .content:has(.attendance-container) {
-    max-width: 100% !important;
-    padding: 2rem !important;
-    width: 100%;
-}
-
-/* Container matches history page styling */
-.attendance-container {
-    background: white;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    border-radius: 0;
-    overflow: visible;
-    box-shadow: none;
-    border: none;
-}
-
-/* --------------------------------------------
-   HEADER ROW (Back + Title + History Button)
---------------------------------------------- */
-.attendance-header-with-back-history {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem;
-    border-bottom: none;
-    background: transparent;
-    margin-bottom: 1.5rem;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.header-left h2 {
-    margin: 0;
-    padding: 0;
-    line-height: 1.2;
-    color: #000;
-    font-size: 1.8rem;
-    font-weight: 700;
-}
-
-.back-icon-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.back-icon-btn img {
-    width: 24px;
-    height: 24px;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.back-icon-btn:hover {
-    background-color: var(--color-green-light);
-    transform: translateX(-3px);
-}
-
-/* History Button */
-.view-history-btn {
-    background: #B9FF66;
-    padding: 0.65rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-decoration: none;
-    color: #000;
-    border: 2px solid #000;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    min-width: 140px;
-    transition: all 0.3s;
-}
-
-.view-history-btn:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-
-/* --------------------------------------------
-   SEARCH DATE BAR
---------------------------------------------- */
-.date-form-inline {
-    width: 100%;
-    border-bottom: none;
-    background: #f0f7ff;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-}
-
-.form-row-inline {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.form-group-search {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.form-group-search label {
-    font-weight: 700;
-    color: #333;
-    font-size: 0.95rem;
-    white-space: nowrap;
-}
-
-.form-input-date {
-    border: 2px solid #ddd;
-    padding: 0.65rem 1rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background: #fff;
-    color: #333;
-    transition: all 0.3s;
-}
-
-.form-input-date:focus {
-    outline: none;
-    border-color: var(--color-green-dark);
-    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
-}
-
-/* View Date Button */
-.submit-btn-green {
-    background: #B9FF66;
-    border: 2px solid #000;
-    padding: 0.65rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    color: #000;
-    font-size: 0.95rem;
-    min-height: 44px;
-    min-width: 120px;
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
-.submit-btn-green:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-/* --------------------------------------------
-   DATE + SAVE ROW
---------------------------------------------- */
-.date-save-row {
-    background: #fff;
-    border-bottom: none;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.date-save-row h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #333;
-    margin: 0;
-}
-
-/* Save button */
-.date-save-row button {
-    background: #B9FF66;
-    padding: 0.65rem 1.5rem;
-    border: 2px solid #000;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    min-height: 44px;
-    min-width: 140px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.date-save-row button:hover {
-    background-color: #000;
-    border-color: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-    color: #B9FF66;
-}
-
-/* --------------------------------------------
-   ATTENDANCE TABLE
---------------------------------------------- */
-.attendance-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    text-align: center;
-    font-size: 15px;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.attendance-table th {
-    background: #000;
-    padding: 1rem;
-    border: 1px solid #fff;
-    font-weight: 600;
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-}
-
-.attendance-table td {
-    padding: 1rem;
-    border: 1px solid #e0e0e0;
-    color: #333;
-}
-
-.attendance-table tbody tr {
-    background: #fff;
-    transition: all 0.2s ease;
-}
-
-.attendance-table tbody tr:hover {
-    background: #f8f9fa;
-    transform: scale(1.01);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* Radio buttons */
-.attendance-table input[type="radio"] {
-    transform: scale(1.2);
-    cursor: pointer;
-    accent-color: #568203;
-}
-
-/* Empty state */
-.empty-state {
-    padding: 3rem;
-    text-align: center;
-    color: #666;
-    font-size: 1.1rem;
-    background: #f8f9fa;
-    border-radius: 12px;
-    margin: 2rem 0;
-}
-
-/* ============================================================================
-   19. ATTENDANCE - HISTORY & DETAIL
-   ============================================================================ */
-/* Remove padding and max-width constraints for attendance history pages */
-.main-content:has(.attendance-history-container) {
-    background: #ffffff !important;
-    padding: 0 !important;
-}
-
-.main-content .content:has(.attendance-history-container) {
-    max-width: 100% !important;
-    padding: 2rem !important;
-    width: 100%;
-}
-
-.attendance-history-container {
-  background: white;
+/* Full-width layout for all attendance pages */
+.main-content:has(.attendance-container),
+.main-content:has(.attendance-history-container),
+.main-content:has(.attendance-detail-container) {
+  background: #ffffff !important;
+  padding: 0 !important;
+}
+
+.main-content .content:has(.attendance-container),
+.main-content .content:has(.attendance-history-container),
+.main-content .content:has(.attendance-detail-container) {
+  max-width: 100% !important;
+  padding: 2rem !important;
   width: 100%;
-  margin: 0;
 }
 
-.history-header {
+.attendance-container,
+.attendance-history-container,
+.attendance-detail-container {
+  background: transparent;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  border: none;
+}
+
+/* --- UNIFIED HEADER (Back + Title + Action Button) --- */
+.attendance-header-with-back-history,
+.history-header,
+.detail-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #eee;
+  padding: 0;
+  border-bottom: none;
+  background: transparent;
+  margin-bottom: 2rem;
+  width: 100%;
 }
 
+.attendance-header-with-back-history .header-left,
 .history-header .header-left {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 1rem;
+  flex: 1;
 }
 
-.history-header h2 {
-  color: #333;
-  font-size: 1.4rem;
+.attendance-header-with-back-history .header-left h2,
+.history-header h2,
+.detail-header h2 {
   margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  color: #000;
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
-/* RIGHT SIDE ALIGN - FIXED */
+/* History/Detail Action Buttons */
+.view-history-btn,
+.record-new-btn,
+.download-pdf-btn,
+.edit-attendance-btn {
+  background: #B9FF66;
+  padding: 0.65rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  color: #000;
+  border: 1px solid #000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 140px;
+  transition: all 0.3s;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.view-history-btn:hover,
+.record-new-btn:hover,
+.download-pdf-btn:hover,
+.edit-attendance-btn:hover {
+  background-color: #000;
+  border-color: #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  color: #B9FF66;
+}
+
+.download-pdf-btn {
+  font-weight: bold !important;
+}
+
 .header-actions {
   display: flex;
   align-items: stretch;
   gap: 0.75rem;
 }
 
-.course-block,
-.record-new-btn {
+.course-block {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4013,6 +2562,9 @@ input[type="file"].form-input::file-selector-button:hover {
   font-weight: 600;
   white-space: nowrap;
   border: 2px solid #000;
+  background-color: #000;
+  color: #fff;
+  min-width: 180px;
   transition: all 0.2s ease;
   text-decoration: none;
   box-sizing: border-box;
@@ -4020,29 +2572,196 @@ input[type="file"].form-input::file-selector-button:hover {
   line-height: 1.2;
 }
 
-/* COURSE BLOCK */
-.course-block {
-  background-color: #000;
-  color: #fff;
-  min-width: 180px;
+/* --- UNIFIED DATE FORM (Search Bar) --- */
+.date-form-inline {
+  width: 100%;
+  border-bottom: none;
+  background: #f2f2f2;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border: 1px solid #e0e0e0;
 }
 
-/* RECORD BUTTON - Interactive */
-.record-new-btn {
-  background-color: #000;
-  color: #B9FF66;
-  min-width: 220px;
+.form-row-inline {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form-group-search {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form-group-search label {
+  font-weight: 700;
+  color: #000;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.form-input-date {
+  border: 2px solid #ddd;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #333;
+  transition: all 0.3s;
+}
+
+.form-input-date:focus {
+  outline: none;
+  border-color: #568203;
+  box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
+}
+
+/* View Date Button */
+.submit-btn-green {
+  background: #B9FF66;
+  border: 1px solid #000;
+  padding: 0.65rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #000;
+  font-size: 0.95rem;
+  min-height: 44px;
+  min-width: 120px;
+  transition: all 0.3s;
   cursor: pointer;
 }
 
-.record-new-btn:hover {
-  background-color: #B9FF66;
-  color: #000;
-  transform: translateY(-2px);
+.submit-btn-green:hover {
+  background-color: #000;
+  border-color: #000;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  border: 1px solid black;
+  transform: translateY(-2px);
+  color: #B9FF66;
 }
 
+/* --- UNIFIED DATE + SAVE ROW --- */
+.date-save-row {
+  background: transparent;
+  border-bottom: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.date-save-row h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+}
+
+.date-save-row button {
+  background: #B9FF66;
+  padding: 0.65rem 1.5rem;
+  border: 1px solid #000;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  min-height: 44px;
+  min-width: 140px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.date-save-row button:hover {
+  background-color: #000;
+  border-color: #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  color: #B9FF66;
+}
+
+/* --- UNIFIED ATTENDANCE TABLE --- */
+.attendance-table,
+.detail-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: center;
+  font-size: 15px;
+  background: #fff;
+  border-radius: 1px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.attendance-table th,
+.detail-table th {
+  background: #000;
+  padding: 1rem;
+  border: 1px solid #fff;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.attendance-table td,
+.detail-table td {
+  padding: 1rem;
+  border: 1px solid #000;
+  color: #333;
+}
+
+.attendance-table tbody tr,
+.detail-table tbody tr {
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.attendance-table tbody tr:hover,
+.detail-table tbody tr:hover {
+  background: #f8f9fa;
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.attendance-table input[type="radio"] {
+  transform: scale(1.2);
+  cursor: pointer;
+  accent-color: #568203;
+}
+
+/* Student Info Cell */
+.student-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.student-icon {
+  font-size: 1.2rem;
+}
+
+/* Empty state */
+.empty-state {
+  padding: 3rem;
+  text-align: center;
+  color: #666;
+  font-size: 1.1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+/* ============================================================================
+   23. ATTENDANCE HISTORY - TIMELINE
+   ============================================================================ */
 
 .history-info {
   background: #f0f7ff;
@@ -4052,7 +2771,6 @@ input[type="file"].form-input::file-selector-button:hover {
   color: #666;
 }
 
-/* Attendance Timeline */
 .attendance-timeline {
   display: flex;
   flex-direction: column;
@@ -4116,8 +2834,6 @@ input[type="file"].form-input::file-selector-button:hover {
   box-shadow: 0 4px 12px rgba(185, 255, 102, 0.3);
 }
 
-
-/* Date Card Stats */
 .date-card-stats {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -4187,7 +2903,6 @@ input[type="file"].form-input::file-selector-button:hover {
   line-height: 1;
 }
 
-/* Attendance Summary Bar */
 .attendance-summary {
   margin-top: 1.5rem;
 }
@@ -4226,721 +2941,563 @@ input[type="file"].form-input::file-selector-button:hover {
   background: #cce5ff;
 }
 
-.start-recording-btn {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 1rem 2rem;
-  background: #2ecc71;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s;
-}
-
-.start-recording-btn:hover {
-  background: #27ae60;
-  transform: translateY(-2px);
-}
-
 /* ============================================================================
-   ATTENDANCE DETAIL VIEW - UPDATED DESIGN
+   24. ATTENDANCE DETAIL - INFO CARD & STATUS BADGES
    ============================================================================ */
 
-.main-content:has(.attendance-detail-container) {
-    background: #ffffff !important;
-    padding: 0 !important;
-}
-
-.main-content .content:has(.attendance-detail-container) {
-    max-width: 100% !important;
-    padding: 2rem !important;
-    width: 100%;
-}
-
-.attendance-detail-container {
-    background: white;
-    width: 100%;
-    margin: 0 auto;
-    max-width: 1400px;
-}
-
-/* Header Section */
-.detail-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 2px solid #eee;
-}
-
-.detail-header h2 {
-    color: #000;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-/* Header Actions */
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.download-pdf-btn,
-.edit-attendance-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    padding: 0.65rem 1.5rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    white-space: nowrap;
-    border: 1px solid #000;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.download-pdf-btn {
-    background-color: #B9FF66;
-    color: #000;
-    font-weight: bold !important;
-}
-
-.download-pdf-btn:hover {
-    background-color: #000;
-    color: #B9FF66;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.edit-attendance-btn {
-    background-color: #B9FF66;
-    color: #000;
-}
-
-.edit-attendance-btn:hover {
-    background-color: #000;
-    color: #B9FF66;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(185, 255, 102, 0.4);
-}
-
-/* Info Card Section */
 .detail-info-card {
-    background: #f2f2f2;
-    padding: 2rem;
-    border-radius: 12px;
-    margin-bottom: 2rem;
-    border: 1px solid #e0e0e0;
+  background: #f2f2f2;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border: 1px solid #e0e0e0;
 }
 
 .info-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem 0;
-    border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .info-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .info-label {
-    font-weight: 700;
-    color: #000;
-    font-size: 1rem;
-    text-transform: uppercase;
+  font-weight: 700;
+  color: #000;
+  font-size: 1rem;
+  text-transform: uppercase;
 }
 
 .info-value {
-    font-weight: 600;
-    color: #000;
-    text-align: right;
+  font-weight: 600;
+  color: #000;
+  text-align: right;
 }
 
-/* Student Attendance Table Section */
 .attendance-detail-table {
-    background: white;
-    margin-bottom: 2rem;
+  background: white;
+  margin-bottom: 2rem;
 }
 
 .attendance-detail-table h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #000;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #eee;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #eee;
 }
 
-/* Table Styles */
-.detail-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
-    font-size: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    border-radius: 1px;
-    overflow: hidden;
-}
-
-.detail-table th {
-    background: #000;
-    padding: 1rem;
-    border: 1px solid #fff;
-    font-weight: 600;
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-}
-
-.detail-table td {
-    padding: 1rem;
-    border: 1px solid #000;
-    color: #000;
-}
-
-.detail-table tbody tr {
-    background: #fff;
-    transition: all 0.3s ease;
-}
-
-.detail-table tbody tr:hover {
-    background: #f8f9fa;
-    transform: scale(1.01);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* Student Info Cell */
-.student-info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-weight: 600;
-}
-
-.student-icon {
-    font-size: 1.2rem;
-}
-
-/* Status Badges - Match History Colors */
+/* Status Badges */
 .status-badge {
-    padding: 0.5rem 1.25rem;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid #000;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #000;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
 }
 
 .status-badge:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .status-badge.present {
-    background: #C8E6C9;
-    color: #000;
+  background: #C8E6C9;
+  color: #000;
 }
 
 .status-badge.absent {
-    background: #FFCDD2;
-    color: #000;
+  background: #FFCDD2;
+  color: #000;
 }
 
 .status-badge.late {
-    background: #BBDEFB;
-    color: #000;
+  background: #BBDEFB;
+  color: #000;
 }
 
 .status-badge.excused {
-    background: #FFF9C4;
-    color: #000;
+  background: #FFF9C4;
+  color: #000;
 }
 
 .status-badge.not-recorded {
-    background: #f0f0f0;
-    color: #666;
-    border-color: #999;
+  background: #f0f0f0;
+  color: #666;
+  border-color: #999;
 }
 
-/* Back Button Actions */
 .detail-actions {
-    background: #fff;
-    padding: 2rem 0;
-    border-top: 2px solid #eee;
-    margin-top: 2rem;
+  background: #fff;
+  padding: 2rem 0;
+  border-top: 2px solid #eee;
+  margin-top: 2rem;
 }
 
 .detail-actions .back-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem 1.75rem;
-    background: #000;
-    color: #B9FF66;
-    border: 2px solid #000;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 1rem;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.75rem;
+  background: #000;
+  color: #B9FF66;
+  border: 2px solid #000;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .detail-actions .back-btn:hover {
-    background: #B9FF66;
-    color: #000;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(185, 255, 102, 0.4);
+  background: #B9FF66;
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(185, 255, 102, 0.4);
 }
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .detail-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
-    }
-
-    .header-actions {
-        width: 100%;
-        flex-direction: column;
-    }
-
-    .download-pdf-btn,
-    .edit-attendance-btn {
-        width: 100%;
-    }
-
-    .detail-info-card {
-        padding: 1.5rem;
-    }
-
-    .info-item {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: flex-start;
-    }
-
-    .info-value {
-        text-align: left;
-    }
-
-    .attendance-detail-table {
-        overflow-x: auto;
-    }
-
-    .detail-table {
-        font-size: 13px;
-    }
-
-    .detail-table th,
-    .detail-table td {
-        padding: 0.75rem 0.5rem;
-    }
-
-    .student-info {
-        justify-content: flex-start;
-        font-size: 13px;
-    }
-
-    .status-badge {
-        font-size: 11px;
-        padding: 0.4rem 1rem;
-    }
-
-    .detail-actions {
-        padding: 1.5rem 0;
-    }
-
-    .detail-actions .back-btn {
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .detail-header h2 {
-        font-size: 1.4rem;
-    }
-
-    .attendance-detail-table h3 {
-        font-size: 1.25rem;
-    }
-
-    .info-label,
-    .info-value {
-        font-size: 0.9rem;
-    }
-}
-
 /* ============================================================================
-   20. ENROLLMENTS
-============================================================================ */
+   25. ENROLLMENTS
+   ============================================================================ */
 
-/* MAIN CONTENT RESET - Same as Attendance History */
+/* Full-width layout */
 .main-content:has(.enrollment-container) {
-    background: #ffffff !important;
-    padding: 0 !important;
+  background: #ffffff !important;
+  padding: 0 !important;
 }
 
 .main-content .content:has(.enrollment-container) {
-    max-width: 100% !important;
-    padding: 2rem !important;
-    width: 100%;
+  max-width: 100% !important;
+  width: 100%;
+  padding: 2rem 3rem !important;
 }
 
-/* MAIN WRAPPER - Same as Attendance History */
 .enrollment-container {
-    background: white;
-    width: 100%;
-    margin: 0 auto;
-    max-width: 1400px;
+  background: #fff;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1400px;
 }
 
-/* ============================================================================
-   HEADER - FIXED ALIGNMENT LIKE LESSON PLANS
-============================================================================ */
 .enrollment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+  gap: 1rem;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 1rem;
 }
 
 .enrollment-header .header-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex: 1;
-}
-
-.enrollment-header .back-icon-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-    flex-shrink: 0;
-}
-
-.enrollment-header .back-icon-btn img {
-    width: 24px;
-    height: 24px;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.enrollment-header .back-icon-btn:hover {
-    background-color: #B9FF66;
-    transform: translateX(-3px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
 }
 
 .enrollment-header .header-left h2 {
-    margin: 0;
-    padding: 0;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #000;
-    line-height: 1.2;
-    display: flex;
-    align-items: center;
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
-.course-code-badge {
-    background: #000;
-    color: #fff;
-    padding: 0.5rem 1.25rem;
-    border-radius: 25px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    display: inline-flex;
-    align-items: center;
-    height: 40px;
-    white-space: nowrap;
+.enrollment-header .course-code-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 1.25rem;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-/* ============================================================================
-   TWO-COLUMN SECTION - Same as Date Cards
-============================================================================ */
+/* Two-Column Section */
 .enrollment-flex {
-    display: flex;
-    justify-content: space-between;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-/* BOTH CARDS - Same styling as Date Cards */
 .enroll-card,
 .code-card {
-    flex: 1;
-    background: #f8f8f8;
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    border: 1px solid #000;
-    transition: all 0.3s ease;
+  flex: 1;
+  background: #f8f8f8;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #000;
+  transition: all 0.3s ease;
 }
 
 .enroll-card:hover,
 .code-card:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
 }
 
-/* HEADINGS */
 .enroll-card h3,
 .code-card h3 {
-    margin-bottom: 0.75rem;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #000;
+  margin-bottom: 0.75rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #000;
 }
 
 .form-description,
 .code-description {
-    font-size: 0.95rem;
-    color: #666;
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
 }
 
-/* ============================================================================
-   ENROLL FORM CARD
-============================================================================ */
+/* Enroll Form Card */
 .enroll-card .form-group {
-    margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .enroll-card label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #000;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000;
 }
 
 .enroll-card .form-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background: #fff;
-    color: #333;
-    transition: all 0.3s;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #333;
+  transition: all 0.3s;
+  box-sizing: border-box;
 }
 
 .enroll-card .form-input:focus {
-    outline: none;
-    border-color: #000;
-    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
 }
 
 .enroll-card .error {
-    display: block;
-    color: #dc3545;
-    font-size: 0.85rem;
-    margin-top: 0.5rem;
-    font-weight: 600;
+  display: block;
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
 }
 
 .enroll-card .submit-btn {
-    background: #B9FF66;
-    border: 1px solid #000;
-    padding: 0.75rem 1.5rem;
-    width: 100%;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #000;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 0.5rem;
+  background: #B9FF66;
+  border: 1px solid #000;
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 0.5rem;
 }
 
 .enroll-card .submit-btn:hover {
-    background: #000;
-    color: #B9FF66;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: #000;
+  color: #B9FF66;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* ============================================================================
-   CODE CARD
-============================================================================ */
+/* Code Card */
 .code-card {
-    text-align: center;
+  text-align: center;
 }
 
 .code-display {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin: 1.5rem 0;
-    padding: 1.5rem;
-    background: #f8f9fa;
-    border-radius: 10px;
-    border: 2px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
 }
 
 .code-text {
-    font-size: 2rem;
-    letter-spacing: 0.3em;
-    font-weight: 700;
-    color: #000;
-    font-family: 'Courier New', monospace;
+  font-size: 2rem;
+  letter-spacing: 0.3em;
+  font-weight: 700;
+  color: #000;
+  font-family: 'Courier New', monospace;
 }
 
 .copy-btn {
-    border: 1px solid #000 !important;
-    background: #B9FF66 !important;
-    padding: 0.65rem 1.25rem;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    color: #000 !important;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-    white-space: nowrap;
+  border: 1px solid #000 !important;
+  background: #B9FF66 !important;
+  padding: 0.65rem 1.25rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #000 !important;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  white-space: nowrap;
 }
 
 .copy-btn:hover {
-    background: #000 !important;
-    color: #B9FF66 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: #000 !important;
+  color: #B9FF66 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .code-hint {
-    text-align: center;
-    color: #666;
-    font-size: 0.9rem;
-    margin-top: 1rem;
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 1rem;
 }
 
-/* ============================================================================
-   STUDENT TABLE
-============================================================================ */
+/* Enrollment Code Section (shared) */
+.enrollment-code-section {
+  background: linear-gradient(135deg, var(--color-green-light) 0%, var(--color-green-dark) 100%);
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.enrollment-code-section h3 {
+  color: var(--color-black);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* Enrolled Students Table */
 .enrolled-students {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .enrolled-students h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #000;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #eee;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #eee;
 }
 
 .enrollment-table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    text-align: center;
-    font-size: 15px;
-    background: #fff;
-    border-radius: 0px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: center;
+  font-size: 15px;
+  background: #fff;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .enrollment-table th {
-    background: #000;
-    color: #fff;
-    padding: 1rem;
-    border: 1px solid #fff;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 0.5px;
+  background: #000;
+  color: #fff;
+  padding: 1rem;
+  border: 1px solid #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.5px;
 }
 
 .enrollment-table td {
-    padding: 1rem;
-    border: 1px solid #000;
-    font-size: 14px;
-    color: #000;
+  padding: 1rem;
+  border: 1px solid #000;
+  font-size: 14px;
+  color: #000;
 }
 
 .enrollment-table tbody tr {
-    background: #fff;
-    transition: all 0.3s ease;
+  background: #fff;
+  transition: all 0.3s ease;
 }
 
 .enrollment-table tbody tr:hover {
-    background: #f8f8f8;
-    transform: scale(1.01);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* REMOVE BUTTON */
-.remove-btn {
-    background: #dc3545;
-    color: white;
-    border: 1px solid #000;
-    padding: 0.5rem 1.25rem;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.remove-btn:hover {
-    background: #c82333;
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+  background: #f8f8f8;
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* ============================================================================
-   RESPONSIVE FIX
-============================================================================ */
-@media (max-width: 900px) {
-    .enrollment-flex {
-        flex-direction: column;
-    }
+   26. STUDENT JOIN COURSE PAGE
+   ============================================================================ */
 
-    .enroll-card,
-    .code-card {
-        width: 100%;
-    }
+.join-course-container {
+  background: var(--color-white);
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  margin: 0 auto;
 }
 
+.join-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 3px solid var(--color-green-light);
+}
+
+.join-header h1 {
+  color: var(--color-black);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.join-form-wrapper {
+  background: var(--color-gray-light);
+  padding: 2.5rem;
+  border-radius: 15px;
+  border: 2px solid var(--color-green-light);
+}
+
+.join-form {
+  margin-bottom: 2rem;
+}
+
+.code-icon {
+  font-size: 4rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.code-input {
+  background: var(--color-white) !important;
+  border: 3px solid var(--color-green-dark) !important;
+  font-family: 'Courier New', monospace !important;
+}
+
+.code-input:focus {
+  box-shadow: 0 0 0 4px rgba(185, 255, 102, 0.3) !important;
+}
+
+.btn-join {
+  width: 100%;
+  padding: 1.25rem;
+  background: var(--color-green-dark);
+  color: var(--color-white);
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-join:hover {
+  background: var(--color-black);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.help-section {
+  background: var(--color-white);
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+.help-section h3 {
+  color: var(--color-green-dark);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.help-section ol {
+  margin-left: 1.5rem;
+  color: var(--color-black);
+  line-height: 2;
+}
+
+.help-section li {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Join Links */
+.join-link {
+  background: var(--color-black);
+  color: var(--color-green-light);
+}
+
+.join-link:hover {
+  background: var(--color-green-dark);
+  color: var(--color-white);
+}
+
+.courses-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.join-course-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--color-green-dark);
+  color: var(--color-white);
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.join-course-btn:hover {
+  background: var(--color-black);
+  transform: translateY(-2px);
+}
+
+/* Enroll Form (general) */
+.enroll-form {
+  background: var(--color-gray-light);
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  border: 2px solid var(--color-green-light);
+}
+
+.enroll-form h3 {
+  color: var(--color-black);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
 /* ============================================================================
-   21. ADMIN DASHBOARD - MODERN LAYOUT
+   27. ADMIN DASHBOARD & MESSAGES
    ============================================================================ */
 
 .admin-dashboard {
@@ -4952,7 +3509,6 @@ input[type="file"].form-input::file-selector-button:hover {
   margin: 0 auto;
 }
 
-/* Header Section */
 .admin-header {
   margin-bottom: 3rem;
   padding-bottom: 2rem;
@@ -4974,7 +3530,6 @@ input[type="file"].form-input::file-selector-button:hover {
   font-weight: 500;
 }
 
-/* Main Grid - 2 Columns on Wide Screens */
 .admin-main-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -4988,7 +3543,6 @@ input[type="file"].form-input::file-selector-button:hover {
   }
 }
 
-/* Section Container */
 .admin-section {
   background: var(--color-white);
   padding: 2rem;
@@ -5006,14 +3560,12 @@ input[type="file"].form-input::file-selector-button:hover {
   border-bottom: 2px solid var(--color-gray-light);
 }
 
-/* Stats Grid - 2x2 Layout */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
 }
 
-/* Stats Card */
 .stat-card {
   background: var(--color-gray-light);
   border-radius: 16px;
@@ -5065,7 +3617,6 @@ input[type="file"].form-input::file-selector-button:hover {
   margin: 0;
 }
 
-/* Quick Actions Grid */
 .admin-actions {
   display: grid;
   grid-template-columns: 1fr;
@@ -5084,7 +3635,6 @@ input[type="file"].form-input::file-selector-button:hover {
   }
 }
 
-/* Admin Button */
 .admin-btn {
   padding: 1.25rem 1.5rem;
   background: linear-gradient(135deg, var(--color-green-dark) 0%, #6a9c04 100%);
@@ -5100,6 +3650,7 @@ input[type="file"].form-input::file-selector-button:hover {
   box-shadow: 0 4px 12px rgba(86, 130, 3, 0.2);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .admin-btn::before {
@@ -5129,7 +3680,6 @@ input[type="file"].form-input::file-selector-button:hover {
   box-shadow: 0 4px 12px rgba(86, 130, 3, 0.2);
 }
 
-/* Admin Container */
 .admin-container {
   background: var(--color-white);
   padding: 2.5rem;
@@ -5138,7 +3688,6 @@ input[type="file"].form-input::file-selector-button:hover {
   border: 1px solid rgba(185, 255, 102, 0.2);
 }
 
-/* Admin Table */
 .admin-table {
   width: 100%;
   border-collapse: separate;
@@ -5180,7 +3729,6 @@ input[type="file"].form-input::file-selector-button:hover {
   border-bottom: none;
 }
 
-/* Role Badges */
 .role-badge {
   padding: 0.4rem 1rem;
   border-radius: 20px;
@@ -5209,28 +3757,200 @@ input[type="file"].form-input::file-selector-button:hover {
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .admin-dashboard {
-    padding: 1.5rem;
-  }
+/* ============================================================================
+   28. ADMIN MESSAGES PAGE
+   ============================================================================ */
 
-  .admin-header h1 {
-    font-size: 1.75rem;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .stat-card .stat-number {
-    font-size: 2rem;
-  }
+.admin-messages-container {
+  background: var(--color-white);
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+.messages-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 3px solid var(--color-green-light);
+}
 
+.messages-header h1 {
+  color: var(--color-black);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.unread-badge {
+  background: var(--color-green-dark);
+  color: var(--color-white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(86, 130, 3, 0.3);
+}
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.message-card {
+  background: var(--color-gray-light);
+  border-radius: 15px;
+  padding: 2rem;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.message-card.unread {
+  border-color: var(--color-green-light);
+  background: linear-gradient(to right, var(--color-gray-light) 0%, rgba(185, 255, 102, 0.1) 100%);
+}
+
+.message-card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--color-white);
+}
+
+.sender-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sender-icon {
+  font-size: 2rem;
+}
+
+.sender-info h3 {
+  color: var(--color-black);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.sender-email {
+  color: var(--color-green-dark);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.message-meta {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.message-date {
+  color: var(--color-black);
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.new-badge {
+  background: var(--color-green-light);
+  color: var(--color-black);
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.message-body {
+  margin-bottom: 1.5rem;
+}
+
+.message-body p {
+  color: var(--color-black);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.message-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-mark-read,
+.btn-delete {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-mark-read {
+  background: var(--color-green-light);
+  color: var(--color-black);
+}
+
+.btn-mark-read:hover {
+  background: var(--color-green-dark);
+  color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: var(--color-white);
+}
+
+.btn-delete:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+.empty-messages {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: var(--color-gray-light);
+  border-radius: 20px;
+  border: 3px dashed var(--color-green-dark);
+}
+
+.empty-messages .empty-icon {
+  font-size: 5rem;
+  margin-bottom: 1.5rem;
+}
+
+.empty-messages h3 {
+  color: var(--color-black);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.empty-messages p {
+  color: var(--color-green-dark);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
 /* ============================================================================
-   22. STUDENT DASHBOARD
+   29. STUDENT DASHBOARD
    ============================================================================ */
 
 .student-dashboard {
@@ -5240,7 +3960,6 @@ input[type="file"].form-input::file-selector-button:hover {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Welcome Section */
 .welcome-section {
   text-align: center;
   padding: 3rem 2rem;
@@ -5265,8 +3984,14 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 0.1; }
-  50% { transform: scale(1.1); opacity: 0.15; }
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.15;
+  }
 }
 
 .welcome-section h1 {
@@ -5284,7 +4009,6 @@ input[type="file"].form-input::file-selector-button:hover {
   z-index: 1;
 }
 
-/* Quick Access Links */
 .quick-access {
   display: flex;
   gap: 1.5rem;
@@ -5338,7 +4062,6 @@ input[type="file"].form-input::file-selector-button:hover {
   border: 2px solid #000000;
 }
 
-/* Enrolled Courses Section */
 .enrolled-courses {
   margin-top: 2rem;
 }
@@ -5352,7 +4075,6 @@ input[type="file"].form-input::file-selector-button:hover {
   display: inline-block;
 }
 
-/* Courses List Grid */
 .courses-list {
   display: grid;
   grid-template-columns: 1fr;
@@ -5361,7 +4083,6 @@ input[type="file"].form-input::file-selector-button:hover {
   margin-top: 1.2rem;
 }
 
-/* Course Item Card */
 .course-item {
   background: #ffffff;
   border: 1.5px solid #ddd;
@@ -5389,7 +4110,6 @@ input[type="file"].form-input::file-selector-button:hover {
   border-color: var(--color-black);
 }
 
-/* Course Item Header */
 .course-item-header {
   display: flex;
   justify-content: space-between;
@@ -5416,7 +4136,6 @@ input[type="file"].form-input::file-selector-button:hover {
   border: 1px solid #000000;
 }
 
-/* Course Details */
 .course-educator {
   color: var(--color-black);
   margin-bottom: 0.75rem;
@@ -5431,7 +4150,6 @@ input[type="file"].form-input::file-selector-button:hover {
   opacity: 0.8;
 }
 
-/* Course Stats */
 .course-item .course-stats {
   display: flex;
   gap: 2rem;
@@ -5447,7 +4165,6 @@ input[type="file"].form-input::file-selector-button:hover {
   color: var(--color-black);
 }
 
-/* Course Actions */
 .course-item .course-actions {
   display: flex;
   gap: 0.75rem;
@@ -5463,9 +4180,6 @@ input[type="file"].form-input::file-selector-button:hover {
   transition: all 0.3s ease;
   text-align: center;
   border: 2px solid transparent;
-}
-
-.action-link {
   background: var(--color-green-light);
   color: var(--color-black);
   border: 1px solid #000000;
@@ -5475,7 +4189,7 @@ input[type="file"].form-input::file-selector-button:hover {
   background: var(--color-green-dark);
   color: var(--color-white);
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .action-link.materials {
@@ -5490,7 +4204,6 @@ input[type="file"].form-input::file-selector-button:hover {
   border-color: var(--color-green-dark);
 }
 
-/* Empty State */
 .student-dashboard .empty-state {
   text-align: center;
   padding: 4rem 2rem;
@@ -5511,9 +4224,8 @@ input[type="file"].form-input::file-selector-button:hover {
   font-weight: 600;
 }
 
-
 /* ============================================================================
-   23. STUDENT COURSES PAGE
+   30. STUDENT COURSES PAGE
    ============================================================================ */
 
 .student-courses-container {
@@ -5525,7 +4237,6 @@ input[type="file"].form-input::file-selector-button:hover {
   margin: 0 auto;
 }
 
-/* Header Section */
 .courses-header {
   display: flex;
   justify-content: space-between;
@@ -5549,45 +4260,6 @@ input[type="file"].form-input::file-selector-button:hover {
   font-weight: 600;
 }
 
-.back-link {
-  color: var(--color-green-dark);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 1rem;
-  padding: 0.75rem 1.5rem;
-  border: 2px solid var(--color-green-dark);
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  background: var(--color-white);
-  margin-left: 20px;
-}
-
-.back-link:hover {
-  background: var(--color-green-dark);
-  color: var(--color-white);
-  transform: translateX(-5px);
-}
-
-.stcourse-back-link {
-  color: var(--color-green-dark);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 1rem;
-  padding: 0.75rem 1.5rem;
-  border: 2px solid var(--color-green-dark);
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  background: var(--color-white);
-  margin-left: 20px;
-}
-
-.stcourse-back-link:hover {
-  background: var(--color-green-dark);
-  color: var(--color-white);
-  transform: translateX(-5px);
-}
-
-/* Student Course Card */
 .student-course-card {
   background: var(--color-gray-light);
   border-radius: 15px;
@@ -5595,7 +4267,7 @@ input[type="file"].form-input::file-selector-button:hover {
   transition: all 0.3s ease;
   border: 2px solid transparent;
   position: relative;
-    overflow: hidden;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -5616,7 +4288,6 @@ input[type="file"].form-input::file-selector-button:hover {
   border-color: var(--color-green-light);
 }
 
-/* Card Header */
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -5644,7 +4315,6 @@ input[type="file"].form-input::file-selector-button:hover {
   box-shadow: 0 2px 8px rgba(86, 130, 3, 0.3);
 }
 
-/* Card Body */
 .card-body {
   flex: 1;
   display: flex;
@@ -5679,7 +4349,6 @@ input[type="file"].form-input::file-selector-button:hover {
   flex: 1;
 }
 
-/* Course Metrics */
 .course-metrics {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -5719,7 +4388,6 @@ input[type="file"].form-input::file-selector-button:hover {
   margin-top: 0.25rem;
 }
 
-/* Card Footer */
 .card-footer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -5764,7 +4432,6 @@ input[type="file"].form-input::file-selector-button:hover {
   box-shadow: 0 6px 20px rgba(86, 130, 3, 0.3);
 }
 
-/* Empty Courses State */
 .empty-courses {
   text-align: center;
   padding: 5rem 2rem;
@@ -5781,8 +4448,12 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .empty-courses h3 {
@@ -5803,10 +4474,8 @@ input[type="file"].form-input::file-selector-button:hover {
   font-size: 1rem;
   font-weight: 700;
 }
-
-
 /* ============================================================================
-   24. STUDENT LESSONS PAGE
+   31. STUDENT LESSONS PAGE
    ============================================================================ */
 
 .student-lessons-container {
@@ -5818,7 +4487,6 @@ input[type="file"].form-input::file-selector-button:hover {
   margin: 0 auto;
 }
 
-/* Header Section */
 .lessons-header {
   display: flex;
   justify-content: space-between;
@@ -5848,7 +4516,6 @@ input[type="file"].form-input::file-selector-button:hover {
   font-size: 1rem;
 }
 
-/* Content Section */
 .lessons-content {
   margin-top: 2rem;
 }
@@ -5875,43 +4542,10 @@ input[type="file"].form-input::file-selector-button:hover {
   font-size: 0.9rem;
 }
 
-/* Lessons Grid - Two Columns */
 .lessons-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
-}
-
-/* Lesson Card */
-.lesson-card {
-  background: #fff;
-  width: 100%;
-  max-width: 380px;
-  min-height: 220px;
-  padding: 1.5rem;
-  border-radius: 12px;
-  border: 1px solid var(--color-black);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-}
-
-.lesson-card::before {
-  content: none;
-}
-
-.lesson-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  border-color: var(--color-black);
-}
-
-/* Card Header */
-.lesson-card-header {
-  margin-bottom: 1.5rem;
 }
 
 .lesson-title-section h3 {
@@ -5928,7 +4562,6 @@ input[type="file"].form-input::file-selector-button:hover {
   font-weight: 600;
 }
 
-/* Card Body */
 .lesson-card-body {
   flex: 1;
   display: flex;
@@ -5956,7 +4589,6 @@ input[type="file"].form-input::file-selector-button:hover {
   font-weight: 600;
 }
 
-/* Objectives Section */
 .lesson-objectives {
   background: var(--color-white);
   padding: 1rem;
@@ -5977,7 +4609,6 @@ input[type="file"].form-input::file-selector-button:hover {
   opacity: 0.85;
 }
 
-/* Footer Info */
 .lesson-footer-info {
   margin-top: auto;
 }
@@ -5992,7 +4623,6 @@ input[type="file"].form-input::file-selector-button:hover {
   font-size: 0.9rem;
 }
 
-/* Card Footer */
 .lesson-card-footer {
   margin-top: 1.5rem;
 }
@@ -6018,7 +4648,6 @@ input[type="file"].form-input::file-selector-button:hover {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* No Lessons State */
 .no-lessons {
   text-align: center;
   padding: 5rem 2rem;
@@ -6053,9 +4682,8 @@ input[type="file"].form-input::file-selector-button:hover {
   font-weight: 700;
 }
 
-
 /* ============================================================================
-   25. STUDENT LESSON VIEW
+   32. STUDENT LESSON VIEW
    ============================================================================ */
 
 .student-lesson-view {
@@ -6066,7 +4694,6 @@ input[type="file"].form-input::file-selector-button:hover {
   border-radius: 25px;
 }
 
-/* Header */
 .lesson-view-header {
   display: flex;
   justify-content: space-between;
@@ -6082,7 +4709,6 @@ input[type="file"].form-input::file-selector-button:hover {
   color: var(--color-black);
 }
 
-/* Metadata */
 .lesson-metadata {
   display: flex;
   gap: 2rem;
@@ -6110,7 +4736,6 @@ input[type="file"].form-input::file-selector-button:hover {
   color: var(--color-black);
 }
 
-/* Content Sections */
 .lesson-content {
   display: flex;
   flex-direction: column;
@@ -6122,7 +4747,7 @@ input[type="file"].form-input::file-selector-button:hover {
   padding: 2rem;
   border-radius: 14px;
   border: 2px solid var(--color-green-light);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .lesson-section h2 {
@@ -6132,7 +4757,6 @@ input[type="file"].form-input::file-selector-button:hover {
   margin-bottom: 1rem;
 }
 
-/* Text Content */
 .objectives-content,
 .description-content {
   color: var(--color-black);
@@ -6140,7 +4764,6 @@ input[type="file"].form-input::file-selector-button:hover {
   white-space: pre-wrap;
 }
 
-/* Materials Grid */
 .lesson-view .materials-section {
   background: var(--color-white);
 }
@@ -6151,7 +4774,6 @@ input[type="file"].form-input::file-selector-button:hover {
   gap: 1.25rem;
 }
 
-/* Material Card */
 .material-card {
   background: var(--color-gray-light);
   border: 2px solid var(--color-green-light);
@@ -6168,13 +4790,11 @@ input[type="file"].form-input::file-selector-button:hover {
   transform: translateY(-4px);
 }
 
-/* Material Icon */
 .material-icon {
   font-size: 2rem;
   text-align: center;
 }
 
-/* Material Text */
 .material-info {
   flex: 1;
 }
@@ -6189,24 +4809,26 @@ input[type="file"].form-input::file-selector-button:hover {
   color: var(--color-green-dark);
 }
 
-/* Download Button */
 .download-btn {
-  background: var(--color-green-dark);
-  color: var(--color-white);
+  background: #000;
+  color: #b9ff66;
   text-align: center;
-  font-weight: 700;
-  padding: 0.6rem;
-  border-radius: 8px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 6px;
   text-decoration: none;
-  transition: 0.25s;
+  transition: all 0.3s ease;
+  display: inline-block;
+  border: 1px solid black;
 }
 
 .download-btn:hover {
-  background: var(--color-black);
-  color: var(--color-white);
+  background: #b9ff66;
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* No Materials State */
 .no-materials {
   text-align: center;
   padding: 2.5rem;
@@ -6214,9 +4836,8 @@ input[type="file"].form-input::file-selector-button:hover {
   font-size: 1rem;
 }
 
-
 /* ============================================================================
-   26. STUDENT MATERIALS PAGE
+   33. STUDENT MATERIALS PAGE
    ============================================================================ */
 
 .student-materials-container {
@@ -6226,7 +4847,6 @@ input[type="file"].form-input::file-selector-button:hover {
   background: var(--color-white);
 }
 
-/* Header */
 .materials-header {
   background: var(--color-green-dark);
   color: var(--color-white);
@@ -6278,7 +4898,6 @@ input[type="file"].form-input::file-selector-button:hover {
   opacity: 0.8;
 }
 
-/* Materials Groups */
 .materials-by-lesson {
   display: flex;
   flex-direction: column;
@@ -6293,7 +4912,6 @@ input[type="file"].form-input::file-selector-button:hover {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* Group Header */
 .group-header {
   display: flex;
   justify-content: space-between;
@@ -6316,7 +4934,6 @@ input[type="file"].form-input::file-selector-button:hover {
   border-radius: 25px;
 }
 
-/* Material Items */
 .material-item {
   background: var(--color-gray-light);
   padding: 1rem 1.25rem;
@@ -6332,7 +4949,6 @@ input[type="file"].form-input::file-selector-button:hover {
   transform: translateX(4px);
 }
 
-/* Material Left Side */
 .material-left {
   display: flex;
   align-items: center;
@@ -6357,7 +4973,6 @@ input[type="file"].form-input::file-selector-button:hover {
   opacity: 0.7;
 }
 
-/* Download Link */
 .download-link {
   background: var(--color-green-dark);
   color: var(--color-white);
@@ -6372,7 +4987,6 @@ input[type="file"].form-input::file-selector-button:hover {
   background: var(--color-black);
 }
 
-/* No Materials State */
 .no-materials-state {
   padding: 4rem 2rem;
   text-align: center;
@@ -6391,204 +5005,8 @@ input[type="file"].form-input::file-selector-button:hover {
 .no-materials-state p {
   opacity: 0.7;
 }
-
-
 /* ============================================================================
-   27. FORM COMPONENTS
-   ============================================================================ */
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  margin-bottom: 0.4rem;
-  font-weight: 600;
-  color: #333;
-  font-size: 0.95rem;
-}
-
-.form-input {
-  width: 100%;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  border: 1.5px solid #ccc;
-  border-radius: 8px;
-  box-sizing: border-box;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  background-color: #fff;
-  color: #000000;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--color-black);
-  box-shadow: 0 0 3px var(--color-black);
-}
-
-.form-input[rows] {
-  min-height: 100px;
-  resize: vertical;
-}
-
-textarea.form-input {
-  min-height: 100px;
-  resize: vertical;
-}
-
-.error {
-  color: #d9534f;
-  font-size: 0.85rem;
-}
-
-
-/* ============================================================================
-   28. BUTTONS
-   ============================================================================ */
-
-/* Sign Up Button */
-.sign-up-btn {
-  background-color: var(--color-black);
-  color: var(--color-white);
-  padding: 0.85rem 2.5rem;
-  font-weight: 700;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: 1.5px solid var(--color-black);
-  cursor: pointer;
-  box-shadow: none;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  display: inline-block;
-}
-
-.sign-up-btn:hover,
-.sign-up-btn:focus {
-  background-color: var(--color-green-light);
-  color: var(--color-black);
-  transform: translateY(-3px);
-  border: 1.5px solid var(--color-black);
-  outline: none;
-}
-
-/* Submit Button for login/register forms */
-.login-container .submit-btn,
-.register-container .submit-btn {
-  display: block;
-  width: 100%;
-  padding: 0.75rem 0;
-  background-color: #fff;
-  border: 2px solid var(--color-black);
-  border-radius: 8px;
-  color: var(--color-black);
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  box-sizing: border-box;
-  transition: background-color 0.3s ease;
-  text-align: center;
-}
-
-.login-container .submit-btn:hover,
-.register-container .submit-btn:hover {
-  background-color: #000000;
-  border-color: #000000;
-  color: var(--color-green-light);
-}
-
-/* Sign In Button Variant */
-.submit-btn.sign-in-btn {
-  background-color: #B9FF66;
-  color: #000000;
-  font-weight: 600;
-  border: 1px solid #000000;
-  border-radius: 8px;
-  padding: 1rem 0;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.submit-btn.sign-in-btn:hover {
-  background-color: #000000;
-  color: var(--color-green-light);
-  border-color: #fff;
-}
-
-/* Form Buttons Container */
-.form-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-}
-
-.save-course-btn,
-.form-buttons .cancel-btn {
-  width: 100%;
-  height: 45px;
-  font-size: 16px;
-  border: 1px solid var(--color-black);
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.save-course-btn {
-  background-color: var(--color-black);
-  color: var(--color-green-light);
-}
-
-.form-buttons .cancel-btn {
-  background-color: var(--color-white);
-  color: var(--color-black);
-}
-
-
-/* ============================================================================
-   29. BADGES & STATUS INDICATORS
-   ============================================================================ */
-
-/* Status Badges */
-.status-badge {
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  display: inline-block;
-}
-
-.status-badge.present {
-  background: #d4edda;
-  color: #155724;
-}
-
-.status-badge.absent {
-  background: #f8d7da;
-  color: #721c24;
-}
-
-.status-badge.late {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.status-badge.excused {
-  background: #cce5ff;
-  color: #004085;
-}
-
-.status-badge.not-recorded {
-  background: #e2e3e5;
-  color: #383d41;
-}
-
-
-/* ============================================================================
-   30. FLASH MESSAGES
+   34. FLASH MESSAGES
    ============================================================================ */
 
 .flash-container {
@@ -6631,7 +5049,6 @@ textarea.form-input {
   border-left-color: rgba(241, 196, 15, 0.7);
 }
 
-/* Flash Message Box */
 .flash-message {
   padding: 0.9rem 1.2rem;
   border-radius: 12px;
@@ -6647,7 +5064,6 @@ textarea.form-input {
   animation: fadeSlide 0.35s ease;
 }
 
-/* Flash Close Button */
 .flash-close {
   border: none;
   background: transparent;
@@ -6661,10 +5077,9 @@ textarea.form-input {
   opacity: 1;
 }
 
-/* Flash Message Types */
 .flash-message.flash-success {
   border-left: 4px solid var(--color-green-dark);
-    background: rgba(185, 255, 102, 0.25);
+  background: rgba(185, 255, 102, 0.25);
 }
 
 .flash-message.flash-error {
@@ -6682,57 +5097,22 @@ textarea.form-input {
   background: rgba(243, 243, 243, 0.6);
 }
 
-/* Flash Animation */
 @keyframes fadeSlide {
   from {
     opacity: 0;
-    transform: translateX(15px);
+    transform: translateY(-8px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
-
 /* ============================================================================
-   31. UTILITY CLASSES
-   ============================================================================ */
-
-.hidden {
-  display: none !important;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.visually-hidden {
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-/* Accessibility & Interaction Enhancements */
-a:focus,
-button:focus {
-  outline: 2px solid var(--color-green-dark);
-  outline-offset: 3px;
-  /* outline-radius not supported; keeping radius via border */
-  border-radius: 4px;
-}
-
-
-/* ============================================================================
-   32. RESPONSIVE DESIGN - TABLET (max-width: 1024px)
+   35. RESPONSIVE DESIGN - TABLET (max-width: 1024px)
    ============================================================================ */
 
 @media (max-width: 1024px) {
-  /* Sidebar */
   .sidebar {
     width: 220px;
   }
@@ -6750,20 +5130,22 @@ button:focus {
     height: 40px;
   }
 
-  /* Student Courses Grid */
-  .courses-grid {
+  .courses-grid,
+  .plans-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lessons-grid {
     grid-template-columns: 1fr;
   }
 
-  /* Lessons Grid */
-  .lessons-grid {
+  .materials-grid {
     grid-template-columns: 1fr;
   }
 }
 
-
 /* ============================================================================
-   33. RESPONSIVE DESIGN - MOBILE (max-width: 768px)
+   36. RESPONSIVE DESIGN - MOBILE (max-width: 768px)
    ============================================================================ */
 
 @media (max-width: 768px) {
@@ -6814,10 +5196,11 @@ button:focus {
     padding: 1rem;
   }
 
-  /* Courses & Plans Grids */
+  /* Grids */
   .courses-grid,
   .plans-grid,
-  .courses-list {
+  .courses-list,
+  .lessons-grid {
     grid-template-columns: 1fr;
   }
 
@@ -6827,11 +5210,12 @@ button:focus {
   }
 
   /* Stats Grid */
-  .stats-grid {
+  .stats-grid,
+  .date-card-stats {
     grid-template-columns: 1fr;
   }
 
-  /* About Us Page */
+  /* About Us */
   .team-member {
     flex-direction: column;
     align-items: center;
@@ -6854,7 +5238,7 @@ button:focus {
     max-width: 300px;
   }
 
-  /* Contact Page */
+  /* Contact */
   .contact-form-wrapper {
     flex-direction: column;
     padding: 2rem;
@@ -6867,7 +5251,8 @@ button:focus {
   }
 
   /* Plans Header */
-  .plans-header {
+  .plans-header,
+  .enrollment-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1.25rem;
@@ -6876,11 +5261,6 @@ button:focus {
   .add-btn {
     width: 100%;
     text-align: center;
-  }
-
-  .plans-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
   }
 
   .plan-card-top {
@@ -6932,13 +5312,7 @@ button:focus {
   }
 
   /* Attendance */
-  .attendance-header-with-history {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-
-  /* Attendance History */
+  .attendance-header-with-back-history,
   .history-header,
   .detail-header {
     flex-direction: column;
@@ -6952,10 +5326,6 @@ button:focus {
     text-align: center;
   }
 
-  .date-card-stats {
-    flex-direction: column;
-  }
-
   .stat-box {
     min-width: 100%;
   }
@@ -6965,17 +5335,9 @@ button:focus {
     gap: 0.25rem;
   }
 
-  /* Course Cards */
+  /* Courses */
   .courses-container {
     padding: 1rem;
-  }
-
-  .banner {
-    padding: 1.5rem 1rem;
-  }
-
-  .banner h1 {
-    font-size: 1.5rem;
   }
 
   .section-header {
@@ -7012,8 +5374,6 @@ button:focus {
     min-width: unset;
   }
 
-  /* Add Course Form - removed duplicate block; using global styles above */
-
   /* Register Form */
   .form-container {
     max-width: 100%;
@@ -7026,11 +5386,6 @@ button:focus {
   }
 
   .form-group.half-width {
-    margin-bottom: 1.5rem;
-  }
-
-  .form-info {
-    padding-left: 0;
     margin-bottom: 1.5rem;
   }
 
@@ -7056,11 +5411,11 @@ button:focus {
   }
 
   .course-metrics {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .card-footer {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .welcome-section h1 {
@@ -7075,7 +5430,7 @@ button:focus {
     flex-direction: column;
   }
 
-  /* Student Courses Page */
+  /* Student Courses */
   .student-courses-container {
     padding: 1.5rem;
   }
@@ -7104,10 +5459,6 @@ button:focus {
     font-size: 1.4rem;
   }
 
-  .course-metrics {
-    grid-template-columns: 1fr;
-  }
-
   .metric-icon {
     font-size: 2rem;
   }
@@ -7116,7 +5467,7 @@ button:focus {
     font-size: 1.5rem;
   }
 
-  /* Student Lessons Page */
+  /* Student Lessons */
   .student-lessons-container {
     padding: 1.5rem;
   }
@@ -7140,9 +5491,7 @@ button:focus {
     font-size: 1.75rem;
   }
 
-  /* Student Lesson View */
-  .courses-header,
-  .lessons-header,
+  /* Lesson View */
   .lesson-view-header {
     flex-direction: column;
     gap: 1rem;
@@ -7151,10 +5500,6 @@ button:focus {
 
   .lesson-metadata {
     flex-direction: column;
-  }
-
-  .materials-grid {
-    grid-template-columns: 1fr;
   }
 
   .material-item {
@@ -7167,7 +5512,7 @@ button:focus {
     flex-direction: column;
   }
 
-  /* Student Materials Page */
+  /* Materials Header */
   .materials-header {
     flex-direction: column;
     text-align: center;
@@ -7175,10 +5520,9 @@ button:focus {
   }
 
   /* Admin Dashboard */
-  .overview-grid,
-  .quick-actions-grid {
+  .stats-grid,
+  .admin-actions {
     grid-template-columns: 1fr;
-    width: 100%;
   }
 
   /* Home Landing */
@@ -7212,15 +5556,86 @@ button:focus {
     margin: 0 auto;
     border-radius: 50% / 60%;
   }
+
+  /* Contact & Messages */
+  .contact-container,
+  .admin-messages-container {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+
+  .contact-form-wrapper {
+    padding: 1.5rem;
+  }
+
+  .messages-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .message-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .message-meta {
+    align-items: flex-start;
+  }
+
+  .message-actions {
+    flex-direction: column;
+  }
+
+  .btn-mark-read,
+  .btn-delete {
+    width: 100%;
+  }
+
+  /* Enrollment */
+  .enrollment-flex {
+    flex-direction: column;
+  }
+
+  .code-display {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .code-text {
+    font-size: 2rem;
+  }
+
+  .copy-btn {
+    width: 100%;
+  }
+
+  .join-course-container {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+
+  .join-form-wrapper {
+    padding: 1.5rem;
+  }
+
+  .courses-header-section {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .join-course-btn {
+    width: 100%;
+    text-align: center;
+  }
 }
 
-
 /* ============================================================================
-   34. RESPONSIVE DESIGN - SMALL MOBILE (max-width: 480px)
+   37. RESPONSIVE DESIGN - SMALL MOBILE (max-width: 480px)
    ============================================================================ */
 
 @media (max-width: 480px) {
-  /* Navbar */
   .navbar {
     padding: 1rem 1.5rem;
   }
@@ -7235,7 +5650,6 @@ button:focus {
     font-size: 0.9rem;
   }
 
-  /* Sidebar */
   .sidebar-header {
     padding: 1rem;
   }
@@ -7249,11 +5663,6 @@ button:focus {
     min-width: 100px;
   }
 
-  .nav-item .icon {
-    font-size: 1.1rem;
-    margin-right: 0.5rem;
-  }
-
   .user-name {
     font-size: 0.9rem;
   }
@@ -7262,15 +5671,9 @@ button:focus {
     font-size: 0.8rem;
   }
 
-  /* Home Landing */
   .home-landing {
     margin: 3rem 1rem 5rem;
     gap: 3rem;
-  }
-
-  .landing-left {
-    max-width: 100%;
-    flex: 1 1 100%;
   }
 
   .landing-left h1 {
@@ -7289,87 +5692,35 @@ button:focus {
     font-size: 1.1rem;
   }
 
-  .landing-right {
-    max-width: 100%;
-    flex: 1 1 100%;
-  }
-
   .landing-right img {
     border-radius: 40% / 60%;
   }
 
-  /* About Us Page */
   .member-photo {
     width: 120px;
     height: 150px;
-    margin-bottom: 1rem;
-  }
-
-  .member-name {
-    font-size: 1.15rem;
-  }
-
-  /* Course Cards */
-  .banner h1 {
-    font-size: 1.25rem;
-  }
-
-  .banner p {
-    font-size: 0.875rem;
-  }
-
-  .course-header h3 {
-    font-size: 1rem;
-  }
-
-  .action-btn {
-    font-size: 0.8rem;
-    padding: 0.5rem;
-  }
-
-  /* Student Dashboard */
-  .student-dashboard {
-    padding: 1rem;
   }
 
   .course-item {
     padding: 1.5rem;
   }
 
-  .course-stats {
-        flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .course-item-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  /* Student Courses Page */
-  .student-courses-container {
+  .student-dashboard {
     padding: 1rem;
   }
 
-  .student-course-card {
-    padding: 1.5rem;
-  }
-
-  .card-footer {
-    grid-template-columns: 1fr;
-  }
-
-  .courses-header h1 {
-    font-size: 1.75rem;
-  }
-
-  /* Student Lessons Page */
+  .student-courses-container,
   .student-lessons-container {
     padding: 1rem;
   }
 
+  .student-course-card,
   .lesson-card {
     padding: 1.5rem;
+  }
+
+  .courses-header h1 {
+    font-size: 1.75rem;
   }
 
   .header-content h1 {
@@ -7380,33 +5731,49 @@ button:focus {
     font-size: 1.3rem;
   }
 
-  .course-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+  .contact-header h2,
+  .messages-header h1 {
+    font-size: 2rem;
+  }
+
+  .contact-form h3 {
+    font-size: 1.25rem;
+  }
+
+  .message-card {
+    padding: 1.5rem;
+  }
+
+  .code-text {
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+  }
+
+  .join-header h1 {
+    font-size: 2rem;
+  }
+
+  .code-input {
+    font-size: 1.2rem !important;
   }
 }
 
-
 /* ============================================================================
-   35. RESPONSIVE DESIGN - LARGE SCREENS (min-width: 768px and above)
+   38. RESPONSIVE DESIGN - LARGE SCREENS
    ============================================================================ */
 
-/* Courses List - 2 columns starting at 768px */
 @media (min-width: 768px) {
   .courses-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Content padding removal for large screens */
 @media (min-width: 1200px) {
   .content {
     padding: 0;
   }
 }
 
-/* Very large screens - courses list */
 @media (min-width: 1400px) {
   .courses-list {
     grid-template-columns: repeat(2, 1fr);
@@ -7415,709 +5782,6 @@ button:focus {
   }
 }
 
-/* ==========================================
-   CONTACT PAGE - GREEN THEME
-   ========================================== */
-
-.contact-container {
-    background: var(--color-white);
-    padding: 3rem;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-.contact-header {
-    text-align: center;
-    margin-bottom: 3rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 3px solid var(--color-green-light);
-}
-
-.contact-header h2 {
-    color: var(--color-black);
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.contact-header p {
-    color: var(--color-green-dark);
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.contact-form-wrapper {
-    background: var(--color-gray-light);
-    padding: 2.5rem;
-    border-radius: 15px;
-    border: 2px solid var(--color-green-light);
-}
-
-.contact-form h3 {
-    color: var(--color-black);
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
-.contact-form .form-group {
-    margin-bottom: 1.5rem;
-}
-
-.contact-form label {
-    display: block;
-    color: var(--color-black);
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.contact-form .required {
-    color: #dc3545;
-    margin-left: 0.25rem;
-}
-
-.contact-form .form-input,
-.contact-form .form-textarea {
-    width: 100%;
-    padding: 1rem;
-    border: 2px solid var(--color-gray-light);
-    border-radius: 10px;
-    font-size: 1rem;
-    font-family: inherit;
-    background: var(--color-white);
-    color: var(--color-black);
-    transition: all 0.3s ease;
-}
-
-.contact-form .form-input:focus,
-.contact-form .form-textarea:focus {
-    outline: none;
-    border-color: var(--color-green-dark);
-    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
-}
-
-.contact-form .form-textarea {
-    resize: vertical;
-    min-height: 150px;
-    line-height: 1.6;
-}
-
-.contact-form .submit-btn {
-    width: 100%;
-    padding: 1.25rem;
-    background: var(--color-green-dark);
-    color: var(--color-white);
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 1rem;
-}
-
-.contact-form .submit-btn:hover {
-    background: var(--color-black);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.error-message {
-    color: #dc3545;
-    font-size: 0.9rem;
-    font-weight: 600;
-    display: block;
-    margin-top: 0.5rem;
-}
-
-/* ==========================================
-   ADMIN MESSAGES PAGE - GREEN THEME
-   ========================================== */
-
-.admin-messages-container {
-    background: var(--color-white);
-    padding: 3rem;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.messages-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 3rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 3px solid var(--color-green-light);
-}
-
-.messages-header h1 {
-    color: var(--color-black);
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.unread-badge {
-    background: var(--color-green-dark);
-    color: var(--color-white);
-    padding: 0.75rem 1.5rem;
-    border-radius: 25px;
-    font-weight: 700;
-    font-size: 1rem;
-    box-shadow: 0 2px 8px rgba(86, 130, 3, 0.3);
-}
-
-.messages-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.message-card {
-    background: var(--color-gray-light);
-    border-radius: 15px;
-    padding: 2rem;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.message-card.unread {
-    border-color: var(--color-green-light);
-    background: linear-gradient(to right, var(--color-gray-light) 0%, rgba(185, 255, 102, 0.1) 100%);
-}
-
-.message-card:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    transform: translateY(-3px);
-}
-
-.message-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--color-white);
-}
-
-.sender-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.sender-icon {
-    font-size: 2rem;
-}
-
-.sender-info h3 {
-    color: var(--color-black);
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-}
-
-.sender-email {
-    color: var(--color-green-dark);
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-.message-meta {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.5rem;
-}
-
-.message-date {
-    color: var(--color-black);
-    font-size: 0.9rem;
-    font-weight: 600;
-    opacity: 0.7;
-}
-
-.new-badge {
-    background: var(--color-green-light);
-    color: var(--color-black);
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
-    font-size: 0.75rem;
-    font-weight: 700;
-}
-
-.message-body {
-    margin-bottom: 1.5rem;
-}
-
-.message-body p {
-    color: var(--color-black);
-    line-height: 1.7;
-    font-size: 1rem;
-}
-
-.message-actions {
-    display: flex;
-    gap: 1rem;
-}
-
-.btn-mark-read,
-.btn-delete {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-mark-read {
-    background: var(--color-green-light);
-    color: var(--color-black);
-}
-
-.btn-mark-read:hover {
-    background: var(--color-green-dark);
-    color: var(--color-white);
-    transform: translateY(-2px);
-}
-
-.btn-delete {
-    background: #dc3545;
-    color: var(--color-white);
-}
-
-.btn-delete:hover {
-    background: #c82333;
-    transform: translateY(-2px);
-}
-
-.empty-messages {
-    text-align: center;
-    padding: 5rem 2rem;
-    background: var(--color-gray-light);
-    border-radius: 20px;
-    border: 3px dashed var(--color-green-dark);
-}
-
-.empty-messages .empty-icon {
-    font-size: 5rem;
-    margin-bottom: 1.5rem;
-}
-
-.empty-messages h3 {
-    color: var(--color-black);
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.empty-messages p {
-    color: var(--color-green-dark);
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-/* ==========================================
-   RESPONSIVE DESIGN
-   ========================================== */
-
-@media (max-width: 768px) {
-    .contact-container,
-    .admin-messages-container {
-        padding: 2rem 1.5rem;
-        margin: 1rem;
-    }
-
-    .contact-form-wrapper {
-        padding: 1.5rem;
-    }
-
-    .messages-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
-    }
-
-    .message-header {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .message-meta {
-        align-items: flex-start;
-    }
-
-    .message-actions {
-        flex-direction: column;
-    }
-
-    .btn-mark-read,
-    .btn-delete {
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .contact-header h2,
-    .messages-header h1 {
-        font-size: 2rem;
-    }
-
-    .contact-form h3 {
-        font-size: 1.25rem;
-    }
-
-    .message-card {
-        padding: 1.5rem;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/* ==========================================
-   ENROLLMENT CODE SECTION
-   ========================================== */
-
-.enrollment-code-section {
-    background: linear-gradient(135deg, var(--color-green-light) 0%, var(--color-green-dark) 100%);
-    padding: 2rem;
-    border-radius: 15px;
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
-.enrollment-code-section h3 {
-    color: var(--color-black);
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.code-description {
-    color: var(--color-black);
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-}
-
-.code-display {
-    background: var(--color-white);
-    padding: 1.5rem 2rem;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 1rem;
-    border: 3px solid var(--color-green-dark);
-}
-
-.code-text {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--color-green-dark);
-    letter-spacing: 0.3em;
-    font-family: 'Courier New', monospace;
-}
-
-.copy-btn {
-    padding: 0.75rem 1.5rem;
-    background: var(--color-green-dark);
-    color: var(--color-white);
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.copy-btn:hover {
-    background: var(--color-black);
-    transform: scale(1.05);
-}
-
-.code-hint {
-    color: var(--color-black);
-    font-size: 0.9rem;
-    font-weight: 600;
-    opacity: 0.8;
-}
-
-/* ==========================================
-   ENROLL BY EMAIL FORM
-   ========================================== */
-
-.enroll-form {
-    background: var(--color-gray-light);
-    padding: 2rem;
-    border-radius: 15px;
-    margin-bottom: 2rem;
-    border: 2px solid var(--color-green-light);
-}
-
-.enroll-form h3 {
-    color: var(--color-black);
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.form-description {
-    color: var(--color-green-dark);
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-}
-
-/* ==========================================
-   STUDENT JOIN COURSE PAGE
-   ========================================== */
-
-.join-course-container {
-    background: var(--color-white);
-    padding: 3rem;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.join-header {
-    text-align: center;
-    margin-bottom: 3rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 3px solid var(--color-green-light);
-}
-
-.join-header h1 {
-    color: var(--color-black);
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.join-form-wrapper {
-    background: var(--color-gray-light);
-    padding: 2.5rem;
-    border-radius: 15px;
-    border: 2px solid var(--color-green-light);
-}
-
-.join-form {
-    margin-bottom: 2rem;
-}
-
-.code-icon {
-    font-size: 4rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-
-.code-input {
-    background: var(--color-white) !important;
-    border: 3px solid var(--color-green-dark) !important;
-    font-family: 'Courier New', monospace !important;
-}
-
-.code-input:focus {
-    box-shadow: 0 0 0 4px rgba(185, 255, 102, 0.3) !important;
-}
-
-.btn-join {
-    width: 100%;
-    padding: 1.25rem;
-    background: var(--color-green-dark);
-    color: var(--color-white);
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-join:hover {
-    background: var(--color-black);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.help-section {
-    background: var(--color-white);
-    padding: 1.5rem;
-    border-radius: 10px;
-}
-
-.help-section h3 {
-    color: var(--color-green-dark);
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.help-section ol {
-    margin-left: 1.5rem;
-    color: var(--color-black);
-    line-height: 2;
-}
-
-.help-section li {
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-
-/* ==========================================
-   RESPONSIVE DESIGN
-   ========================================== */
-
-@media (max-width: 768px) {
-    .code-display {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .code-text {
-        font-size: 2rem;
-    }
-
-    .copy-btn {
-        width: 100%;
-    }
-
-    .join-course-container {
-        padding: 2rem 1.5rem;
-        margin: 1rem;
-    }
-
-    .join-form-wrapper {
-        padding: 1.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .code-text {
-        font-size: 1.5rem;
-        letter-spacing: 0.2em;
-    }
-
-    .join-header h1 {
-        font-size: 2rem;
-    }
-
-    .code-input {
-        font-size: 1.2rem !important;
-    }
-}
-
-/* ==========================================
-   JOIN LINKS
-   ========================================== */
-
-.join-link {
-    background: var(--color-black);
-    color: var(--color-green-light);
-}
-
-.join-link:hover {
-    background: var(--color-green-dark);
-    color: var(--color-white);
-}
-
-.courses-header-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.join-course-btn {
-    padding: 0.75rem 1.5rem;
-    background: var(--color-green-dark);
-    color: var(--color-white);
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: 700;
-    transition: all 0.3s ease;
-}
-
-.join-course-btn:hover {
-    background: var(--color-black);
-    transform: translateY(-2px);
-}
-
-@media (max-width: 768px) {
-    .courses-header-section {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
-    }
-
-    .join-course-btn {
-        width: 100%;
-        text-align: center;
-    }
-}
-
-/* ==========================================
-   PDF DOWNLOAD BUTTON
-   ========================================== */
-
-.download-pdf-btn, .download-btn {
-    background: #B9FF66;
-    color: black;
-    padding: 10px 20px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-
-.download-btn {
-    background: #000;
-    color: #B9FF66;
-    padding: 10px 20px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    display: inline-block;
-    border: 1px solid black;
-    font-weight: bold;
-}
-
-.download-pdf-btn:hover, .download-btn:hover {
-    background: #b9ff66;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    color: #000;
-}
-
-.header-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.card-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
+/* ============================================================================
+   END OF STYLESHEET
+   ============================================================================ */
