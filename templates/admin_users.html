@@ -15,6 +15,7 @@
                 <th>Email</th>
                 <th>Role</th>
                 <th>Contact</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,25 @@
                 <td>{{ user.email }}</td>
                 <td><span class="role-badge {{ user.role }}">{{ user.role }}</span></td>
                 <td>{{ user.contact_number }}</td>
+                <td class="actions-cell">
+                    {% if user.id != current_user.id %}
+                        <div class="action-buttons">
+                            <!-- Promote Button (only show if user is not already admin) -->
+                            {% if user.role != 'admin' %}
+                            <form action="{{ url_for('promote_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to promote {{ user.username }} to admin?');">
+                                <button type="submit" class="action-btn promote-btn">Promote</button>
+                            </form>
+                            {% endif %}
+
+                            <!-- Remove Button -->
+                            <form action="{{ url_for('remove_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove {{ user.username }}? This action cannot be undone.');">
+                                <button type="submit" class="action-btn remove-btn">Remove</button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <span class="text-muted">You</span>
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -33,4 +53,67 @@
 
     <a href="{{ url_for('admin_home') }}" class="back-btn">Back to Dashboard</a>
 </div>
+
+<style>
+    .actions-cell {
+        padding: 8px;
+        text-align: center;
+    }
+
+    .action-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .action-buttons form {
+        margin: 0;
+    }
+
+    .action-btn {
+        padding: 5px 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .promote-btn {
+        background-color: #32CD32;
+        color: white;
+    }
+
+    .promote-btn:hover {
+        background-color: #28a428;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(50, 205, 50, 0.3);
+    }
+
+    .remove-btn {
+        background-color: #FF6B6B;
+        color: white;
+    }
+
+    .remove-btn:hover {
+        background-color: #e63946;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+    }
+
+    .text-muted {
+        color: #6c757d;
+        font-style: italic;
+        font-size: 12px;
+    }
+
+    /* Ensure table cells are vertically centered */
+    .admin-table td {
+        vertical-align: middle;
+    }
+</style>
 {% endblock %}
