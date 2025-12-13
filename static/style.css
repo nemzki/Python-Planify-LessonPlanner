@@ -7455,6 +7455,308 @@ input[type="file"].form-input::file-selector-button:hover {
   }
 }
 /* ============================================================================
+   EDIT COURSE PAGE - NEW LAYOUT (MATCHES CREATE LESSON PLAN STYLE)
+   Add this to the END of your main CSS file (style.css)
+   ============================================================================ */
+
+/* Wrapper */
+.edit-course-wrapper-planify {
+  background: transparent;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Header Section */
+.edit-course-header-planify {
+  margin-bottom: 2rem;
+}
+
+.edit-course-title-planify {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+.edit-course-subtitle-planify {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Card Container */
+.edit-course-card-planify {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Form */
+.edit-course-form-planify {
+  width: 100%;
+}
+
+/* Two Column Layout */
+.edit-course-form-columns-planify {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Left Column */
+.edit-course-left-column-planify {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Right Column */
+.edit-course-right-column-planify {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Form Group */
+.edit-course-form-group-planify {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Description Group - Full Height */
+.edit-course-description-group-planify {
+  flex: 1;
+}
+
+/* Label */
+.edit-course-label-planify {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 0.35rem;
+}
+
+/* Helper Text */
+.edit-course-helper-planify {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0 0 0.75rem 0;
+}
+
+/* Input Fields */
+.form-input-planify {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #000000;
+  background: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-input-planify:focus {
+  outline: none;
+  border-color: #568203;
+  box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.2);
+}
+
+.form-input-planify::placeholder {
+  color: #9ca3af;
+}
+
+/* Textarea Specific */
+.form-textarea-planify {
+  min-height: 240px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* Info Box (Quick Tip) */
+.edit-course-info-box-planify {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.info-icon-planify {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.info-title-planify {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin: 0 0 0.25rem 0;
+}
+
+.info-text-planify {
+  font-size: 0.875rem;
+  color: #3b82f6;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Action Buttons */
+.edit-course-actions-planify {
+  display: flex;
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Cancel Button */
+.cancel-btn-planify {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.cancel-btn-planify:hover {
+  background: #B9FF66;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Submit Button */
+.submit-btn-planify {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  background: #000000;
+  color: #B9FF66;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.submit-btn-planify:hover {
+  background: #B9FF66;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(185, 255, 102, 0.3);
+}
+
+/* Danger Zone Section */
+.danger-zone-planify {
+  background: #fff5f5;
+  border-top: 3px solid #dc3545;
+  padding: 2rem;
+  margin-top: 3rem;
+  border-radius: 10px;
+}
+
+.danger-zone-header-planify {
+  margin-bottom: 1rem;
+}
+
+.danger-zone-title-planify {
+  color: #dc3545;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.danger-zone-text-planify {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.delete-btn-planify {
+  padding: 0.875rem 1.5rem;
+  background: #dc3545;
+  color: #ffffff;
+  border: 1px solid #dc3545;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.delete-btn-planify:hover {
+  background: #c82333;
+  border-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+/* Error Messages */
+.edit-course-form-group-planify .error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .edit-course-form-columns-planify {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .edit-course-card-planify {
+    padding: 2rem;
+  }
+
+  .edit-course-wrapper-planify {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .edit-course-card-planify {
+    padding: 1.5rem;
+  }
+
+  .edit-course-actions-planify {
+    flex-direction: column-reverse;
+  }
+
+  .edit-course-title-planify {
+    font-size: 1.75rem;
+  }
+
+  .form-textarea-planify {
+    min-height: 180px;
+  }
+}
+/* ============================================================================
    END OF STYLESHEET
    ============================================================================ */
 

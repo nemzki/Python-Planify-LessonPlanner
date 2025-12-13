@@ -1,59 +1,99 @@
 {% extends "educator_base.html" %}
 
 {% block content %}
-<div class="edit-course-wrapper">
-    <div class="edit-course-card">
+<!-- Edit Course Wrapper -->
+<div class="edit-course-wrapper-planify">
+    <!-- Header Section -->
+    <div class="edit-course-header-planify">
+        <h1 class="edit-course-title-planify">Edit Course</h1>
+        <p class="edit-course-subtitle-planify">Update your course information</p>
+    </div>
 
-        <h2 class="form-title">Edit Course</h2>
-
-        <form method="POST" class="edit-form">
+    <!-- Main Card -->
+    <div class="edit-course-card-planify">
+        <form method="POST" class="edit-course-form-planify">
             {{ form.hidden_tag() }}
 
-            <div class="form-group">
-                {{ form.course_name.label }}
-                {{ form.course_name(class="form-input") }}
-                {% if form.course_name.errors %}
-                    <small class="error">{{ form.course_name.errors[0] }}</small>
-                {% endif %}
+            <!-- Two Column Layout -->
+            <div class="edit-course-form-columns-planify">
+
+                <!-- LEFT COLUMN -->
+                <div class="edit-course-left-column-planify">
+
+                    <!-- Course Name -->
+                    <div class="edit-course-form-group-planify">
+                        <label class="edit-course-label-planify">{{ form.course_name.label.text }}</label>
+                        <span class="edit-course-helper-planify">The display name of your course</span>
+                        {{ form.course_name(class="form-input-planify", placeholder="e.g., Introduction to Programming") }}
+                        {% if form.course_name.errors %}
+                            <small class="error">{{ form.course_name.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Course Code -->
+                    <div class="edit-course-form-group-planify">
+                        <label class="edit-course-label-planify">{{ form.course_code.label.text }}</label>
+                        <span class="edit-course-helper-planify">Unique identifier for this course</span>
+                        {{ form.course_code(class="form-input-planify", placeholder="e.g., CS101") }}
+                        {% if form.course_code.errors %}
+                            <small class="error">{{ form.course_code.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Block Section -->
+                    <div class="edit-course-form-group-planify">
+                        <label class="edit-course-label-planify">{{ form.block_section.label.text }}</label>
+                        <span class="edit-course-helper-planify">Assign to a specific class block</span>
+                        {{ form.block_section(class="form-input-planify", placeholder="e.g., BSIT 2101") }}
+                        {% if form.block_section.errors %}
+                            <small class="error">{{ form.block_section.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="edit-course-right-column-planify">
+
+                    <!-- Description -->
+                    <div class="edit-course-form-group-planify edit-course-description-group-planify">
+                        <label class="edit-course-label-planify">{{ form.description.label.text }}</label>
+                        <span class="edit-course-helper-planify">Provide details about the course content (optional)</span>
+                        {{ form.description(class="form-input-planify form-textarea-planify", rows="10", placeholder="Enter course description...") }}
+                        {% if form.description.errors %}
+                            <small class="error">{{ form.description.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Quick Tip Info Box -->
+                    <div class="edit-course-info-box-planify">
+                        <div class="info-icon-planify">ℹ️</div>
+                        <div>
+                            <div class="info-title-planify">Quick Tip</div>
+                            <div class="info-text-planify">A clear description helps students understand course expectations</div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="form-group">
-                {{ form.course_code.label }}
-                {{ form.course_code(class="form-input") }}
-                {% if form.course_code.errors %}
-                    <small class="error">{{ form.course_code.errors[0] }}</small>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
-                {{ form.block_section.label }}
-                {{ form.block_section(class="form-input") }}
-                {% if form.block_section.errors %}
-                    <small class="error">{{ form.block_section.errors[0] }}</small>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
-                {{ form.description.label }}
-                {{ form.description(class="form-input", rows="5") }}
-                {% if form.description.errors %}
-                    <small class="error">{{ form.description.errors[0] }}</small>
-                {% endif %}
-            </div>
-
-            <div class="form-buttons">
-                <button type="submit" class="save-course-btn">Save Course</button>
-                <a href="{{ url_for('educator_courses') }}" class="cancel-btn">Cancel</a>
+            <!-- Action Buttons -->
+            <div class="edit-course-actions-planify">
+                <a href="{{ url_for('educator_courses') }}" class="cancel-btn-planify">Cancel</a>
+                <button type="submit" class="submit-btn-planify">Save Course</button>
             </div>
 
         </form>
 
-        <div class="danger-zone">
-            <h3>Danger Zone</h3>
-            <p>Once you delete a course, there is no going back. This will permanently delete all lesson plans, materials, attendance records, and student enrollments.</p>
+        <!-- Danger Zone Section -->
+        <div class="danger-zone-planify">
+            <div class="danger-zone-header-planify">
+                <h3 class="danger-zone-title-planify">⚠️ Danger Zone</h3>
+            </div>
+            <p class="danger-zone-text-planify">Once you delete a course, there is no going back. This will permanently delete all lesson plans, materials, attendance records, and student enrollments.</p>
             <form method="POST" action="{{ url_for('delete_course', course_id=course.id) }}"
                   onsubmit="return confirm('⚠️ WARNING: Delete Course?\n\nThis will permanently delete:\n• All lesson plans\n• All learning materials\n• All attendance records\n• All student enrollments\n\nThis action CANNOT be undone!\n\nAre you absolutely sure?');">
-                <button type="submit" class="delete-btn">Delete Course</button>
+                <button type="submit" class="delete-btn-planify">Delete Course</button>
             </form>
         </div>
 
