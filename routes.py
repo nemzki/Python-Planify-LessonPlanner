@@ -1262,3 +1262,60 @@ def delete_message(message_id):
 
     flash("Message deleted successfully.", "success")
     return redirect(url_for('admin_messages'))
+
+
+# ==========================================
+# ADMIN - USER MANAGEMENT ACTIONS
+# ==========================================
+
+# PROMOTE USER TO ADMIN
+@app.route('/admin/user/<int:user_id>/promote', methods=['POST'])
+@login_required
+def promote_user(user_id):
+    if current_user.role != 'admin':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    user = User.query.get_or_404(user_id)
+
+    # Prevent promoting yourself (redundant but safe)
+    if user.id == current_user.id:
+        flash("You cannot promote yourself.", "error")
+        return redirect(url_for('admin_users'))
+
+    # Check if user is already admin
+    if user.role == 'admin':
+        flash(f"{user.username} is already an admin.", "error")
+        return redirect(url_for('admin_users'))
+
+    # Promote user
+    user.role = 'admin'
+    db.session.commit()
+
+    flash(f"{user.username} has been promoted to admin!", "success")
+    return redirect(url_for('admin_users'))
+
+
+# REMOVE USER
+@app.route('/admin/user/<int:user_id>/remove', methods=['POST'])
+@login_required
+def remove_user(user_id):
+    if current_user.role != 'admin':
+        flash("Access denied.", "error")
+        return redirect(url_for('home'))
+
+    user = User.query.get_or_404(user_id)
+
+    # Prevent removing yourself
+    if user.id == current_user.id:
+        flash("You cannot remove yourself.", "error")
+        return redirect(url_for('admin_users'))
+
+    username = user.username
+
+    # Delete user (cascade will handle related records)
+    db.session.delete(user)
+    db.session.commit()
+
+    flash(f"User '{username}' has been removed successfully.", "success")
+    return redirect(url_for('admin_users'))
