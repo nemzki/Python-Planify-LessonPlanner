@@ -4,8 +4,14 @@
 
 {% block content %}
 <div class="join-course-container">
+    <!-- Header with Back Button -->
     <div class="join-header">
-        <h1>Join a Course</h1>
+        <div class="header-with-back">
+            <a href="{{ url_for('student_home') }}" class="back-icon-btn">
+                <img src="{{ url_for('static', filename='pictures/back-button.png') }}" alt="Back" />
+            </a>
+            <h1>Join a Course</h1>
+        </div>
         <p class="header-subtitle">Enter the course code provided by your educator</p>
     </div>
 
@@ -42,7 +48,5 @@
             </ol>
         </div>
     </div>
-
-    <a href="{{ url_for('student_home') }}" class="back-link">← Back to My Courses</a>
 </div>
 {% endblock %}

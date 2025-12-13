@@ -5,91 +5,150 @@
 {% block content %}
 <div class="student-dashboard">
 
-  <!-- SHARED ALIGNMENT CONTAINER -->
-  <div class="dashboard-container">
+    <!-- SHARED ALIGNMENT CONTAINER -->
+    <div class="dashboard-container">
 
-    <!-- Welcome Banner -->
-    <div class="welcome-banner">
-      <h1>Welcome back, {{ current_user.first_name }}! 👋</h1>
-      <p>Ready to continue your learning journey</p>
-    </div>
+        <!-- ================= BANNER WITH STATS ================= -->
+        <div class="welcome-banner">
 
-    <!-- Header Row -->
-    <div class="dashboard-header">
-      <h2>My Enrolled Courses</h2>
-      <a href="{{ url_for('student_join_course') }}" class="join-course-btn">
-        + Join Course
-      </a>
-    </div>
+            <div class="banner-left">
+                <h1>Welcome back, {{ current_user.first_name }}! 👋</h1>
+                <p>Ready to continue your learning journey</p>
+            </div>
 
-    {% if courses %}
-    <!-- Courses Grid -->
-    <div class="courses-grid">
-      {% for course in courses %}
-      <div class="course-card">
+            <div class="banner-right">
+                <div class="circular-stats">
 
-        <!-- Card Header -->
-        <div class="card-header">
-          <h3>{{ course.course_name }}</h3>
-          <span class="course-code">{{ course.course_code }}</span>
+                    <!-- COURSES -->
+                    <div class="circle-stat">
+                        <svg class="circle-chart" viewBox="0 0 36 36">
+                            <path class="circle-bg"
+                                  d="M18 2.0845
+                   a 15.9155 15.9155 0 0 1 0 31.831
+                   a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                            <path class="circle-progress courses"
+                                  stroke-dasharray="{{ (courses|length / 15 * 100)|int if courses|length <= 15 else 100 }}, 100"
+                                  d="M18 2.0845
+                   a 15.9155 15.9155 0 0 1 0 31.831
+                   a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        </svg>
+                        <div class="circle-content">
+                            <div class="circle-number">{{ courses|length }}</div>
+                            <div class="circle-label">Courses</div>
+                        </div>
+                    </div>
+
+                    <!-- LESSONS -->
+                    {% set total_lessons = courses | map(attribute='lesson_plans') | map('length') | sum %}
+                    <div class="circle-stat">
+                        <svg class="circle-chart" viewBox="0 0 36 36">
+                            <path class="circle-bg"
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831
+                   a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                            <path class="circle-progress lessons"
+                                  stroke-dasharray="{{ (total_lessons / 50 * 100)|int if total_lessons <= 50 else 100 }}, 100"
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831
+                   a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        </svg>
+                        <div class="circle-content">
+                            <div class="circle-number">{{ total_lessons }}</div>
+                            <div class="circle-label">Lessons</div>
+                        </div>
+                    </div>
+
+                    <!-- MATERIALS -->
+                    {% set materials_counts = [] %}
+                    {% for course in courses %}
+                        {% for lesson in course.lesson_plans %}
+                            {% if materials_counts.append(lesson.materials|length) %}{% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    <div class="circle-stat">
+                        <svg class="circle-chart" viewBox="0 0 36 36">
+                            <path class="circle-bg"
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831
+                   a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                            <path class="circle-progress materials"
+                                  stroke-dasharray="{{ (materials_counts|sum / 100 * 100)|int if materials_counts|sum <= 100 else 100 }}, 100"
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831
+                   a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        </svg>
+                        <div class="circle-content">
+                            <div class="circle-number">{{ materials_counts|sum }}</div>
+                            <div class="circle-label">Materials</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
-        <!-- Educator -->
-        <p class="educator">
-          <i data-lucide="user"></i>
-          {{ course.educator.first_name }} {{ course.educator.last_name }}
-        </p>
+        <!-- Header Row -->
+        <div class="dashboard-header">
+            <h2>My Enrolled Courses</h2>
+            <a href="{{ url_for('student_join_course') }}" class="join-course-btn">
+                + Join Course
+            </a>
+        </div>
 
-        <!-- Description (only if exists) -->
-        {% if course.description %}
-        <p class="description">
-          {{ course.description or 'No description available.' }}
-        </p>
+        {% if courses %}
+        <!-- Courses Grid -->
+        <div class="courses-grid">
+            {% for course in courses %}
+            <div class="course-card">
+
+                <div class="card-header">
+                    <h3>{{ course.course_name }}</h3>
+                    <span class="course-code">{{ course.course_code }}</span>
+                </div>
+
+                <p class="educator">
+                    <i data-lucide="user"></i>
+                    {{ course.educator.first_name }} {{ course.educator.last_name }}
+                </p>
+
+                {% if course.description %}
+                <p class="description">
+                    {{ course.description or 'No description available.' }}
+                </p>
+                {% endif %}
+
+                <div class="stats-row">
+                    <span class="stat">
+                        <i data-lucide="book-open"></i>
+                        {{ course.lesson_plans|length }} Lessons
+                    </span>
+                    <span class="stat">
+                        <i data-lucide="paperclip"></i>
+                        {{ course.lesson_plans | map(attribute='materials') | map('length') | sum }} Materials
+                    </span>
+                </div>
+
+                <div class="actions">
+                    <a href="{{ url_for('student_course_lessons', course_id=course.id) }}"
+                       class="btn-outline">
+                        View Lessons
+                    </a>
+                    <a href="{{ url_for('student_course_materials', course_id=course.id) }}"
+                       class="btn-outline">
+                        View Materials
+                    </a>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">📚</div>
+            <h3>No Courses Yet</h3>
+            <p>You haven't enrolled in any courses yet.</p>
+            <p class="hint">Click the "+ Join Course" button above to get started!</p>
+        </div>
         {% endif %}
 
-        <!-- Stats -->
-        <div class="stats-row">
-          <span class="stat">
-            <i data-lucide="book-open"></i>
-            {{ course.lesson_plans|length }} Lessons
-          </span>
-          <span class="stat">
-            <i data-lucide="paperclip"></i>
-            {% set total_materials = course.lesson_plans
-              | map(attribute='materials')
-              | map('length')
-              | sum %}
-            {{ total_materials }} Materials
-          </span>
-        </div>
-
-        <!-- Actions -->
-        <div class="actions">
-          <a href="{{ url_for('student_course_lessons', course_id=course.id) }}"
-             class="btn-outline">
-            View Lessons
-          </a>
-          <a href="{{ url_for('student_course_materials', course_id=course.id) }}"
-             class="btn-outline">
-            View Materials
-          </a>
-        </div>
-
-      </div>
-      {% endfor %}
     </div>
-
-    {% else %}
-    <!-- Empty State -->
-    <div class="empty-state">
-      <div class="empty-icon">📚</div>
-      <h3>No Courses Yet</h3>
-      <p>You haven't enrolled in any courses yet.</p>
-      <p class="hint">Click the "+ Join Course" button above to get started!</p>
-    </div>
-    {% endif %}
-
-  </div>
 </div>
 
 <script>

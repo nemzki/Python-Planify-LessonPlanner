@@ -12,32 +12,46 @@
             {% if courses %}
                 {% for course in courses %}
                 <div class="course-card">
-                    <div class="course-header">
-                        <h4>{{ course.course_name }}</h4>
+                    <div class="card-header">
+                        <h3>{{ course.course_name }}</h3>
                         <span class="course-code">{{ course.course_code }}</span>
                     </div>
 
-                    <p class="course-description">{{ course.block_section }}</p>
+                    <p class="educator">
+                        <i data-lucide="user"></i>
+                        {{ course.block_section }}
+                    </p>
 
-                    <div class="course-stats">
-                        <span>📚 {{ course.lesson_plans|length }} Lesson Plans</span>
-                        <span>👥 {{ course.enrollments|length }} Students</span>
+                    <div class="stats-row">
+                        <span class="stat">
+                            <i data-lucide="book-open"></i>
+                            {{ course.lesson_plans|length }} Lessons
+                        </span>
+                        <span class="stat">
+                            <i data-lucide="users"></i>
+                            {{ course.enrollments|length }} Students
+                        </span>
                     </div>
 
-                    <div class="course-actions">
-                        <a href="{{ url_for('course_lesson_plans', course_id=course.id) }}" class="action-btn plans-btn">
+                    <div class="actions">
+                        <a href="{{ url_for('course_lesson_plans', course_id=course.id) }}" class="btn-outline">
+                            <i data-lucide="book-open"></i>
                             Lesson Plans
                         </a>
-                        <a href="{{ url_for('course_attendance', course_id=course.id) }}" class="action-btn attendance-btn">
+                        <a href="{{ url_for('course_attendance', course_id=course.id) }}" class="btn-outline">
+                            <i data-lucide="check-circle"></i>
                             Attendance
                         </a>
-                        <a href="{{ url_for('attendance_history', course_id=course.id) }}" class="action-btn history-btn">
+                        <a href="{{ url_for('attendance_history', course_id=course.id) }}" class="btn-outline">
+                            <i data-lucide="history"></i>
                             History
                         </a>
-                        <a href="{{ url_for('manage_enrollments', course_id=course.id) }}" class="action-btn enroll-btn">
+                        <a href="{{ url_for('manage_enrollments', course_id=course.id) }}" class="btn-outline">
+                            <i data-lucide="user-plus"></i>
                             Enrollments
                         </a>
-                        <a href="{{ url_for('edit_course', course_id=course.id) }}" class="action-btn edit-btn">
+                        <a href="{{ url_for('edit_course', course_id=course.id) }}" class="btn-outline edit-btn">
+                            <i data-lucide="edit"></i>
                             Edit
                         </a>
                     </div>
@@ -45,11 +59,21 @@
                 {% endfor %}
             {% else %}
                 <div class="empty-state">
+                    <div class="empty-icon">📚</div>
+                    <h3>No Courses Yet</h3>
                     <p>You haven't created any courses yet.</p>
-                    <a href="{{ url_for('add_course') }}" class="add-course-btn-large">Create Your First Course</a>
+                    <p class="hint">Click the "+ Add New Course" button above to get started!</p>
                 </div>
             {% endif %}
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+});
+</script>
 {% endblock %}
