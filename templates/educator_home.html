@@ -2,28 +2,148 @@
 
 {% block content %}
 <div class="educator-home-container">
-    <h2>
-        It’s Good to have you back, <span class="highlight-name">{{ current_user.first_name }}!</span>
-    </h2>
-    <p>“Let’s make teaching easier today.”</p>
-
-    <div class="educator-home-button-group">
-        <a href="{{ url_for('educator_courses') }}" class="button-record-attendance">
-            Manage Lesson Plan and Atttendance
-        </a>
+    <!-- Welcome Hero -->
+    <div class="educator-welcome-hero">
+        <div class="educator-welcome-content">
+            <h1>
+                Welcome back, <span class="educator-highlight-name">{{ current_user.first_name }}!</span>
+            </h1>
+            <p class="educator-subtitle">"Let's make teaching easier today."</p>
+            <a href="{{ url_for('educator_courses') }}" class="educator-hero-cta">
+                <i data-lucide="book-open"></i>
+                Manage Courses & Lessons
+            </a>
+        </div>
+        <div class="educator-hero-illustration">
+            <div class="educator-hero-icon-group">
+                <div class="educator-hero-icon-box">
+                    <i data-lucide="book-open"></i>
+                </div>
+                <div class="educator-hero-icon-box">
+                    <i data-lucide="users"></i>
+                </div>
+                <div class="educator-hero-icon-box">
+                    <i data-lucide="calendar"></i>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <hr class="divider">
-
-    <div class="quick-stats">
-        <div class="stat-item">
-            <div class="stat-title">My Courses</div>
-            <div class="stat-number">{{ current_user.courses|length }}</div>
+    <!-- Stats Section -->
+    <div class="educator-stats-section">
+        <div class="educator-stat-card">
+            <div class="educator-stat-icon">
+                <i data-lucide="book-open"></i>
+            </div>
+            <div class="educator-stat-label">My Courses</div>
+            <div class="educator-stat-value">{{ current_user.courses|length }}</div>
+            <div class="educator-stat-description">
+                <i data-lucide="trending-up"></i>
+                Active courses
+            </div>
         </div>
-        <div class="stat-item">
-            <div class="stat-title">Lesson Plans</div>
-            <div class="stat-number">{{ current_user.lesson_plans|length }}</div>
+
+        <div class="educator-stat-card">
+            <div class="educator-stat-icon">
+                <i data-lucide="file-text"></i>
+            </div>
+            <div class="educator-stat-label">Lesson Plans</div>
+            <div class="educator-stat-value">{{ current_user.lesson_plans|length }}</div>
+            <div class="educator-stat-description">
+                <i data-lucide="trending-up"></i>
+                Total created
+            </div>
+        </div>
+
+        <div class="educator-stat-card">
+            <div class="educator-stat-icon">
+                <i data-lucide="users"></i>
+            </div>
+            <div class="educator-stat-label">Total Students</div>
+            <div class="educator-stat-value">
+                {% set total_students = namespace(count=0) %}
+                {% for course in current_user.courses %}
+                    {% set total_students.count = total_students.count + course.enrollments|length %}
+                {% endfor %}
+                {{ total_students.count }}
+            </div>
+            <div class="educator-stat-description">
+                <i data-lucide="trending-up"></i>
+                Across all courses
+            </div>
+        </div>
+
+        <div class="educator-stat-card">
+            <div class="educator-stat-icon">
+                <i data-lucide="calendar-check"></i>
+            </div>
+            <div class="educator-stat-label">Enrollments</div>
+            <div class="educator-stat-value">
+                {{ total_students.count }}
+            </div>
+            <div class="educator-stat-description">
+                <i data-lucide="trending-up"></i>
+                Active students
+            </div>
+        </div>
+    </div>
+
+    <!-- Your Courses Section -->
+    <div class="educator-activity-section">
+        <div class="educator-section-header">
+            <h3 class="educator-section-title">
+                <i data-lucide="activity"></i>
+                Your Courses
+            </h3>
+            <a href="{{ url_for('educator_courses') }}" class="educator-view-all-link">
+                View All
+                <i data-lucide="arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="educator-activity-grid">
+            {% if current_user.courses %}
+                {% for course in current_user.courses %}
+                <div class="educator-activity-card">
+                    <div class="educator-activity-icon">
+                        <i data-lucide="book-open"></i>
+                    </div>
+                    <div class="educator-activity-info">
+                        <div class="educator-activity-title">{{ course.course_name }}</div>
+                        <div class="educator-activity-meta">
+                            <span class="educator-activity-badge">
+                                <i data-lucide="file-text"></i>
+                                {{ course.lesson_plans|length }} lesson plans
+                            </span>
+                            <span class="educator-activity-badge">
+                                <i data-lucide="users"></i>
+                                {{ course.enrollments|length }} students
+                            </span>
+                            <span class="educator-activity-badge">
+                                <i data-lucide="calendar"></i>
+                                {{ course.course_code }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="educator-empty-state">
+                    <i data-lucide="inbox"></i>
+                    <h4>No courses yet</h4>
+                    <p>Create your first course to get started</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
+
+<!-- Initialize Lucide Icons -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+    });
+</script>
 {% endblock %}

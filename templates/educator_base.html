@@ -16,23 +16,29 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <a href="{{ url_for('educator_home') }}" class="logo">
-            <img src="{{ url_for('static', filename='pictures/logo.png') }}" alt="Planify Logo">
-        </a>
+                <img src="{{ url_for('static', filename='pictures/logo.png') }}" alt="Planify Logo">
+            </a>
         </div>
 
         <nav class="sidebar-nav">
             <a href="{{ url_for('educator_home') }}" class="nav-item">
-                <span class="icon">🏠</span>
+                <span class="icon">
+                    <i data-lucide="home"></i>
+                </span>
                 <span>Home</span>
             </a>
 
             <a href="{{ url_for('educator_courses') }}" class="nav-item">
-                <span class="icon">📖</span>
+                <span class="icon">
+                    <i data-lucide="book-open"></i>
+                </span>
                 <span>Courses</span>
             </a>
 
             <a href="{{ url_for('logout') }}" class="nav-item logout-item">
-                <span class="icon">🚪</span>
+                <span class="icon">
+                    <i data-lucide="log-out"></i>
+                </span>
                 <span>Logout</span>
             </a>
         </nav>
@@ -72,6 +78,15 @@
             <p>© 2025 Planify. All Rights Reserved.</p>
         </footer>
     </div>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
+    </script>
 
 </body>
 </html>
