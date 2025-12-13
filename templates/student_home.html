@@ -4,100 +4,100 @@
 
 {% block content %}
 <div class="student-dashboard">
+
+  <!-- SHARED ALIGNMENT CONTAINER -->
+  <div class="dashboard-container">
+
     <!-- Welcome Banner -->
-    <div class="welcome-section">
-        <div class="welcome-icon">
-            <i data-lucide="graduation-cap"></i>
-        </div>
-        <h1>Welcome back, {{ current_user.first_name }}! 👋</h1>
-        <p>Ready to continue your learning journey</p>
+    <div class="welcome-banner">
+      <h1>Welcome back, {{ current_user.first_name }}! 👋</h1>
+      <p>Ready to continue your learning journey</p>
     </div>
 
-    <!-- Courses Header with Join Button -->
-    <div class="enrolled-courses">
-        <div class="courses-header-row">
-            <h2>My Enrolled Courses</h2>
-            <a href="{{ url_for('student_join_course') }}" class="quick-link join-link">
-                <i data-lucide="plus-circle"></i>
-                <span>Join Course</span>
-            </a>
+    <!-- Header Row -->
+    <div class="dashboard-header">
+      <h2>My Enrolled Courses</h2>
+      <a href="{{ url_for('student_join_course') }}" class="join-course-btn">
+        + Join Course
+      </a>
+    </div>
+
+    {% if courses %}
+    <!-- Courses Grid -->
+    <div class="courses-grid">
+      {% for course in courses %}
+      <div class="course-card">
+
+        <!-- Card Header -->
+        <div class="card-header">
+          <h3>{{ course.course_name }}</h3>
+          <span class="course-code">{{ course.course_code }}</span>
         </div>
 
-        {% if courses %}
-            <div class="courses-list">
-                {% for course in courses %}
-                <div class="course-item">
-                    <div class="course-grid-layout">
-                        <!-- Left: Course Info -->
-                        <div class="course-info-section">
-                            <!-- Course Header: Title + Badge -->
-                            <div class="course-item-header">
-                                <h3>{{ course.course_name }}</h3>
-                                <span class="course-badge">{{ course.course_code }}</span>
-                            </div>
+        <!-- Educator -->
+        <p class="educator">
+          <i data-lucide="user"></i>
+          {{ course.educator.first_name }} {{ course.educator.last_name }}
+        </p>
 
-                            <!-- Educator Info -->
-                            <p class="course-educator">
-                                <i data-lucide="user" class="inline-icon"></i>
-                                {{ course.educator.first_name }} {{ course.educator.last_name }}
-                            </p>
-
-                            <!-- Course Description -->
-                            {% if course.description %}
-                            <p class="course-desc">{{ course.description }}</p>
-                            {% else %}
-                            <p class="course-desc">Block: {{ course.block_section }}</p>
-                            {% endif %}
-
-                            <!-- Course Stats -->
-                            <div class="course-stats">
-                                <span>
-                                    <i data-lucide="book-open" class="stat-icon"></i>
-                                    {{ course.lesson_plans|length }} Lessons
-                                </span>
-                                <span>
-                                    <i data-lucide="paperclip" class="stat-icon"></i>
-                                    {% set total_materials = course.lesson_plans | map(attribute='materials') | map('length') | sum %}
-                                    {{ total_materials }} Materials
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- Right: Action Buttons (Vertical Stack) -->
-                        <div class="course-actions-vertical">
-                            <a href="{{ url_for('student_course_lessons', course_id=course.id) }}" class="action-link">
-                                <i data-lucide="book-open"></i>
-                                View Lessons
-                            </a>
-                            <a href="{{ url_for('student_course_materials', course_id=course.id) }}" class="action-link materials">
-                                <i data-lucide="file-text"></i>
-                                View Materials
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <!-- Empty State -->
-            <div class="empty-state">
-                <div class="empty-icon">
-                    <i data-lucide="inbox"></i>
-                </div>
-                <h3>No Courses Yet</h3>
-                <p>You are not enrolled in any courses yet.</p>
-                <p class="hint">Click "Join Course" above and enter your course code to get started!</p>
-            </div>
+        <!-- Description (only if exists) -->
+        {% if course.description %}
+        <p class="description">
+          {{ course.description or 'No description available.' }}
+        </p>
         {% endif %}
+
+        <!-- Stats -->
+        <div class="stats-row">
+          <span class="stat">
+            <i data-lucide="book-open"></i>
+            {{ course.lesson_plans|length }} Lessons
+          </span>
+          <span class="stat">
+            <i data-lucide="paperclip"></i>
+            {% set total_materials = course.lesson_plans
+              | map(attribute='materials')
+              | map('length')
+              | sum %}
+            {{ total_materials }} Materials
+          </span>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+          <a href="{{ url_for('student_course_lessons', course_id=course.id) }}"
+             class="btn-outline">
+            View Lessons
+          </a>
+          <a href="{{ url_for('student_course_materials', course_id=course.id) }}"
+             class="btn-outline">
+            View Materials
+          </a>
+        </div>
+
+      </div>
+      {% endfor %}
     </div>
+
+    {% else %}
+    <!-- Empty State -->
+    <div class="empty-state">
+      <div class="empty-icon">📚</div>
+      <h3>No Courses Yet</h3>
+      <p>You haven't enrolled in any courses yet.</p>
+      <p class="hint">Click the "+ Join Course" button above to get started!</p>
+    </div>
+    {% endif %}
+
+  </div>
 </div>
 
 <script>
-    // Initialize Lucide icons after page load
-    document.addEventListener('DOMContentLoaded', function() {
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    });
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+});
 </script>
+
 {% endblock %}
