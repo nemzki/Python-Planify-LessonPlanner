@@ -975,8 +975,8 @@ def download_attendance_pdf(course_id, date_str):
     elements.append(stats_table)
     elements.append(Spacer(1, 0.3 * inch))
 
-    # Add Student Attendance Table
-    data = [['#', 'Student Name', 'Username', 'Status']]
+    # Add Student Attendance Table with Signature Column
+    data = [['#', 'Student Name', 'Email', 'Status', 'Signature']]
 
     for idx, enrollment in enumerate(enrollments, 1):
         student = enrollment.student
@@ -989,11 +989,13 @@ def download_attendance_pdf(course_id, date_str):
         data.append([
             str(idx),
             f"{student.first_name} {student.last_name}",
-            student.username,
-            status_text
+            student.email,
+            status_text,
+            ''  # Empty signature field
         ])
 
-    table = Table(data, colWidths=[0.5 * inch, 2.5 * inch, 1.8 * inch, 1.5 * inch])
+    # Updated column widths to accommodate signature column
+    table = Table(data, colWidths=[0.4 * inch, 2.0 * inch, 2.0 * inch, 1.0 * inch, 1.5 * inch])
 
     # Table styling
     table.setStyle(TableStyle([
@@ -1009,14 +1011,15 @@ def download_attendance_pdf(course_id, date_str):
         ('BACKGROUND', (0, 1), (-1, -1), colors.white),
         ('TEXTCOLOR', (0, 1), (-1, -1), colors.HexColor('#2c3e50')),
         ('ALIGN', (0, 1), (0, -1), 'CENTER'),  # Center # column
-        ('ALIGN', (1, 1), (-2, -1), 'LEFT'),  # Left align name and username
-        ('ALIGN', (-1, 1), (-1, -1), 'CENTER'),  # Center status column
+        ('ALIGN', (1, 1), (2, -1), 'LEFT'),  # Left align name and email
+        ('ALIGN', (3, 1), (3, -1), 'CENTER'),  # Center status column
+        ('ALIGN', (4, 1), (4, -1), 'CENTER'),  # Center signature column
         ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-        ('FONTSIZE', (0, 1), (-1, -1), 10),
+        ('FONTSIZE', (0, 1), (-1, -1), 9),
         ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#f8f9fa')]),
-        ('TOPPADDING', (0, 1), (-1, -1), 8),
-        ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
+        ('TOPPADDING', (0, 1), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 1), (-1, -1), 10),
     ]))
 
     # Add status-specific coloring
