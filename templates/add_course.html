@@ -1,48 +1,79 @@
 {% extends "educator_base.html" %}
 
 {% block content %}
-<div class="add-course-wrapper">
-    <div class="add-course-card">
-        <h2 class="form-title">Add New Course</h2>
+<div class="add-course-wrapper-new">
+    <div class="add-course-header-new">
+        <div>
+            <h2 class="add-course-title-new">Add New Course</h2>
+            <p class="add-course-subtitle-new">Create a new course for your students</p>
+        </div>
+    </div>
 
-        <form method="POST" class="add-course-form">
+    <div class="add-course-card-new">
+        <form method="POST" class="add-course-form-new">
             {{ form.hidden_tag() }}
 
-            <div class="add-course-form-group">
-                {{ form.course_name.label }}
-                {{ form.course_name(class="form-input", placeholder="e.g., Introduction to Programming") }}
-                {% if form.course_name.errors %}
-                    <small class="error">{{ form.course_name.errors[0] }}</small>
-                {% endif %}
+            <div class="add-course-form-columns">
+                <!-- Left Column -->
+                <div class="add-course-left-column">
+                    <!-- Course Name -->
+                    <div class="add-course-form-group-new">
+                        <label class="add-course-label-new">{{ form.course_name.label.text }}</label>
+                        <p class="add-course-helper-new">The display name of your course</p>
+                        {{ form.course_name(class="form-input-new", placeholder="e.g., Introduction to Programming") }}
+                        {% if form.course_name.errors %}
+                            <small class="error">{{ form.course_name.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Course Code -->
+                    <div class="add-course-form-group-new">
+                        <label class="add-course-label-new">{{ form.course_code.label.text }}</label>
+                        <p class="add-course-helper-new">Unique identifier for this course</p>
+                        {{ form.course_code(class="form-input-new", placeholder="e.g., CS101") }}
+                        {% if form.course_code.errors %}
+                            <small class="error">{{ form.course_code.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Block Section -->
+                    <div class="add-course-form-group-new">
+                        <label class="add-course-label-new">{{ form.block_section.label.text }}</label>
+                        <p class="add-course-helper-new">Assign to a specific class block</p>
+                        {{ form.block_section(class="form-input-new", placeholder="e.g., BSIT 2101") }}
+                        {% if form.block_section.errors %}
+                            <small class="error">{{ form.block_section.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="add-course-right-column">
+                    <!-- Description -->
+                    <div class="add-course-form-group-new add-course-description-group">
+                        <label class="add-course-label-new">{{ form.description.label.text }}</label>
+                        <p class="add-course-helper-new">Provide details about the course content (optional)</p>
+                        {{ form.description(class="form-input-new form-textarea-new", rows="5", placeholder="Enter course description...") }}
+                        {% if form.description.errors %}
+                            <small class="error">{{ form.description.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Info Box -->
+                    <div class="add-course-info-box">
+                        <div class="info-icon">ℹ️</div>
+                        <div>
+                            <p class="info-title">Quick Tip</p>
+                            <p class="info-text">A clear description helps students understand course expectations</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="add-course-form-group">
-                {{ form.course_code.label }}
-                {{ form.course_code(class="form-input", placeholder="e.g., CS101") }}
-                {% if form.course_code.errors %}
-                    <small class="error">{{ form.course_code.errors[0] }}</small>
-                {% endif %}
-            </div>
-
-            <div class="add-course-form-group">
-                {{ form.block_section.label }}
-                {{ form.block_section(class="form-input", placeholder="e.g., BSIT 2101") }}
-                {% if form.block_section.errors %}
-                    <small class="error">{{ form.block_section.errors[0] }}</small>
-                {% endif %}
-            </div>
-
-            <div class="add-course-form-group">
-                {{ form.description.label }}
-                {{ form.description(class="form-input", rows="5", placeholder="Enter course description (optional)") }}
-                {% if form.description.errors %}
-                    <small class="error">{{ form.description.errors[0] }}</small>
-                {% endif %}
-            </div>
-
-            <div class="form-buttons">
-                {{ form.submit(class="submit-btn add-course-submit") }}
-                <a href="{{ url_for('educator_courses') }}" class="cancel-btn">Cancel</a>
+            <!-- Action Buttons -->
+            <div class="add-course-actions-new">
+                <a href="{{ url_for('educator_courses') }}" class="cancel-btn-new">Cancel</a>
+                {{ form.submit(class="submit-btn-new") }}
             </div>
         </form>
     </div>
