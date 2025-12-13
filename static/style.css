@@ -6660,6 +6660,234 @@ input[type="file"].form-input::file-selector-button:hover {
     min-height: 180px;
   }
 }
+
+/* ============================================================================
+   ADD LESSON PLAN PAGE - NEW LAYOUT (MATCHES ADD COURSE)
+   Add this to the END of your main CSS file (style.css)
+   ============================================================================ */
+
+/* Wrapper */
+.add-lesson-wrapper-new {
+  background: transparent;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Header Section */
+.add-lesson-header-new {
+  margin-bottom: 2rem;
+}
+
+.add-lesson-title-new {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+.add-lesson-subtitle-new {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Card Container */
+.add-lesson-card-new {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Form */
+.add-lesson-form-new {
+  width: 100%;
+}
+
+/* Two Column Layout */
+.add-lesson-form-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Left Column */
+.add-lesson-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Right Column */
+.add-lesson-right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Form Group */
+.add-lesson-form-group-new {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Description Group - Full Height */
+.add-lesson-description-group {
+  flex: 1;
+}
+
+/* Objectives Group */
+.add-lesson-objectives-group {
+  flex: 0;
+}
+
+/* Label */
+.add-lesson-label-new {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 0.35rem;
+}
+
+/* Helper Text */
+.add-lesson-helper-new {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0 0 0.75rem 0;
+}
+
+/* Info Box */
+.add-lesson-info-box {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.add-lesson-info-box .info-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.add-lesson-info-box .info-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin: 0 0 0.25rem 0;
+}
+
+.add-lesson-info-box .info-text {
+  font-size: 0.875rem;
+  color: #3b82f6;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Action Buttons */
+.add-lesson-actions-new {
+  display: flex;
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Cancel Button */
+.add-lesson-actions-new .cancel-btn-new {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.add-lesson-actions-new .cancel-btn-new:hover {
+  background: #B9FF66;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Submit Button */
+.add-lesson-actions-new .submit-btn-new {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  background: #000000;
+  color: #B9FF66;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.add-lesson-actions-new .submit-btn-new:hover {
+  background: #B9FF66;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(185, 255, 102, 0.3);
+}
+
+/* Error Messages */
+.add-lesson-form-group-new .error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .add-lesson-form-columns {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .add-lesson-card-new {
+    padding: 2rem;
+  }
+
+  .add-lesson-wrapper-new {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .add-lesson-card-new {
+    padding: 1.5rem;
+  }
+
+  .add-lesson-actions-new {
+    flex-direction: column-reverse;
+  }
+
+  .add-lesson-title-new {
+    font-size: 1.75rem;
+  }
+
+  .form-textarea-new {
+    min-height: 180px;
+  }
+}
 /* ============================================================================
    END OF STYLESHEET
    ============================================================================ */

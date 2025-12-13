@@ -1,57 +1,93 @@
 {% extends "educator_base.html" %}
 
 {% block content %}
-<div class="add-lesson-form-container">
-    <h2>Create Lesson Plan for {{ course.course_name }}</h2>
+<div class="add-lesson-wrapper-new">
+    <!-- Header Section -->
+    <div class="add-lesson-header-new">
+        <h1 class="add-lesson-title-new">Create Lesson Plan</h1>
+        <p class="add-lesson-subtitle-new">for {{ course.course_name }}</p>
+    </div>
 
-    <form method="POST" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
+    <!-- Main Card -->
+    <div class="add-lesson-card-new">
+        <form method="POST" enctype="multipart/form-data" class="add-lesson-form-new">
+            {{ form.hidden_tag() }}
 
-        <div class="add-lesson-form-group">
-            {{ form.title.label }}
-            {{ form.title(class="form-input") }}
-            {% if form.title.errors %}
-                <small class="error">{{ form.title.errors[0] }}</small>
-            {% endif %}
-        </div>
+            <!-- Two Column Layout -->
+            <div class="add-lesson-form-columns">
+                <!-- Left Column -->
+                <div class="add-lesson-left-column">
+                    <!-- Lesson Title -->
+                    <div class="add-lesson-form-group-new">
+                        <label class="add-lesson-label-new">{{ form.title.label.text }}</label>
+                        <p class="add-lesson-helper-new">Main title for this lesson</p>
+                        {{ form.title(class="form-input-new", placeholder="e.g., Introduction to Variables") }}
+                        {% if form.title.errors %}
+                            <small class="error">{{ form.title.errors[0] }}</small>
+                        {% endif %}
+                    </div>
 
-        <div class="add-lesson-form-group">
-            {{ form.topic.label }}
-            {{ form.topic(class="form-input") }}
-            {% if form.topic.errors %}
-                <small class="error">{{ form.topic.errors[0] }}</small>
-            {% endif %}
-        </div>
+                    <!-- Topic -->
+                    <div class="add-lesson-form-group-new">
+                        <label class="add-lesson-label-new">{{ form.topic.label.text }}</label>
+                        <p class="add-lesson-helper-new">Specific topic covered in this lesson</p>
+                        {{ form.topic(class="form-input-new", placeholder="e.g., Data Types and Variables") }}
+                        {% if form.topic.errors %}
+                            <small class="error">{{ form.topic.errors[0] }}</small>
+                        {% endif %}
+                    </div>
 
-        <div class="add-lesson-form-group">
-            {{ form.objectives.label }}
-            {{ form.objectives(class="form-input", rows="5") }}
-            {% if form.objectives.errors %}
-                <small class="error">{{ form.objectives.errors[0] }}</small>
-            {% endif %}
-        </div>
+                    <!-- Learning Objectives -->
+                    <div class="add-lesson-form-group-new add-lesson-objectives-group">
+                        <label class="add-lesson-label-new">{{ form.objectives.label.text }}</label>
+                        <p class="add-lesson-helper-new">What students will learn from this lesson</p>
+                        {{ form.objectives(class="form-input-new form-textarea-new", rows="8", placeholder="Students will be able to...") }}
+                        {% if form.objectives.errors %}
+                            <small class="error">{{ form.objectives.errors[0] }}</small>
+                        {% endif %}
+                    </div>
 
-        <div class="add-lesson-form-group">
-            {{ form.description.label }}
-            {{ form.description(class="form-input", rows="6") }}
-            {% if form.description.errors %}
-                <small class="error">{{ form.description.errors[0] }}</small>
-            {% endif %}
-        </div>
+                    <!-- Learning Materials -->
+                    <div class="add-lesson-form-group-new">
+                        <label class="add-lesson-label-new">{{ form.materials.label.text }}</label>
+                        <p class="add-lesson-helper-new">Upload supporting documents and resources</p>
+                        {{ form.materials(class="form-input-new") }}
+                        <small class="add-lesson-helper-new" style="margin-top: 0.5rem;">Allowed: PDF, DOC, DOCX, PPT, PPTX, TXT, JPG, PNG</small>
+                        {% if form.materials.errors %}
+                            <small class="error">{{ form.materials.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+                </div>
 
-        <div class="add-lesson-form-group">
-            {{ form.materials.label }}
-            {{ form.materials(class="form-input") }}
-            <small class="info">Allowed: PDF, DOC, DOCX, PPT, PPTX, TXT, JPG, PNG</small>
-            {% if form.materials.errors %}
-                <small class="error">{{ form.materials.errors[0] }}</small>
-            {% endif %}
-        </div>
+                <!-- Right Column -->
+                <div class="add-lesson-right-column">
+                    <!-- Lesson Description -->
+                    <div class="add-lesson-form-group-new add-lesson-description-group">
+                        <label class="add-lesson-label-new">{{ form.description.label.text }}</label>
+                        <p class="add-lesson-helper-new">Detailed explanation of the lesson content</p>
+                        {{ form.description(class="form-input-new form-textarea-new", rows="20", placeholder="Describe the lesson flow, activities, and key points to cover...") }}
+                        {% if form.description.errors %}
+                            <small class="error">{{ form.description.errors[0] }}</small>
+                        {% endif %}
+                    </div>
 
-        <div class="add-lesson-form-group">
-            {{ form.submit(class="submit-btn") }}
-            <a href="{{ url_for('course_lesson_plans', course_id=course.id) }}" class="cancel-btn">Cancel</a>
-        </div>
-    </form>
+                    <!-- Best Practices Info Box -->
+                    <div class="add-lesson-info-box">
+                        <div class="info-icon">💡</div>
+                        <div>
+                            <p class="info-title">Best Practices</p>
+                            <p class="info-text">• Include clear, measurable objectives<br>• Break down complex topics<br>• Add relevant materials and examples</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="add-lesson-actions-new">
+                <a href="{{ url_for('course_lesson_plans', course_id=course.id) }}" class="cancel-btn-new">Cancel</a>
+                {{ form.submit(class="submit-btn-new") }}
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
