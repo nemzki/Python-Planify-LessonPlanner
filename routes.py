@@ -311,7 +311,7 @@ def student_join_course():
 
         if existing_enrollment:
             flash(f"You are already enrolled in {course.course_name}.", "error")
-            return redirect(url_for('student_home'))
+            return redirect(url_for('student_courses'))
 
         # Enroll student
         new_enrollment = Enrollment(
@@ -322,7 +322,7 @@ def student_join_course():
         db.session.commit()
 
         flash(f"Successfully enrolled in {course.course_name}!", "success")
-        return redirect(url_for('student_home'))
+        return redirect(url_for('student_courses'))
 
     return render_template('student_join_course.html', form=form)
 
@@ -1063,6 +1063,7 @@ def download_attendance_pdf(course_id, date_str):
 # ==========================================
 # STUDENT MATERIALS & LESSON PLANS
 # ==========================================
+
 
 # VIEW LESSON PLANS FOR A SPECIFIC COURSE (STUDENT)
 @app.route('/student/course/<int:course_id>/lessons')

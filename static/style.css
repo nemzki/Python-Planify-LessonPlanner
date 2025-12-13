@@ -3958,10 +3958,10 @@ input[type="file"].form-input::file-selector-button:hover {
 .student-dashboard {
   display: flex;
   flex-direction: column;
-  align-items: center; /* center everything horizontally */
+  align-items: center;
   justify-content: flex-start;
   width: 100%;
-  padding: 2rem 0; /* keep existing spacing */
+  padding: 2rem 0;
   box-sizing: border-box;
 }
 
@@ -3977,7 +3977,7 @@ input[type="file"].form-input::file-selector-button:hover {
 ================================ */
 
 .welcome-banner {
-  background: linear-gradient(135deg, #1f2937, #374151);
+  background: #000;
   border-radius: 18px;
   padding: 2.2rem 2.5rem;
   margin-bottom: 2.2rem;
@@ -4023,15 +4023,16 @@ input[type="file"].form-input::file-selector-button:hover {
   font-weight: 700;
   text-decoration: none;
   transition: all 0.2s ease;
+  border: 1px solid #000 !important;
 }
 
 .join-course-btn:hover {
-  background: #000;
-  color: #b9ff66;
+  background: #000 !important;
+  color: #b9ff66 !important;
 }
 
 /* ================================
-   COURSES GRID (3 PER ROW - FIXED)
+   COURSES GRID (3 PER ROW)
 ================================ */
 
 .courses-grid {
@@ -4042,16 +4043,17 @@ input[type="file"].form-input::file-selector-button:hover {
 }
 
 /* ================================
-   COURSE CARD - PERFECTLY ALIGNED
+   COURSE CARD - FIXED HEIGHTS, TIGHT GAPS
 ================================ */
 
 .course-card {
   background: #ffffff;
   border-radius: 16px;
   border: 1px solid #000;
-  padding: 1.25rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
+  height: 100%;
   transition: all 0.25s ease;
 }
 
@@ -4066,17 +4068,18 @@ input[type="file"].form-input::file-selector-button:hover {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 0.8rem;
+  gap: 0.75rem;
   margin-bottom: 0.6rem;
-  min-height: 2.5rem;
+  min-height: 2.6rem;
 }
 
 .card-header h3 {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.3;
   flex: 1;
+  color: #111827;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -4101,19 +4104,24 @@ input[type="file"].form-input::file-selector-button:hover {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   color: #6b7280;
   margin: 0 0 0.6rem 0;
   min-height: 1.5rem;
+}
+
+.educator i {
+  width: 16px;
+  height: 16px;
 }
 
 /* DESCRIPTION */
 .description {
   font-size: 0.9rem;
   color: #6b7280;
-  line-height: 1.4;
-  margin: 0 0 0.75rem 0;
-  min-height: 2.8rem;
+  line-height: 1.5;
+  margin: 0 0 0.6rem 0;
+  min-height: 2.7rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -4121,39 +4129,45 @@ input[type="file"].form-input::file-selector-button:hover {
   text-overflow: ellipsis;
 }
 
-/* STATS */
+/* STATS - LEFT-ALIGNED */
 .stats-row {
   display: flex;
-  gap: 0.6rem;
+  gap: 1rem;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
-  min-height: 2rem;
+  margin-bottom: 0.85rem;
+  align-items: center;
+  min-height: 1.5rem;
 }
 
 .stat {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  padding: 0.35rem 0.6rem;
-  border-radius: 9px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #6b7280;
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.4rem;
+}
+
+.stat i {
+  width: 16px;
+  height: 16px;
 }
 
 /* ACTION BUTTONS */
 .actions {
-  margin-top: 5px;
+  margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  padding-top: 0.5rem;
+  padding-top: 0;
 }
 
 .btn-outline {
   text-align: center;
-  padding: 0.7rem;
+  padding: 0.75rem 1rem;
   border-radius: 12px;
   border: 1px solid #000;
   background: #000;
@@ -4162,6 +4176,7 @@ input[type="file"].form-input::file-selector-button:hover {
   color: #b9ff66;
   transition: all 0.2s ease;
   font-size: 0.9rem;
+  display: block;
 }
 
 .btn-outline:hover {
@@ -5542,6 +5557,30 @@ input[type="file"].form-input::file-selector-button:hover {
   }
 }
 
+/* Modal styles are already in your CSS at Section 26 */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+/* ... rest of modal styles already in your CSS ... */
 
 /* ============================================================================
    END OF STYLESHEET
