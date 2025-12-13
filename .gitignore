@@ -14,7 +14,8 @@ ENV/
 .venv/
 
 # --- Flask & Instance Folder ---
-
+*.db
+*.sqlite3
 # --- IDE / Editor Files ---
 .vscode/
 .idea/
@@ -24,6 +25,7 @@ ENV/
 # --- OS Files ---
 .DS_Store
 Thumbs.db
+
 
 # --- Compiled / Build Files ---
 dist/
@@ -38,3 +40,4 @@ build/
 # --- Cache ---
 .cache/
 pytest_cache/
+instance/planify.db
