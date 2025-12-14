@@ -1,38 +1,55 @@
 {% extends "base.html" %}
-
 {% block title %}All Courses{% endblock %}
 
 {% block content %}
+<!-- Admin Courses Container -->
 <div class="admin-container">
-    <h2>All Courses</h2>
 
-    <table class="admin-table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Course Name</th>
-            <th>Course Code</th>
-            <th>Block Section</th>
-            <th>Educator</th>
-            <th>Created</th>
-            <th>Enrollments</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for course in courses %}
-        <tr>
-            <td>{{ course.id }}</td>
-            <td>{{ course.course_name }}</td>
-            <td>{{ course.course_code }}</td>
-            <td>{{ course.block_section }}</td>
-            <td>{{ course.educator.first_name }} {{ course.educator.last_name }}</td>
-            <td>{{ course.created_at.strftime('%b %d, %Y') }}</td>
-            <td>{{ course.enrollments|length }} students</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <!-- Page Header -->
+    <div class="page-header">
+        <a href="{{ url_for('admin_home') }}" class="back-icon-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+        <h2>All Courses</h2>
+    </div>
 
-    <a href="{{ url_for('admin_home') }}" class="back-btn">Back to Dashboard</a>
+    <!-- Table Container -->
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Course Name</th>
+                    <th>Course Code</th>
+                    <th>Block Section</th>
+                    <th>Educator</th>
+                    <th>Created</th>
+                    <th>Enrollments</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <td>{{ course.id }}</td>
+                    <td>{{ course.course_name }}</td>
+                    <td>
+                        <span class="admin-course-code">{{ course.course_code }}</span>
+                    </td>
+                    <td>{{ course.block_section }}</td>
+                    <td>{{ course.educator.first_name }} {{ course.educator.last_name }}</td>
+                    <td>{{ course.created_at.strftime('%b %d, %Y') }}</td>
+                    <td>
+                        <span class="admin-enrollment-count">
+                            {{ course.enrollments|length }} students
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 </div>
 {% endblock %}
