@@ -3,77 +3,106 @@
 {% block title %}Lesson Plans - {{ course.course_name }}{% endblock %}
 
 {% block content %}
-<div class="student-lessons-container">
-    <div class="lessons-header">
-        <div class="header-content">
-            <h1>{{ course.course_name }}</h1>
-            <div class="course-meta">
-                <span class="course-code-badge">{{ course.course_code }}</span>
-                <span class="block-badge">{{ course.block_section }}</span>
-                <span class="educator-info">
-                    👨‍🏫 {{ course.educator.first_name }} {{ course.educator.last_name }}
-                </span>
+<div class="student-lessons-container-fixed">
+    <!-- Hero Header Card -->
+    <div class="lessons-header-card-fixed">
+        <div class="banner-content-fixed">
+            <!-- Course Name with Back Button and Badges on Right -->
+            <div class="course-header-row">
+                <div class="course-title-group">
+                    <a href="{{ url_for('student_home') }}" class="back-icon-btn" aria-label="Back to Dashboard">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                    </a>
+                    <h1>{{ course.course_name }}</h1>
+                </div>
+
+                <!-- Badges on the right -->
+                <div class="header-badges-fixed">
+                    <span class="course-code-badge-fixed">{{ course.course_code }}</span>
+                    <span class="block-badge-fixed">{{ course.block_section }}</span>
+                </div>
+            </div>
+
+            <p class="course-subtitle-fixed">{{ course.description[:80] }}{% if course.description and course.description|length > 80 %}...{% endif %}</p>
+
+            <div class="educator-info-fixed">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                {{ course.educator.first_name }} {{ course.educator.last_name }}
             </div>
         </div>
-        <a href="{{ url_for('student_home') }}" class="stcourse-back-link">← Back to Courses</a>
     </div>
 
-    <div class="lessons-content">
-        <div class="content-header">
+    <!-- Lessons Section -->
+    <div class="lessons-section-fixed">
+        <div class="section-header-fixed">
             <h2>Lesson Plans</h2>
-            <span class="lessons-count">{{ lesson_plans|length }} Lesson(s)</span>
+            <span class="lessons-count-fixed">{{ lesson_plans|length }} Lessons</span>
         </div>
 
         {% if lesson_plans %}
-            <div class="lessons-grid">
+            <div class="lessons-grid-fixed">
                 {% for plan in lesson_plans %}
-                <div class="lesson-card">
-                    <div class="lesson-card-header">
-                        <div class="lesson-title-section">
-                            <h3>{{ plan.title }}</h3>
-                            <span class="lesson-date">
-                                📅 {{ plan.created_at.strftime('%b %d, %Y') }}
-                            </span>
-                        </div>
+                <article class="lesson-card-fixed">
+                    <!-- Card Header -->
+                    <div class="lesson-header-fixed">
+                        <h3>{{ plan.title }}</h3>
+                        <span class="lesson-date-fixed">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            {{ plan.created_at.strftime('%b %d, %Y') }}
+                        </span>
                     </div>
 
-                    <div class="lesson-card-body">
-                        {% if plan.topic %}
-                        <div class="lesson-info-box">
-                            <span class="info-label">📌 Topic:</span>
-                            <span class="info-text">{{ plan.topic }}</span>
-                        </div>
-                        {% endif %}
-
-                        {% if plan.objectives %}
-                        <div class="lesson-objectives">
-                            <span class="objectives-label">🎯 Learning Objectives:</span>
-                            <p>{{ plan.objectives[:150] }}{% if plan.objectives|length > 150 %}...{% endif %}</p>
-                        </div>
-                        {% endif %}
-
-                        <div class="lesson-footer-info">
-                            <div class="materials-badge">
-                                📎 {{ plan.materials|length }} Material(s)
-                            </div>
-                        </div>
+                    <!-- Card Body -->
+                    {% if plan.topic %}
+                    <div class="lesson-topic-fixed">
+                        <span class="topic-label-fixed">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                            TOPIC:
+                        </span>
+                        <p class="topic-text-fixed">{{ plan.topic }}</p>
                     </div>
+                    {% endif %}
 
-                    <div class="lesson-card-footer">
-                        <a href="{{ url_for('student_view_lesson', plan_id=plan.id) }}"
-                           class="view-lesson-btn">
-                            View Full Lesson →
+                    {% if plan.objectives %}
+                    <div class="lesson-objectives-fixed">
+                        <span class="objectives-label-fixed">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <circle cx="12" cy="12" r="6"></circle>
+                            </svg>
+                            Learning Objectives:
+                        </span>
+                        <p class="objectives-text-fixed">{{ plan.objectives[:100] }}{% if plan.objectives|length > 100 %}...{% endif %}</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Card Footer -->
+                    <div class="lesson-footer-fixed">
+                        <a href="{{ url_for('student_view_lesson', plan_id=plan.id) }}" class="view-btn-fixed">
+                            View Lesson
                         </a>
                     </div>
-                </div>
+                </article>
                 {% endfor %}
             </div>
         {% else %}
-            <div class="no-lessons">
-                <div class="empty-icon">📖</div>
+            <div class="no-lessons-fixed">
+                <div class="empty-icon-fixed">📚</div>
                 <h3>No Lesson Plans Yet</h3>
                 <p>Your educator hasn't created any lesson plans for this course.</p>
-                <p class="hint">Check back later for updates!</p>
+                <p class="hint-fixed">Check back later for updates!</p>
             </div>
         {% endif %}
     </div>

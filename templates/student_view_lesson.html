@@ -3,96 +3,106 @@
 {% block title %}{{ plan.title }}{% endblock %}
 
 {% block content %}
-<div class="student-lesson-view">
-    <div class="lesson-view-header">
-        <h1>{{ plan.title }}</h1>
-        <a href="{{ url_for('student_course_lessons', course_id=plan.course_id) }}"
-           class="back-link">
-            ← Back to Lessons
-        </a>
-    </div>
-
-    <div class="lesson-metadata">
-        <div class="metadata-item">
-            <span class="meta-label">Course:</span>
-            <span class="meta-value">{{ plan.course.course_name }}</span>
-        </div>
-        <div class="metadata-item">
-            <span class="meta-label">Created:</span>
-            <span class="meta-value">{{ plan.created_at.strftime('%B %d, %Y') }}</span>
-        </div>
-        <div class="metadata-item">
-            <span class="meta-label">Last Updated:</span>
-            <span class="meta-value">{{ plan.updated_at.strftime('%B %d, %Y') }}</span>
+<div class="student-lesson-view-fixed">
+    <div class="lesson-view-header-fixed">
+        <div class="header-left-fixed">
+            <a href="{{ url_for('student_course_lessons', course_id=plan.course_id) }}" class="back-icon-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <div class="header-content-fixed">
+                <h1>{{ plan.title }}</h1>
+                <p class="course-subtitle-fixed">for {{ plan.course.course_name }}</p>
+            </div>
         </div>
     </div>
 
-    <div class="lesson-content">
+    <div class="lesson-content-fixed">
+        <section class="lesson-section-fixed">
+            <h3 class="section-label-fixed">Lesson Title</h3>
+            <p class="section-sublabel-fixed">Main title for this lesson</p>
+            <div class="content-box-fixed">
+                {{ plan.title }}
+            </div>
+        </section>
+
         {% if plan.topic %}
-        <section class="lesson-section">
-            <h2>📌 Topic</h2>
-            <p>{{ plan.topic }}</p>
+        <section class="lesson-section-fixed">
+            <h3 class="section-label-fixed">Topic</h3>
+            <p class="section-sublabel-fixed">Specific topic covered in this lesson</p>
+            <div class="content-box-fixed">
+                {{ plan.topic }}
+            </div>
         </section>
         {% endif %}
 
         {% if plan.objectives %}
-        <section class="lesson-section">
-            <h2>🎯 Learning Objectives</h2>
-            <div class="objectives-content">
+        <section class="lesson-section-fixed">
+            <h3 class="section-label-fixed">Learning Objectives</h3>
+            <p class="section-sublabel-fixed">What students will learn from this lesson</p>
+            <div class="content-box-fixed">
                 {{ plan.objectives }}
             </div>
         </section>
         {% endif %}
 
         {% if plan.description %}
-        <section class="lesson-section">
-            <h2>📝 Description</h2>
-            <div class="description-content">
+        <section class="lesson-section-fixed">
+            <h3 class="section-label-fixed">Lesson Description</h3>
+            <p class="section-sublabel-fixed">Detailed explanation of the lesson content</p>
+            <div class="content-box-fixed description-content-fixed">
                 {{ plan.description }}
             </div>
         </section>
         {% endif %}
 
-        <section class="lesson-section materials-section">
-            <h2>📚 Learning Materials</h2>
+        <section class="lesson-section-fixed materials-section-fixed">
+            <h3 class="section-label-fixed">Learning Materials</h3>
+            <p class="section-sublabel-fixed">Supporting documents and resources</p>
 
             {% if plan.materials %}
-                <div class="materials-grid">
+                <div class="materials-list-fixed">
                     {% for material in plan.materials %}
-                    <div class="material-card">
-                        <div class="material-icon">
+                    <div class="material-item-fixed">
+                        <div class="material-icon-fixed">
                             {% if material.filename.endswith(('.pdf')) %}
-                                📄
+                                <span class="icon-badge-fixed pdf-badge-fixed">PDF</span>
                             {% elif material.filename.endswith(('.doc', '.docx')) %}
-                                📝
+                                <span class="icon-badge-fixed doc-badge-fixed">DOC</span>
                             {% elif material.filename.endswith(('.ppt', '.pptx')) %}
-                                📊
+                                <span class="icon-badge-fixed pptx-badge-fixed">PPTX</span>
                             {% elif material.filename.endswith(('.jpg', '.jpeg', '.png')) %}
-                                🖼️
+                                <span class="icon-badge-fixed img-badge-fixed">IMG</span>
                             {% elif material.filename.endswith(('.mp4', '.avi', '.mov')) %}
-                                🎥
+                                <span class="icon-badge-fixed vid-badge-fixed">VID</span>
                             {% else %}
-                                📎
+                                <span class="icon-badge-fixed file-badge-fixed">FILE</span>
                             {% endif %}
                         </div>
-                        <div class="material-info">
-                            <p class="material-name">{{ material.filename }}</p>
-                            <p class="material-date">
-                                Uploaded: {{ material.uploaded_at.strftime('%b %d, %Y') }}
-                            </p>
+                        <div class="material-info-fixed">
+                            <p class="material-name-fixed">{{ material.filename }}</p>
                         </div>
                         <a href="{{ url_for('student_download_material', material_id=material.id) }}"
-                           class="download-btn">
-                            ⬇️ Download
+                           class="download-btn-fixed">
+                            Download
                         </a>
                     </div>
                     {% endfor %}
                 </div>
             {% else %}
-                <div class="no-materials">
-                    <p>📎 No materials available for this lesson.</p>
+                <div class="no-materials-fixed">
+                    <p>No materials available for this lesson.</p>
                 </div>
             {% endif %}
+        </section>
+
+        <section class="lesson-section-fixed info-section-fixed">
+            <div class="info-icon-fixed">ℹ️</div>
+            <div class="info-content-fixed">
+                <h4 class="info-title-fixed">Lesson Information</h4>
+                <p class="info-text-fixed">Make sure to download all materials before the class. Practice exercises are included in the PDF.</p>
+            </div>
         </section>
     </div>
 </div>
