@@ -1,52 +1,215 @@
 {% extends "base.html" %}
-
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
 <div class="admin-dashboard">
-    <!-- Header Section -->
-    <div class="admin-header">
-        <h1>Admin Dashboard</h1>
-        <p class="welcome">Welcome back, {{ current_user.username }}!</p>
+
+  <!-- HEADER -->
+  <section class="admin-header">
+    <div class="admin-header-content">
+      <h1>Admin Dashboard</h1>
+      <p>Here's what's happening on Planify today</p>
+    </div>
+  </section>
+
+  <!-- STATS CARDS -->
+  <section class="admin-stats-grid">
+
+    <div class="admin-stat-card">
+      <div class="stat-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Total Users</span>
+        <strong class="stat-value">{{ total_users }}</strong>
+      </div>
     </div>
 
-    <!-- Main 2-Column Grid -->
-    <div class="admin-main-grid">
-        <!-- Left Column: Statistics -->
-        <div class="admin-section">
-            <h2 class="section-title">Platform Overview</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Total Users</h3>
-                    <p class="stat-number">{{ total_users }}</p>
-                </div>
-
-                <div class="stat-card">
-                    <h3>Students</h3>
-                    <p class="stat-number">{{ total_students }}</p>
-                </div>
-
-                <div class="stat-card">
-                    <h3>Educators</h3>
-                    <p class="stat-number">{{ total_educators }}</p>
-                </div>
-
-                <div class="stat-card">
-                    <h3>Courses</h3>
-                    <p class="stat-number">{{ total_courses }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Column: Quick Actions -->
-        <div class="admin-section">
-            <h2 class="section-title">Quick Actions</h2>
-            <div class="admin-actions">
-                <a href="{{ url_for('admin_users') }}" class="admin-btn">View All Users</a>
-                <a href="{{ url_for('admin_courses') }}" class="admin-btn">View All Courses</a>
-                <a href="{{ url_for('admin_messages') }}" class="admin-btn">Contact Messages</a>
-            </div>
-        </div>
+    <div class="admin-stat-card">
+      <div class="stat-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Active Students</span>
+        <strong class="stat-value">{{ total_students }}</strong>
+      </div>
     </div>
+
+    <div class="admin-stat-card">
+      <div class="stat-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <line x1="22" y1="11" x2="16" y2="11"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Active Educators</span>
+        <strong class="stat-value">{{ total_educators }}</strong>
+      </div>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="stat-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Courses Published</span>
+        <strong class="stat-value">{{ total_courses }}</strong>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- BOTTOM GRID -->
+  <section class="admin-bottom-grid">
+
+    <!-- ANALYTICS PIE CHART -->
+    <div class="admin-card">
+      <h2>Analytics</h2>
+      <div class="chart-container">
+        <canvas id="analyticsChart"></canvas>
+      </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="admin-card">
+      <h2>Quick Actions</h2>
+
+      <a href="{{ url_for('admin_users') }}" class="admin-action-btn">
+        <div class="action-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="action-content">
+          <span class="action-title">Manage Users</span>
+          <span class="action-subtitle">View and manage all users</span>
+        </div>
+        <svg class="action-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </a>
+
+      <a href="{{ url_for('admin_courses') }}" class="admin-action-btn">
+        <div class="action-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+        </div>
+        <div class="action-content">
+          <span class="action-title">View All Courses</span>
+          <span class="action-subtitle">Browse course catalog</span>
+        </div>
+        <svg class="action-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </a>
+
+      <a href="{{ url_for('admin_messages') }}" class="admin-action-btn">
+        <div class="action-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div class="action-content">
+          <span class="action-title">Read Messages</span>
+          <span class="action-subtitle">Check contact messages</span>
+        </div>
+        <svg class="action-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </a>
+
+    </div>
+
+  </section>
+
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('analyticsChart');
+
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: [
+          'Students',
+          'Educators',
+          'Course Publications',
+          'Contact Messages'
+        ],
+        datasets: [{
+          data: [{{ total_students }}, {{ total_educators }}, {{ total_courses }}, 8],
+          backgroundColor: [
+            '#b9ff66',
+            '#1a1a1a',
+            '#d4ff99',
+            '#4a4a4a'
+          ],
+          borderColor: '#ffffff',
+          borderWidth: 3,
+          cutout: '55%'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              padding: 20,
+              font: {
+                size: 14,
+                family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
+                weight: '500'
+              },
+              usePointStyle: true,
+              pointStyle: 'rect',
+              boxWidth: 14,
+              boxHeight: 14,
+              color: '#000000'
+            }
+          },
+          tooltip: {
+            backgroundColor: '#000000',
+            titleColor: '#b9ff66',
+            bodyColor: '#ffffff',
+            padding: 12,
+            cornerRadius: 8,
+            callbacks: {
+              label: function(context) {
+                let label = context.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += context.parsed;
+                return label;
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
 {% endblock %}
