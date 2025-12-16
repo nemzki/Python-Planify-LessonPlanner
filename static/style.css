@@ -1289,7 +1289,7 @@ input[type="file"].form-input::file-selector-button:hover {
   text-align: center;
   margin-bottom: 3rem;
   padding-bottom: 1.5rem;
-  border-bottom: 3px solid var(--color-green-light);
+  border-bottom: 3px solid var(--color-black);
   display: flex;
   align-items: center;
   gap: 1rem;
