@@ -2,6 +2,8 @@
 
 {% block content %}
 <div class="attendance-history-container">
+
+    <!-- HEADER -->
     <div class="history-header">
         <div class="header-left">
             <a href="{{ url_for('educator_courses') }}" class="back-icon-btn">
@@ -9,93 +11,118 @@
             </a>
             <h2>Attendance History - {{ course.course_name }}</h2>
         </div>
+
         <div class="header-actions">
             <p class="course-block">{{ course.course_code }} - {{ course.block_section }}</p>
             <a href="{{ url_for('course_attendance', course_id=course.id) }}" class="record-new-btn">
-                ➕ Record New Attendance
+                + Record New Attendance
             </a>
         </div>
     </div>
 
+    <!-- INFO -->
     <div class="history-info">
         <p>View all attendance records for this course, organized by date.</p>
     </div>
 
     {% if attendance_by_date %}
-        <div class="attendance-timeline">
-            {% for date, data in attendance_by_date.items() %}
-            <div class="date-card">
-                <div class="date-card-header">
-                    <div class="date-info">
-                        <h3>{{ date.strftime('%A, %B %d, %Y') }}</h3>
-                        <p class="recorded-time">
-                            📅 Recorded on: {{ data.recorded_time.strftime('%B %d, %Y at %I:%M %p') }}
-                        </p>
-                    </div>
-                    <div class="card-actions">
-                        <a href="{{ url_for('download_attendance_pdf', course_id=course.id, date_str=date.strftime('%Y-%m-%d')) }}"
-                           class="download-btn">
-                            📥 PDF
-                        </a>
-                        <a href="{{ url_for('view_attendance_date', course_id=course.id, date_str=date.strftime('%Y-%m-%d')) }}"
-                           class="view-details-btn">
-                            View Details
-                        </a>
-                    </div>
+    <div class="attendance-timeline">
+
+        {% for date, data in attendance_by_date.items() %}
+        <div class="date-card">
+
+            <!-- DATE CARD HEADER -->
+            <div class="date-card-header">
+                <div class="date-info">
+                    <h3>{{ date.strftime('%A, %B %d, %Y') }}</h3>
+                    <p class="recorded-time">
+                        <i data-lucide="calendar"></i>
+                        <span>
+                            Recorded on: {{ data.recorded_time.strftime('%B %d, %Y at %I:%M %p') }}
+                        </span>
+                    </p>
                 </div>
 
-                <div class="date-card-stats">
-                    <div class="stat-box total">
-                        <span class="stat-label">Total Students</span>
-                        <span class="stat-value">{{ data.stats.total }}</span>
-                    </div>
-                    <div class="stat-box present">
-                        <span class="stat-label">Present</span>
-                        <span class="stat-value">{{ data.stats.present }}</span>
-                    </div>
-                    <div class="stat-box absent">
-                        <span class="stat-label">Absent</span>
-                        <span class="stat-value">{{ data.stats.absent }}</span>
-                    </div>
-                    <div class="stat-box excused">
-                        <span class="stat-label">Excused</span>
-                        <span class="stat-value">{{ data.stats.excused }}</span>
-                    </div>
-                    <div class="stat-box late">
-                        <span class="stat-label">Late</span>
-                        <span class="stat-value">{{ data.stats.late }}</span>
-                    </div>
-                </div>
+                <div class="card-actions">
+                    <a href="{{ url_for('download_attendance_pdf', course_id=course.id, date_str=date.strftime('%Y-%m-%d')) }}"
+                       class="download-btn">
+                        <i data-lucide="download"></i>
+                        <span>PDF</span>
+                    </a>
 
-                <div class="attendance-summary">
-                    <div class="summary-bar">
-                        {% set total = data.stats.total %}
-                        {% if total > 0 %}
-                            <div class="bar-segment present"
-                                 style="width: {{ (data.stats.present / total * 100) }}%"
-                                 title="Present: {{ data.stats.present }}"></div>
-                            <div class="bar-segment absent"
-                                 style="width: {{ (data.stats.absent / total * 100) }}%"
-                                 title="Absent: {{ data.stats.absent}}"></div>
-                            <div class="bar-segment excused"
-                                 style="width: {{ (data.stats.excused / total * 100) }}%"
-                                 title="Excused: {{ data.stats.excused }}"></div>
-                            <div class="bar-segment late"
-                                 style="width: {{ (data.stats.late / total * 100) }}%"
-                                 title="Late: {{ data.stats.late }}"></div>
-                        {% endif %}
-                    </div>
+                    <a href="{{ url_for('view_attendance_date', course_id=course.id, date_str=date.strftime('%Y-%m-%d')) }}"
+                       class="view-details-btn">
+                        <i data-lucide="eye"></i>
+                        <span>View Details</span>
+                    </a>
                 </div>
             </div>
-            {% endfor %}
+
+            <!-- STATS -->
+            <div class="date-card-stats">
+                <div class="stat-box total">
+                    <span class="stat-label">Total Students</span>
+                    <span class="stat-value">{{ data.stats.total }}</span>
+                </div>
+                <div class="stat-box present">
+                    <span class="stat-label">Present</span>
+                    <span class="stat-value">{{ data.stats.present }}</span>
+                </div>
+                <div class="stat-box absent">
+                    <span class="stat-label">Absent</span>
+                    <span class="stat-value">{{ data.stats.absent }}</span>
+                </div>
+                <div class="stat-box excused">
+                    <span class="stat-label">Excused</span>
+                    <span class="stat-value">{{ data.stats.excused }}</span>
+                </div>
+                <div class="stat-box late">
+                    <span class="stat-label">Late</span>
+                    <span class="stat-value">{{ data.stats.late }}</span>
+                </div>
+            </div>
+
+            <!-- SUMMARY BAR -->
+            <div class="attendance-summary">
+                <div class="summary-bar">
+                    {% set total = data.stats.total %}
+                    {% if total > 0 %}
+                    <div class="bar-segment present"
+                         style="width: {{ (data.stats.present / total * 100) }}%"
+                         title="Present: {{ data.stats.present }}"></div>
+
+                    <div class="bar-segment absent"
+                         style="width: {{ (data.stats.absent / total * 100) }}%"
+                         title="Absent: {{ data.stats.absent }}"></div>
+
+                    <div class="bar-segment excused"
+                         style="width: {{ (data.stats.excused / total * 100) }}%"
+                         title="Excused: {{ data.stats.excused }}"></div>
+
+                    <div class="bar-segment late"
+                         style="width: {{ (data.stats.late / total * 100) }}%"
+                         title="Late: {{ data.stats.late }}"></div>
+                    {% endif %}
+                </div>
+            </div>
+
         </div>
+        {% endfor %}
+    </div>
+
     {% else %}
-        <div class="empty-state">
-            <p>📋 No attendance records yet for this course.</p>
-            <a href="{{ url_for('course_attendance', course_id=course.id) }}" class="start-recording-btn">
-                Start Recording Attendance
-            </a>
-        </div>
+    <!-- EMPTY STATE -->
+    <div class="empty-state">
+        <p>
+            <i data-lucide="clipboard-list"></i>
+            <span>No attendance records yet for this course.</span>
+        </p>
+        <a href="{{ url_for('course_attendance', course_id=course.id) }}" class="start-recording-btn">
+            <i data-lucide="play-circle"></i>
+            <span>Start Recording Attendance</span>
+        </a>
+    </div>
     {% endif %}
+
 </div>
 {% endblock %}

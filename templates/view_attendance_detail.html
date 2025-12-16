@@ -2,49 +2,61 @@
 
 {% block content %}
 <div class="attendance-detail-container">
-    <!-- Header Section -->
-    <div class="detail-header">
-    <div class="header-left">
-        <a href="{{ url_for('attendance_history', course_id=course.id) }}" class="back-icon-btn">
-            <img src="{{ url_for('static', filename='pictures/back-button.png') }}" alt="Back">
-        </a>
-        <h2>Attendance Details</h2>
-    </div>
-    <div class="header-actions">
-        <a href="{{ url_for('download_attendance_pdf', course_id=course.id, date_str=attendance_date.strftime('%Y-%m-%d')) }}"
-           class="download-pdf-btn">
-            📥 Download PDF
-        </a>
-        <a href="{{ url_for('course_attendance', course_id=course.id) }}?date={{ attendance_date.strftime('%Y-%m-%d') }}"
-           class="edit-attendance-btn">
-            ✏️ Edit This Attendance
-        </a>
-    </div>
-</div>
 
-    <!-- Info Card Section -->
+    <!-- HEADER -->
+    <div class="detail-header">
+        <div class="header-left">
+            <a href="{{ url_for('attendance_history', course_id=course.id) }}" class="back-icon-btn">
+                <img src="{{ url_for('static', filename='pictures/back-button.png') }}" alt="Back">
+            </a>
+            <h2>Attendance Details</h2>
+        </div>
+
+        <div class="header-actions">
+            <a href="{{ url_for('download_attendance_pdf', course_id=course.id, date_str=attendance_date.strftime('%Y-%m-%d')) }}"
+               class="download-pdf-btn">
+                <i data-lucide="download"></i>
+                <span>Download PDF</span>
+            </a>
+
+            <a href="{{ url_for('course_attendance', course_id=course.id) }}?date={{ attendance_date.strftime('%Y-%m-%d') }}"
+               class="edit-attendance-btn">
+                <i data-lucide="edit-3"></i>
+                <span>Edit This Attendance</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- INFO CARD -->
     <div class="detail-info-card">
         <div class="info-item">
             <span class="info-label">Course:</span>
             <span class="info-value">{{ course.course_name }} ({{ course.course_code }})</span>
         </div>
+
         <div class="info-item">
             <span class="info-label">Date:</span>
             <span class="info-value">{{ attendance_date.strftime('%A, %B %d, %Y') }}</span>
         </div>
+
         {% if records %}
         <div class="info-item">
             <span class="info-label">Recorded:</span>
-            <span class="info-value">{{ records[0].recorded_at.strftime('%B %d, %Y at %I:%M %p') }}</span>
+            <span class="info-value">
+                {{ records[0].recorded_at.strftime('%B %d, %Y at %I:%M %p') }}
+            </span>
         </div>
+
         <div class="info-item">
             <span class="info-label">Professor Name:</span>
-            <span class="info-value">{{ records[0].recorder.first_name }} {{ records[0].recorder.last_name }}</span>
+            <span class="info-value">
+                {{ records[0].recorder.first_name }} {{ records[0].recorder.last_name }}
+            </span>
         </div>
         {% endif %}
     </div>
 
-    <!-- Attendance Table Section -->
+    <!-- ATTENDANCE TABLE -->
     <div class="attendance-detail-table">
         <h3>Student Attendance</h3>
 
@@ -61,27 +73,37 @@
                 {% for enrollment in enrollments %}
                 {% set student = enrollment.student %}
                 {% set record = attendance_dict.get(student.id) %}
+
                 <tr>
                     <td>
                         <div class="student-info">
-                            <span class="student-icon">👤</span>
+                            <i data-lucide="user" class="student-icon"></i>
                             {{ student.first_name }} {{ student.last_name }}
                         </div>
                     </td>
-                    <td>{{ enrollment.student.email }}</td>
+
+                    <td>{{ student.email }}</td>
+
                     <td>
                         {% if record %}
                             <span class="status-badge {{ record.status }}">
-                                {% if record.status == 'present' %}✅ Present
-                                {% elif record.status == 'absent' %}❌ Absent
-                                {% elif record.status == 'late' %}⏰ Late
-                                {% elif record.status == 'excused' %}📝 Excused
+                                {% if record.status == 'present' %}
+                                    <i data-lucide="check-circle"></i> Present
+                                {% elif record.status == 'absent' %}
+                                    <i data-lucide="x-circle"></i> Absent
+                                {% elif record.status == 'late' %}
+                                    <i data-lucide="clock"></i> Late
+                                {% elif record.status == 'excused' %}
+                                    <i data-lucide="file-text"></i> Excused
                                 {% endif %}
                             </span>
                         {% else %}
-                            <span class="status-badge not-recorded">⚠️ Not Recorded</span>
+                            <span class="status-badge not-recorded">
+                                <i data-lucide="alert-triangle"></i> Not Recorded
+                            </span>
                         {% endif %}
                     </td>
+
                     <td>
                         {% if record %}
                             {{ record.recorded_at.strftime('%I:%M %p') }}
