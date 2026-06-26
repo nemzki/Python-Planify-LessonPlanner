@@ -3,6 +3,10 @@
 
 {% block title %}Landing Page{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
 
 {% block content %}
 <div class="home-landing">

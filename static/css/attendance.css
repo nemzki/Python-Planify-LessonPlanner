@@ -1,0 +1,381 @@
+/* ============================================================================
+	 ATTENDANCE SYSTEM
+	 Unified styles for recording, history, and detail pages
+	 ============================================================================ */
+
+.main-content:has(.attendance-container),
+.main-content:has(.attendance-history-container),
+.main-content:has(.attendance-detail-container) {
+	background: #ffffff !important;
+	padding: 0 !important;
+}
+
+.main-content .content:has(.attendance-container),
+.main-content .content:has(.attendance-history-container),
+.main-content .content:has(.attendance-detail-container) {
+	max-width: 100% !important;
+	padding: 2rem !important;
+	width: 100%;
+}
+
+.attendance-container,
+.attendance-history-container,
+.attendance-detail-container {
+	background: transparent;
+	width: 100%;
+	max-width: 1400px;
+	margin: 0 auto;
+	border-radius: 0;
+	overflow: visible;
+	box-shadow: none;
+	border: none;
+}
+
+.attendance-header-with-back-history,
+.history-header,
+.detail-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0;
+	border-bottom: none;
+	background: transparent;
+	margin-bottom: 2rem;
+	width: 100%;
+}
+
+.attendance-header-with-back-history .header-left,
+.history-header .header-left {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	flex: 1;
+}
+
+.attendance-header-with-back-history .header-left h2,
+.history-header h2,
+.detail-header h2 {
+	margin: 0;
+	padding: 0;
+	line-height: 1.2;
+	color: #000;
+	font-size: 1.8rem;
+	font-weight: 700;
+}
+
+.header-actions a,
+.card-actions a,
+.recorded-time,
+.empty-state p,
+.student-info,
+.status-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.header-actions i,
+.card-actions i,
+.recorded-time i,
+.empty-state i,
+.student-icon,
+.status-badge i {
+	width: 16px;
+	height: 16px;
+}
+
+.view-history-btn,
+.record-new-btn,
+.download-pdf-btn,
+.edit-attendance-btn {
+	background: #B9FF66;
+	padding: 0.65rem 1.5rem;
+	border-radius: 8px;
+	font-weight: 600;
+	font-size: 0.95rem;
+	text-decoration: none;
+	color: #000;
+	border: 1px solid #000;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	min-width: 140px;
+	transition: all 0.3s;
+	flex-shrink: 0;
+	cursor: pointer;
+}
+
+.view-history-btn:hover,
+.record-new-btn:hover,
+.download-pdf-btn:hover,
+.edit-attendance-btn:hover {
+	background-color: #000;
+	border-color: #000;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	transform: translateY(-2px);
+	color: #B9FF66;
+}
+
+.download-pdf-btn {
+	font-weight: bold !important;
+}
+
+.header-actions {
+	display: flex;
+	align-items: stretch;
+	gap: 0.75rem;
+}
+
+.course-block {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	padding: 0.5rem 1.25rem;
+	border-radius: 8px;
+	font-size: 0.9rem;
+	font-weight: 600;
+	white-space: nowrap;
+	border: 2px solid #000;
+	background: #f8f9fa;
+}
+
+.attendance-table,
+.detail-table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	text-align: center;
+	font-size: 15px;
+	background: #fff;
+	border-radius: 1px;
+	overflow: hidden;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.attendance-table th,
+.detail-table th {
+	background: #000;
+	padding: 1rem;
+	border: 1px solid #fff;
+	font-weight: 600;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 14px;
+	letter-spacing: 0.5px;
+}
+
+.attendance-table td,
+.detail-table td {
+	padding: 1rem;
+	border: 1px solid #000;
+	color: #333;
+}
+
+.attendance-table tbody tr,
+.detail-table tbody tr {
+	background: #fff;
+	transition: all 0.2s ease;
+}
+
+.attendance-table tbody tr:hover,
+.detail-table tbody tr:hover {
+	background: #f8f9fa;
+	transform: scale(1.01);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.attendance-table input[type="radio"] {
+	transform: scale(1.2);
+	cursor: pointer;
+	accent-color: #568203;
+}
+
+.student-info {
+	justify-content: center;
+	font-weight: 600;
+}
+
+.empty-state {
+	padding: 3rem;
+	text-align: center;
+	color: #666;
+	font-size: 1.1rem;
+	background: #f8f9fa;
+	border-radius: 12px;
+	margin: 2rem 0;
+}
+
+.history-info {
+	background: #f0f7ff;
+	padding: 1rem;
+	border-radius: 8px;
+	margin-bottom: 2rem;
+	color: #666;
+}
+
+.attendance-timeline {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	margin-bottom: 2rem;
+}
+
+.date-card {
+	background: #fff;
+	border-radius: 12px;
+	padding: 2rem;
+	transition: all 0.3s;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+	max-width: 1400px !important;
+	margin: 0 auto !important;
+	border-left: 5px solid #000;
+}
+
+.attendance-summary {
+	margin-top: 1.5rem;
+}
+
+.summary-bar {
+	height: 12px;
+	display: flex;
+	border-radius: 20px;
+	overflow: hidden;
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bar-segment {
+	height: 100%;
+	transition: all 0.3s;
+	cursor: help;
+}
+
+.bar-segment:hover {
+	opacity: 0.8;
+}
+
+.bar-segment.present {
+	background: #C8E6C9;
+}
+
+.bar-segment.absent {
+	background: #ffcccc;
+}
+
+.bar-segment.excused {
+	background: #fff3cd;
+}
+
+.bar-segment.late {
+	background: #cce5ff;
+}
+
+.detail-header {
+	padding: 1.5rem 2rem;
+	background: #fff;
+	border-radius: 8px;
+	margin-bottom: 1.5rem;
+	border: 1px solid #e5e7eb;
+}
+
+.detail-header .header-left {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	flex: 1;
+}
+
+.detail-info-card {
+	background: #f2f2f2;
+	padding: 2rem;
+	border-radius: 8px;
+	margin-bottom: 1.5rem;
+	border: 1px solid #e5e7eb;
+	color: #000 !important;
+}
+
+.info-item {
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem 0;
+	border-bottom: 1px solid #e5e5e5;
+	align-items: center;
+}
+
+.info-item:last-child {
+	border-bottom: none;
+}
+
+.info-label {
+	font-weight: 700;
+	color: #000 !important;
+	font-size: 0.95rem;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.info-value {
+	font-weight: 600;
+	color: #000;
+	text-align: right;
+}
+
+.attendance-detail-table {
+	background: white;
+	margin-bottom: 2rem;
+}
+
+.attendance-detail-table h3 {
+	font-size: 1.3rem;
+	font-weight: 700;
+	color: #000;
+	margin-bottom: 1.5rem;
+	padding-bottom: 1rem;
+	border-bottom: 1px solid #f3f4f6;
+}
+
+@media (max-width: 768px) {
+	.detail-header,
+	.attendance-header-with-back-history,
+	.history-header {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 1rem;
+		padding: 1rem;
+	}
+
+	.header-actions {
+		flex-direction: column;
+		width: 100%;
+	}
+
+	.download-pdf-btn,
+	.edit-attendance-btn {
+		width: 100%;
+	}
+
+	.detail-info-card {
+		padding: 1rem;
+	}
+
+	.info-item {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
+	}
+
+	.info-value {
+		text-align: left;
+	}
+}
+
+@media (max-width: 480px) {
+	.course-block,
+	.view-history-btn,
+	.record-new-btn,
+	.download-pdf-btn,
+	.edit-attendance-btn {
+		width: 100%;
+	}
+}

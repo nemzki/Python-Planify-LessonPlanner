@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block title %}Student Dashboard{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}">
+{% endblock %}
 
 {% block content %}
 <div class="student-dashboard">

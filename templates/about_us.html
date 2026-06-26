@@ -3,6 +3,10 @@
 
 {% block title %}About Us{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+
 
 {% block content %}
 <section class="about-us-container">

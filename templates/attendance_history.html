@@ -1,4 +1,7 @@
 {% extends "educator_base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/attendance.css') }}">
+{% endblock %}
 
 {% block content %}
 <div class="attendance-history-container">

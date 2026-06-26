@@ -2,6 +2,10 @@
 
 {% block title %}Materials - {{ course.course_name }}{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="student-materials-page">
 

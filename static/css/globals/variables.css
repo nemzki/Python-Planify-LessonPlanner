@@ -1,0 +1,53 @@
+:root {
+  --color-accent: #B9FF66;
+  --color-black: #000000;
+  --color-danger: #dc3545;
+  --color-gray-light: #F3F3F3;
+  --color-green-light: #B9FF66;
+  --color-green-dark: #568203;
+  --color-muted: #6b7280;
+  --color-primary: #568203;
+  --color-white: #FFFFFF;
+  --container-max-width: 1200px;
+  --gap: 1rem;
+  --radius: 8px;
+  --focus-ring: 3px solid #B9FF66;
+  --fast: 150ms ease-in-out;
+}@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+:root {
+  --color-accent: #B9FF66;
+  --color-black: #000000;
+  --color-danger: #dc3545;
+  --color-gray-light: #F3F3F3;
+  --color-green-lighter: #E0FFC2;
+  --color-green-light: #B9FF66;
+  --color-green-dark: #568203;
+  --color-muted: #6b7280;
+  --color-primary: #568203;
+  --color-success: #2ecc71;
+  --color-white: #FFFFFF;
+  --surface: #fbfbfb;
+
+  --font-family-base: 'Space Grotesk', sans-serif;
+
+  --container-max-width: 1200px;
+  --gap: 1rem;
+  --radius: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+  --z-navbar: 1000;
+  --z-sidebar: 100;
+  --z-flash: 99999;
+  --z-modal: 1000;
+
+  --focus-ring: 3px solid #B9FF66;
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
